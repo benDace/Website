@@ -429,24 +429,36 @@ const mbtiLenses = {
         }
     }
 
-    function displayResult(code) {
+function displayResult(code) {
+        // 1. Fetch the pure AM data from your database
         const p = database[code];
         
+        // 2. Fetch the MBTI selection and its specific lens
+        // THIS IS THE KEY PART YOU WERE MISSING
+        const mbti = document.getElementById('mbti-select').value;
+        const lens = mbtiLenses[mbti];
+        
+        // 3. Fill Header & Description
         document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
         document.getElementById('out-name').innerText = p.name;
         document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
         document.getElementById('out-desc').innerText = p.desc;
-        document.getElementById('out-advice').innerText = p.advice;
-        document.getElementById('out-action').innerText = p.action;
-        document.getElementById('out-eff').innerText = p.eff;
-        document.getElementById('out-fic').innerText = p.fic;
-        document.getElementById('out-real').innerText = p.real;
-        document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
-        document.getElementById('mbti-advice').innerText = lens.advice;
-        document.getElementById('mbti-action').innerText = lens.action;
+        
+        // 4. Fill Section 1: Activation Mechanics (Pure AM)
         document.getElementById('am-advice').innerText = p.advice;
         document.getElementById('am-action').innerText = p.action;
 
+        // 5. Fill Section 2: Cognitive Alignment (MBTI Overlay)
+        document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
+        document.getElementById('mbti-advice').innerText = lens.advice;
+        document.getElementById('mbti-action').innerText = lens.action;
+        
+        // 6. Fill Efficiency & Benchmarks
+        document.getElementById('out-eff').innerText = p.eff;
+        document.getElementById('out-fic').innerText = p.fic;
+        document.getElementById('out-real').innerText = p.real;
+
+        // 7. Toggle Views
         document.getElementById('quiz').classList.remove('active');
         document.getElementById('results').classList.add('active');
         document.getElementById('progress-fill').style.width = `100%`;
