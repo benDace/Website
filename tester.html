@@ -262,176 +262,35 @@
     ];
 
     const database = {
-        "B.B.A.B": { 
-            name: "The Tactical Oracle", 
-            mantra: "Master the system to ignite the vision.", 
-            advice: "You will always feel like a spectator in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the path is narrow.",
-            action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. The pressure is your only fuel.",
-            desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state. You thrive when order meets lethal pressure.", 
-            eff: "Mergers & Acquisitions, crisis management, and the final 2 minutes of a losing game.",
-            fic: "Batman, Harvey Specter, Darrow (Red Rising)",
-            real: "Tom Brady, Winston Churchill, Kobe Bryant"
-        },
-        "B.A.B.B": { 
-            name: "The Strategic Architect", 
-            mantra: "Learn the world to build the path.", 
-            advice: "You see the future system while others see current chaos. You need freedom to learn; if micmanaged, your architect engine will stall.",
-            action: "Block off 4 hours of 'Unrestricted Deep Work' this week. No meetings. No oversight. Just building your world-bible.",
-            desc: "The World-Builder. You use your freedom to absorb every framework, building a better version of reality for others.", 
-            eff: "Founding non-profits, urban planning, and complex narrative universes.",
-            fic: "Leia Organa, Lisa Simpson, Katara (ATLA)",
-            real: "Warren Buffett, Angela Merkel, Bill Gates"
-        },
-        "B.B.B.B": { 
-            name: "The Iron Vanguard", 
-            mantra: "Victory is a byproduct of preparation.", 
-            advice: "You are the floor. Stop looking for inspiration; you are fueled by ritual. Your genius is the compound interest of your discipline.",
-            action: "Design a 30-minute pre-work ritual that never changes. The ritual is the floor that allows you to perform.",
-            desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.", 
-            eff: "Leading armies, high-stakes surgery, nuclear reactor management.",
-            fic: "Captain America, Robocop, Spock",
-            real: "David Goggins, Colin Powell, Tiger Woods"
-        },
-        "B.B.B.A": { 
-            name: "The Logic Technician", 
-            mantra: "Personal excellence is the only metric.", 
-            advice: "Your ego is tied to competence. To grow, you must find mentors who are 'More Right' than you to expand your logical ceiling.",
-            action: "Enroll in a high-difficulty track or project where you are currently the least informed person in the room.",
-            desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study harder than anyone to own the room.", 
-            eff: "Competitive academic rankings, law firms, and elite debate.",
-            fic: "Hermione Granger, Amy Farrah Fowler, Annie Leonhart",
-            real: "Ben Shapiro, Jordan Peterson, RBG"
-        },
-        "B.B.A.A": { 
-            name: "The Apex Specialist", 
-            mantra: "Control the variables to claim the win.", 
-            advice: "You love complex rules because they are variables you can manipulate. Use the system as a cage for your prey.",
-            action: "Gamify your primary metric today. Set up a leaderboard with a rival. Only the win matters.",
-            desc: "The Gifted Predator. You play to prove you are the best, not to save the world. Rules are your playground.", 
-            eff: "High-frequency trading, elite Esports, professional poker.",
-            fic: "Sherlock Holmes, Azula (ATLA), Light Yagami",
-            real: "Magnus Carlsen, James Simons, Bobby Fischer"
-        },
-        "B.A.B.A": { 
-            name: "The Framework Artist", 
-            mantra: "The manual is the canvas for mastery.", 
-            advice: "You are an explorer of logic. Never feel guilty for wasting time on deep research—that is your acquisition engine at work.",
-            action: "Start a personal Wiki or Commonplace Book to synthesize three unrelated frameworks into a new theory.",
-            desc: "The Academic Nomad. You love deep history and logic but want total freedom to wander through it.", 
-            eff: "Investigative research, conceptual art, university professorships.",
-            fic: "Albus Dumbledore, Indiana Jones, Doctor Strange",
-            real: "Carl Jung, Christopher Nolan, Noam Chomsky"
-        },
-        "B.A.A.B": { 
-            name: "The Sovereign Visionary", 
-            mantra: "The plan is the playground.", 
-            advice: "You are a natural force of stability. Trust your first instinct. Over-analyzing the manual will only stall your social genius.",
-            action: "Identify the most 'orderly' task on your plate and delegate it immediately. Focus only on the high-level spirit of the goal.",
-            desc: "The Natural Leader. You possess an innate genius for people and systems. You intuitively feel the spirit of the game.", 
-            eff: "High-level diplomacy, executive leadership, creative directing.",
-            fic: "Gandalf, Uncle Iroh, Jean-Luc Picard",
-            real: "Barack Obama, Nelson Mandela, Oprah Winfrey"
-        },
-        "B.A.A.A": { 
-            name: "The Fluid Director", 
-            mantra: "Order is the stage; I am the play.", 
-            advice: "You are a virtuoso. You need an audience. Working in a vacuum will kill your drive and stall your talent.",
-            action: "Schedule a public presentation or high-visibility meeting this week to showcase your latest work.",
-            desc: "The Virtuoso. You treat the world's rules like a stage. You possess raw talent used to dominate the field.", 
-            eff: "Performance arts, professional athletics, celebrity brand-building.",
-            fic: "Tony Stark, Jack Sparrow, Saitama",
-            real: "Cristiano Ronaldo, Robert Downey Jr., Tom Cruise"
-        },
-        "A.B.A.B": { 
-            name: "The Guerrilla Kinetic", 
-            mantra: "Find the heat to find the answer.", 
-            advice: "You are a feral genius. Stop trying to act 'Professional' in the rigid sense. Your value is in your unconventionality.",
-            action: "Go dark. Work in total isolation until a crisis hits, then drop the solution and disappear.",
-            desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve 'impossible' problems through instinct.", 
-            eff: "Unconventional warfare, hacking, solving murder mysteries.",
-            fic: "John Wick, L (Death Note), Sevro au Barca",
-            real: "Michael Jordan, Edward Snowden"
-        },
-        "A.B.B.A": { 
-            name: "The Pressure Tank", 
-            mantra: "Built for the storm, fueled by the goal.", 
-            advice: "Your growth is proportional to your struggle. If life is easy, you are stagnant. Embrace the grind.",
-            action: "Pick one 'Impossible' habit—a cold plunge or a massive cold-call quota—and do it specifically because it's hard.",
-            desc: "The Gladiator. You view life as chaotic struggle and use it as a gym to build personal strength.", 
-            eff: "Boot camps, solo startup founding, survival challenges.",
-            fic: "Wolverine, Rocky Balboa, Guts",
-            real: "Arnold Schwarzenegger, Conor McGregor"
-        },
-        "A.B.B.B": { 
-            name: "The Resilient Anchor", 
-            mantra: "Absorb the blow to control the flow.", 
-            advice: "You are the saint of the matrix. Seek out messy projects. You are invisible in perfection but indispensable in a disaster.",
-            action: "Volunteer for the most dysfunctional department or turnaround case in your firm today.",
-            desc: "The Survivor. You use your pressure-tested learning to keep everyone else from drowning in chaos.", 
-            eff: "Disaster relief, ER nursing, community management.",
-            fic: "Neville Longbottom, Samwise Gamgee, Ellen Ripley",
-            real: "Chef José Andrés, Malala Yousafzai"
-        },
-        "A.A.B.B": { 
-            name: "The Emergent Leader", 
-            mantra: "Synthesize the mess to lead the way.", 
-            advice: "You are a pioneer. You learn by doing. Don't wait for a manual; the manual doesn't exist for where you're going.",
-            action: "Launch a 'Beta' version of your project today. Don't wait for perfection; learn from the noise of the launch.",
-            desc: "The Beacon. You walk into the void and build, using empathy and vision to lead without a map.", 
-            eff: "Social revolutions, early-stage venture capital, frontier exploration.",
-            fic: "Naruto Uzumaki, Paul Atreides, Aang (ATLA)",
-            real: "Elon Musk, Richard Branson"
-        },
-        "A.A.B.A": { 
-            name: "The Exploratory Nomad", 
-            mantra: "The lesson is the destination.", 
-            advice: "Stop trying to find a career; your career is the collection of experiences. You find truth in the journey.",
-            action: "Change your environment completely today. Work from a new city, park, or library to reset your learner engine.",
-            desc: "The Eternal Student. You live in chaos just to see what happens, valuing the soul of the journey over results.", 
-            eff: "Travel journalism, experimental philosophy, busking.",
-            fic: "Gon Freecss, Frodo Baggins, The Dude",
-            real: "Anthony Bourdain, Diogenes"
-        },
-        "A.A.A.B": { 
-            name: "The World-Changer", 
-            mantra: "Intuition leads; the world follows.", 
-            advice: "You are a revolutionary. You will be misunderstood by the 'Anchors.' Don't waste energy convincing them; just show the result.",
-            action: "Identify the one 'Rule' in your industry holding everyone back and find an intuitive way to break it.",
-            desc: "The Revolutionary. You possess an innate vision for a world that doesn't exist yet, breaking the current Order to force evolution.", 
-            eff: "Creative disruption, leading rebellions, inventing new genres.",
-            fic: "Luffy, Daenerys Targaryen, Katniss Everdeen",
-            real: "Steve Jobs, Martin Luther King Jr., Alexander the Great"
-        },
-        "A.A.A.A": { 
-            name: "The Chaos Catalyst", 
-            mantra: "Burn the map to rule the ash.", 
-            advice: "You are pure predator energy. You need absolute freedom. If you feel managed, you will eventually destroy the manager.",
-            action: "Move toward 100% equity or commission-based work. You need to 'Kill what you eat' to feel alive.",
-            desc: "The Pure Predator. Pure instinct and pride. You dismantle everything in your path just to prove you can.", 
-            eff: "Hostile takeovers, black-market manipulation, scorched-earth warfare.",
-            fic: "The Joker, Sukuna, Homelander",
-            real: "Napoleon Bonaparte, John McEnroe"
-        },
-        "A.B.A.A": { 
-            name: "The Impact Sniper", 
-            mantra: "Pressure turns the spark into a flame.", 
-            advice: "You live for the high. Avoid marathon tasks; you are a sprinter. You wait for the peak chaos to strike.",
-            action: "Take sole ownership of the 'Pitch' or the 'Closing Deal'—the single moment where one decision settles the score.",
-            desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.", 
-            eff: "High-stakes gambling, stunt work, specialized demolition.",
-            fic: "Billy Butcher, Deadpool, Rick Sanchez",
-            real: "Hunter S. Thompson, Evel Knievel"
-        }
+        "B.B.A.B": { name: "The Tactical Oracle", mantra: "Master the system to ignite the vision.", advice: "You will always feel like a spectator in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the path is narrow.", action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. The pressure is your only fuel.", desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state. You thrive when order meets lethal pressure.", eff: "Mergers & Acquisitions, crisis management, and the final 2 minutes of a losing game.", fic: "Batman, Harvey Specter, Darrow (Red Rising)", real: "Tom Brady, Winston Churchill, Kobe Bryant" },
+        "B.A.B.B": { name: "The Strategic Architect", mantra: "Learn the world to build the path.", advice: "You see the future system while others see current chaos. You need freedom to learn; if micmanaged, your architect engine will stall.", action: "Block off 4 hours of 'Unrestricted Deep Work' this week. No meetings. No oversight. Just building your world-bible.", desc: "The World-Builder. You use your freedom to absorb every framework, building a better version of reality for others.", eff: "Founding non-profits, urban planning, and complex narrative universes.", fic: "Leia Organa, Lisa Simpson, Katara (ATLA)", real: "Warren Buffett, Angela Merkel, Bill Gates" },
+        "B.B.B.B": { name: "The Iron Vanguard", mantra: "Victory is a byproduct of preparation.", advice: "You are the floor. Stop looking for inspiration; you are fueled by ritual. Your genius is the compound interest of your discipline.", action: "Design a 30-minute pre-work ritual that never changes. The ritual is the floor that allows you to perform.", desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.", eff: "Leading armies, high-stakes surgery, nuclear reactor management.", fic: "Captain America, Robocop, Spock", real: "David Goggins, Colin Powell, Tiger Woods" },
+        "B.B.B.A": { name: "The Logic Technician", mantra: "Personal excellence is the only metric.", advice: "Your ego is tied to competence. To grow, you must find mentors who are 'More Right' than you to expand your logical ceiling.", action: "Enroll in a high-difficulty track or project where you are currently the least informed person in the room.", desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study harder than anyone to own the room.", eff: "Competitive academic rankings, law firms, and elite debate.", fic: "Hermione Granger, Amy Farrah Fowler, Annie Leonhart", real: "Ben Shapiro, Jordan Peterson, RBG" },
+        "B.B.A.A": { name: "The Apex Specialist", mantra: "Control the variables to claim the win.", advice: "You love complex rules because they are variables you can manipulate. Use the system as a cage for your prey.", action: "Gamify your primary metric today. Set up a leaderboard with a rival. Only the win matters.", desc: "The Gifted Predator. You play to prove you are the best, not to save the world. Rules are your playground.", eff: "High-frequency trading, elite Esports, professional poker.", fic: "Sherlock Holmes, Azula (ATLA), Light Yagami", real: "Magnus Carlsen, James Simons, Bobby Fischer" },
+        "B.A.B.A": { name: "The Framework Artist", mantra: "The manual is the canvas for mastery.", advice: "You are an explorer of logic. Never feel guilty for wasting time on deep research—that is your acquisition engine at work.", action: "Start a personal Wiki or Commonplace Book to synthesize three unrelated frameworks into a new theory.", desc: "The Academic Nomad. You love deep history and logic but want total freedom to wander through it.", eff: "Investigative research, conceptual art, university professorships.", fic: "Albus Dumbledore, Indiana Jones, Doctor Strange", real: "Carl Jung, Christopher Nolan, Noam Chomsky" },
+        "B.A.A.B": { name: "The Sovereign Visionary", mantra: "The plan is the playground.", advice: "You are a natural force of stability. Trust your first instinct. Over-analyzing the manual will only stall your social genius.", action: "Identify the most 'orderly' task on your plate and delegate it immediately. Focus only on the high-level spirit of the goal.", desc: "The Natural Leader. You possess an innate genius for people and systems. You intuitively feel the spirit of the game.", eff: "High-level diplomacy, executive leadership, creative directing.", fic: "Gandalf, Uncle Iroh, Jean-Luc Picard", real: "Barack Obama, Nelson Mandela, Oprah Winfrey" },
+        "B.A.A.A": { name: "The Fluid Director", mantra: "Order is the stage; I am the play.", advice: "You are a virtuoso. You need an audience. Working in a vacuum will kill your drive and stall your talent.", action: "Schedule a public presentation or high-visibility meeting this week to showcase your latest work.", desc: "The Virtuoso. You treat the world's rules like a stage. You possess raw talent used to dominate the field.", eff: "Performance arts, professional athletics, celebrity brand-building.", fic: "Tony Stark, Jack Sparrow, Saitama", real: "Cristiano Ronaldo, Robert Downey Jr., Tom Cruise" },
+        "A.B.A.B": { name: "The Guerrilla Kinetic", mantra: "Find the heat to find the answer.", advice: "You are a feral genius. Stop trying to act 'Professional' in the rigid sense. Your value is in your unconventionality.", action: "Go dark. Work in total isolation until a crisis hits, then drop the solution and disappear.", desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve 'impossible' problems through instinct.", eff: "Unconventional warfare, hacking, solving murder mysteries.", fic: "John Wick, L (Death Note), Sevro au Barca", real: "Michael Jordan, Edward Snowden" },
+        "A.B.B.A": { name: "The Pressure Tank", mantra: "Built for the storm, fueled by the goal.", advice: "Your growth is proportional to your struggle. If life is easy, you are stagnant. Embrace the grind.", action: "Pick one 'Impossible' habit—a cold plunge or a massive cold-call quota—and do it specifically because it's hard.", desc: "The Gladiator. You view life as chaotic struggle and use it as a gym to build personal strength.", eff: "Boot camps, solo startup founding, survival challenges.", fic: "Wolverine, Rocky Balboa, Guts", real: "Arnold Schwarzenegger, Conor McGregor" },
+        "A.B.B.B": { name: "The Resilient Anchor", mantra: "Absorb the blow to control the flow.", advice: "You are the saint of the matrix. Seek out messy projects. You are invisible in perfection but indispensable in a disaster.", action: "Volunteer for the most dysfunctional department or turnaround case in your firm today.", desc: "The Survivor. You use your pressure-tested learning to keep everyone else from drowning in chaos.", eff: "Disaster relief, ER nursing, community management.", fic: "Neville Longbottom, Samwise Gamgee, Ellen Ripley", real: "Chef José Andrés, Malala Yousafzai" },
+        "A.A.B.B": { name: "The Emergent Leader", mantra: "Synthesize the mess to lead the way.", advice: "You are a pioneer. You learn by doing. Don't wait for a manual; the manual doesn't exist for where you're going.", action: "Launch a 'Beta' version of your project today. Don't wait for perfection; learn from the noise of the launch.", desc: "The Beacon. You walk into the void and build, using empathy and vision to lead without a map.", eff: "Social revolutions, early-stage venture capital, frontier exploration.", fic: "Naruto Uzumaki, Paul Atreides, Aang (ATLA)", real: "Elon Musk, Richard Branson" },
+        "A.A.B.A": { name: "The Exploratory Nomad", mantra: "The lesson is the destination.", advice: "Stop trying to find a career; your career is the collection of experiences. You find truth in the journey.", action: "Change your environment completely today. Work from a new city, park, or library to reset your learner engine.", desc: "The Eternal Student. You live in chaos just to see what happens, valuing the soul of the journey over results.", eff: "Travel journalism, experimental philosophy, busking.", fic: "Gon Freecss, Frodo Baggins, The Dude", real: "Anthony Bourdain, Diogenes" },
+        "A.A.A.B": { name: "The World-Changer", mantra: "Intuition leads; the world follows.", advice: "You are a revolutionary. You will be misunderstood by the 'Anchors.' Don't waste energy convincing them; just show the result.", action: "Identify the one 'Rule' in your industry holding everyone back and find an intuitive way to break it.", desc: "The Revolutionary. You possess an innate vision for a world that doesn't exist yet, breaking the current Order to force evolution.", eff: "Creative disruption, leading rebellions, inventing new genres.", fic: "Luffy, Daenerys Targaryen, Katniss Everdeen", real: "Steve Jobs, Martin Luther King Jr., Alexander the Great" },
+        "A.A.A.A": { name: "The Chaos Catalyst", mantra: "Burn the map to rule the ash.", advice: "You are pure predator energy. You need absolute freedom. If you feel managed, you will eventually destroy the manager.", action: "Move toward 100% equity or commission-based work. You need to 'Kill what you eat' to feel alive.", desc: "The Pure Predator. Pure instinct and pride. You dismantle everything in your path just to prove you can.", eff: "Hostile takeovers, black-market manipulation, scorched-earth warfare.", fic: "The Joker, Sukuna, Homelander", real: "Napoleon Bonaparte, John McEnroe" },
+        "A.B.A.A": { name: "The Impact Sniper", mantra: "Pressure turns the spark into a flame.", advice: "You live for the high. Avoid marathon tasks; you are a sprinter. You wait for the peak chaos to strike.", action: "Take sole ownership of the 'Pitch' or the 'Closing Deal'—the single moment where one decision settles the score.", desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.", eff: "High-stakes gambling, stunt work, specialized demolition.", fic: "Billy Butcher, Deadpool, Rick Sanchez", real: "Hunter S. Thompson, Evel Knievel" }
     };
 
     let step = 0;
     let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
     let isCalibrating = false;
+    let originalCode = "";
 
     function initQuiz() {
         document.getElementById('intro').classList.remove('active');
         document.getElementById('quiz').classList.add('active');
         isCalibrating = false;
+        step = 0;
+        results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
         loadQuestion();
     }
 
@@ -482,6 +341,25 @@
 
         const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
         
+        if (!isCalibrating) {
+            originalCode = code;
+            displayResult(code);
+        } else {
+            if (code === originalCode) {
+                alert("CALIBRATION SUCCESSFUL: Engine Designation Verified.");
+                displayResult(code);
+            } else {
+                const consent = confirm(`DIVERGENCE DETECTED.\n\nInitial Scan: ${originalCode}\nCalibration Scan: ${code}\n\nThe system has detected a performance conflict. Would you like to perform a FULL SYSTEM RESET and re-take the primary intake?`);
+                if (consent) {
+                    initQuiz();
+                } else {
+                    displayResult(code);
+                }
+            }
+        }
+    }
+
+    function displayResult(code) {
         const p = database[code];
         document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
         document.getElementById('out-name').innerText = p.name;
