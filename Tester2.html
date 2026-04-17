@@ -431,8 +431,7 @@ const mbtiLenses = {
 
     function displayResult(code) {
         const p = database[code];
-        const mbti = document.getElementById('mbti-select').value;
-        const lens = mbtiLenses[mbti];
+        
         document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
         document.getElementById('out-name').innerText = p.name;
         document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
