@@ -448,15 +448,15 @@ function displayResult(code) {
         document.getElementById('am-advice').innerText = p.advice;
         document.getElementById('am-action').innerText = p.action;
 
-        // 5. Fill Section 2: Cognitive Alignment (MBTI Overlay)
-        document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
-        document.getElementById('mbti-advice').innerText = lens.advice;
-        document.getElementById('mbti-action').innerText = lens.action;
-        
-        // 6. Fill Efficiency & Benchmarks
+        // 5. Fill Efficiency & Benchmarks
         document.getElementById('out-eff').innerText = p.eff;
         document.getElementById('out-fic').innerText = p.fic;
         document.getElementById('out-real').innerText = p.real;
+
+        // 6. Fill Section 2: Cognitive Alignment (MBTI Overlay)
+        document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
+        document.getElementById('mbti-advice').innerText = lens.advice;
+        document.getElementById('mbti-action').innerText = lens.action;
 
         // 7. Toggle Views
         document.getElementById('quiz').classList.remove('active');
