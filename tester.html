@@ -3,88 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activation Matrix | Strategic Edition</title>
+    <title>Activation Matrix | Organic Industrial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050507;
-            --card: #0f0f13;
-            --neon: #00d4ff;
-            --text: #f4f4f5;
-            --dim: #71717a;
-            --border: #27272a;
-            --accent-b: #60a5fa;
-            --accent-a: #f472b6;
+            --bg: #141416;           /* Soft Obsidian */
+            --card: #1c1c1e;         /* Elevated Layer */
+            --neon: #d4af37;         /* Metallic Gold/Bronze */
+            --text: #f5f5f0;         /* Warm Paper White */
+            --dim: #a1a1aa;          /* Muted Secondary */
+            --border: #2d2d30;       /* Subtle definition */
+            --accent-b: #8da9c4;     /* Muted Steel Blue (Order) */
+            --accent-a: #c89f9c;     /* Dusty Rose (Genius) */
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
 
         /* UI Elements */
-        .header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(5, 5, 7, 0.95); z-index: 100; backdrop-filter: blur(10px); }
+        .header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(20, 20, 22, 0.95); z-index: 100; backdrop-filter: blur(10px); }
         .logo { font-weight: 900; letter-spacing: -1px; text-transform: uppercase; font-size: 1.1rem; }
         .logo span { color: var(--neon); }
         .progress-bar-bg { width: 150px; height: 4px; background: var(--border); border-radius: 2px; }
-        #progress-fill { width: 0%; height: 100%; background: var(--neon); box-shadow: 0 0 8px var(--neon); transition: 0.3s; }
+        #progress-fill { width: 0%; height: 100%; background: var(--neon); box-shadow: 0 0 10px var(--neon); transition: 0.3s; }
 
         .view { display: none; min-height: 80vh; padding: 3rem 1.5rem; max-width: 900px; margin: 0 auto; }
         .view.active { display: block; animation: fadeIn 0.4s ease-out; }
 
         /* Intro */
         #intro { text-align: center; padding-top: 5vh; }
-        h1.hero { font-size: 4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 1.5rem; }
+        h1.hero { font-size: 4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 1.5rem; color: var(--text); }
         .tagline { color: var(--dim); font-size: 1.2rem; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 
         /* Manual Section */
-        .matrix-manual { padding: 4rem 0; color: #f4f4f5; text-align: left; }
+        .matrix-manual { padding: 4rem 0; color: var(--text); text-align: left; }
         .manual-header { text-align: center; margin-bottom: 4rem; }
         .manual-header h2 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; }
         .manual-header span { color: var(--neon); }
         .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
-        .domain-box { background: var(--card); border: 1px solid var(--border); padding: 2rem; border-radius: 8px; position: relative; }
-        .domain-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); }
+        .domain-box { 
+            background: linear-gradient(145deg, #1c1c1e, #18181a);
+            border: 1px solid var(--border); 
+            padding: 2.5rem; 
+            border-radius: 12px; 
+            position: relative;
+            box-shadow: 4px 4px 12px #0a0a0c;
+        }
+        .domain-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); border-radius: 12px 0 0 12px; }
         .domain-title { color: var(--neon); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; margin-bottom: 0.5rem; }
-        .domain-concept { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
+        .domain-concept { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); line-height: 1.4; }
         .binary-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .binary-option h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .binary-option p { font-size: 0.8rem; color: var(--dim); line-height: 1.4; }
+        .binary-option p { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
 
         /* Quiz */
         .domain-tag { color: var(--neon); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 1rem; }
-        .question { font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 3rem; }
-        .options-grid { display: grid; gap: 1rem; }
-        .opt-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 1.8rem; border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s; font-size: 1.1rem; }
-        .opt-btn:hover { border-color: var(--neon); background: #16161d; transform: scale(1.01); }
+        .question { font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 3.5rem; }
+        .options-grid { display: grid; gap: 1.2rem; }
+        .opt-btn { 
+            background: linear-gradient(145deg, #1c1c1e, #18181a);
+            border: 1px solid var(--border); 
+            color: var(--text); 
+            padding: 2rem; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            text-align: left; 
+            transition: all 0.3s ease; 
+            font-size: 1.15rem;
+            box-shadow: 4px 4px 10px #0a0a0c;
+        }
+        .opt-btn:hover { border-color: var(--neon); transform: translateY(-2px); box-shadow: 6px 6px 15px #0a0a0c; }
         .opt-btn span { color: var(--neon); font-weight: 900; margin-right: 1rem; }
 
         /* Results */
-        .res-header { margin-bottom: 3rem; border-left: 5px solid var(--neon); padding-left: 2rem; }
-        .res-code { font-size: 0.9rem; color: var(--neon); letter-spacing: 4px; font-weight: 800; margin-bottom: 0.5rem; }
-        .res-name { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; }
-        .res-mantra { font-size: 1.3rem; font-style: italic; color: var(--dim); margin-bottom: 1.5rem; }
-        .res-description { font-size: 1.1rem; line-height: 1.6; color: var(--text); max-width: 800px; }
+        .res-header { margin-bottom: 3.5rem; border-left: 6px solid var(--neon); padding-left: 2.5rem; }
+        .res-code { font-size: 0.95rem; color: var(--neon); letter-spacing: 4px; font-weight: 800; margin-bottom: 0.75rem; }
+        .res-name { font-size: 3.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -2px; }
+        .res-mantra { font-size: 1.4rem; font-style: italic; color: var(--dim); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+        .res-description { font-size: 1.15rem; line-height: 1.7; color: var(--text); max-width: 800px; margin-top: 1rem; }
         
-        .res-section { background: var(--card); border: 1px solid var(--border); padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
-        .res-section h3 { font-size: 0.8rem; text-transform: uppercase; color: var(--neon); letter-spacing: 2px; margin-bottom: 1rem; }
+        .res-section { 
+            background: linear-gradient(145deg, #1c1c1e, #18181a);
+            border: 1px solid var(--border); 
+            padding: 2.5rem; 
+            border-radius: 15px; 
+            margin-bottom: 2rem; 
+            box-shadow: 5px 5px 15px #0a0a0c;
+        }
+        .res-section h3 { font-size: 0.85rem; text-transform: uppercase; color: var(--neon); letter-spacing: 3px; margin-bottom: 1.5rem; }
         
-        .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .directive-box h4 { font-size: 0.7rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.5rem; }
-        .directive-box p { font-weight: 500; font-size: 1rem; line-height: 1.5; }
-        .trigger-text { color: var(--neon); font-weight: 700; }
+        .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .directive-box h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.75rem; letter-spacing: 1px; }
+        .directive-box p { font-weight: 500; font-size: 1.1rem; line-height: 1.6; }
+        .trigger-text { color: var(--neon); font-weight: 800; }
 
-        .icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
-        .icon-list h4 { font-size: 0.7rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.5rem; }
-        .icon-list p { font-weight: 700; font-size: 0.95rem; }
+        .icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1rem; }
+        .icon-list h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.75rem; }
+        .icon-list p { font-weight: 700; font-size: 1rem; }
 
-        .btn-main { background: var(--neon); color: #000; border: none; padding: 1.2rem 3rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 4px; }
-        .btn-restart { background: none; border: 1px solid var(--border); color: var(--dim); padding: 1rem 2rem; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; margin-top: 2rem; transition: 0.2s; }
-        .btn-restart:hover { border-color: var(--neon); color: var(--neon); }
+        .btn-main { background: var(--neon); color: #141416; border: none; padding: 1.4rem 3.5rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 6px; font-size: 1rem; transition: 0.3s; }
+        .btn-main:hover { filter: brightness(1.2); transform: translateY(-2px); }
+        .btn-restart { background: transparent; border: 1px solid var(--border); color: var(--dim); padding: 1.2rem 2.2rem; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; border-radius: 6px; transition: 0.3s; }
+        .btn-restart:hover { border-color: var(--neon); color: var(--neon); background: rgba(212, 175, 55, 0.05); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .domain-grid, .binary-split, .strategic-grid, .icon-grid { grid-template-columns: 1fr; }
-            h1.hero { font-size: 2.5rem; }
-            .res-name { font-size: 2.2rem; }
+            h1.hero { font-size: 2.8rem; }
+            .res-name { font-size: 2.5rem; }
+            .question { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -97,13 +124,13 @@
 
 <div id="intro" class="view active">
     <h1 class="hero">Decode Your <span style="color:var(--neon)">Engine</span></h1>
-    <p class="tagline">The 20-point diagnostic to identify your performance archetype. Move from spectator to master of the system.</p>
-    <button class="btn-main" onclick="initQuiz()">Start Intake</button>
+    <p class="tagline">A premium 20-point diagnostic to identify your performance archetype. Move from spectator to master of the system.</p>
+    <button class="btn-main" onclick="initQuiz()">Initialize Intake</button>
 
     <div class="matrix-manual">
         <div class="manual-header">
             <h2>The Four <span>Domains</span></h2>
-            <p style="color: var(--dim);">The logic gates of human execution.</p>
+            <p style="color: var(--dim);">The primary variables of human achievement.</p>
         </div>
         <div class="domain-grid">
             <div class="domain-box">
@@ -112,11 +139,11 @@
                 <div class="binary-split">
                     <div class="binary-option">
                         <h4 style="color: var(--accent-b)">Order [B]</h4>
-                        <p>Operates through quantified variables, clear hierarchies, and rules.</p>
+                        <p>Thrives on quantified variables, hierarchies, and rigid rulesets.</p>
                     </div>
                     <div class="binary-option">
                         <h4 style="color: var(--accent-a)">Chaos [A]</h4>
-                        <p>Anti-fragile. Thrives in noise. Creates gravity organicially.</p>
+                        <p>Anti-fragile. Finds life in noise. Creates internal stability dynamically.</p>
                     </div>
                 </div>
             </div>
@@ -126,11 +153,11 @@
                 <div class="binary-split">
                     <div class="binary-option">
                         <h4 style="color: var(--accent-b)">Restriction [B]</h4>
-                        <p>The Clutch Performer. Requires lethal stakes and deadlines to activate.</p>
+                        <p>The Clutch Performer. Needs lethal stakes and hard deadlines to activate.</p>
                     </div>
                     <div class="binary-option">
                         <h4 style="color: var(--accent-a)">Freedom [A]</h4>
-                        <p>The Marathon Performer. Needs space and infinite options to explore.</p>
+                        <p>The Marathon Performer. Requires space and infinite paths to execute.</p>
                     </div>
                 </div>
             </div>
@@ -140,11 +167,11 @@
                 <div class="binary-split">
                     <div class="binary-option">
                         <h4 style="color: var(--accent-b)">Learner [B]</h4>
-                        <p>The Sponge. Masters systems through methodical study and "paying dues."</p>
+                        <p>The Sponge. Masters through methodical study and paying dues.</p>
                     </div>
                     <div class="binary-option">
                         <h4 style="color: var(--accent-a)">Genius [A]</h4>
-                        <p>The Oracle. Talent is innate and intuitive. Solves via "Blackout" flow states.</p>
+                        <p>The Oracle. Innate and intuitive. Solves via "Blackout" flow states.</p>
                     </div>
                 </div>
             </div>
@@ -154,11 +181,11 @@
                 <div class="binary-split">
                     <div class="binary-option">
                         <h4 style="color: var(--accent-b)">World-Type [B]</h4>
-                        <p>Mission-Driven. Seeks legitimacy and a defined role in a legacy.</p>
+                        <p>Mission-Driven. Seeks legitimacy and a role in a lasting legacy.</p>
                     </div>
                     <div class="binary-option">
                         <h4 style="color: var(--accent-a)">Self-Type [A]</h4>
-                        <p>Ego-Driven. Seeks personal mastery and the thrill of the "Self."</p>
+                        <p>Ego-Driven. Seeks personal mastery and the absolute thrill of the Self.</p>
                     </div>
                 </div>
             </div>
@@ -262,7 +289,7 @@
     ];
 
     const database = {
-        "B.B.A.B": { name: "The Tactical Oracle", mantra: "Master the system to ignite the vision.", advice: "You will always feel like a spectator in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the path is narrow.", action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. The pressure is your only fuel.", desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state. You thrive when order meets lethal pressure.", eff: "Mergers & Acquisitions, crisis management, and the final 2 minutes of a losing game.", fic: "Batman, Harvey Specter, Darrow (Red Rising)", real: "Tom Brady, Winston Churchill, Kobe Bryant" },
+        "B.B.A.B": { name: "The Tactical Oracle", mantra: "Master the system to ignite the vision.", advice: "You will always feel like a spectator in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the path is narrow.", action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. The pressure is your only fuel.", desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state.", eff: "Mergers & Acquisitions, crisis management, and the final 2 minutes of a losing game.", fic: "Batman, Harvey Specter, Darrow (Red Rising)", real: "Tom Brady, Winston Churchill, Kobe Bryant" },
         "B.A.B.B": { name: "The Strategic Architect", mantra: "Learn the world to build the path.", advice: "You see the future system while others see current chaos. You need freedom to learn; if micmanaged, your architect engine will stall.", action: "Block off 4 hours of 'Unrestricted Deep Work' this week. No meetings. No oversight. Just building your world-bible.", desc: "The World-Builder. You use your freedom to absorb every framework, building a better version of reality for others.", eff: "Founding non-profits, urban planning, and complex narrative universes.", fic: "Leia Organa, Lisa Simpson, Katara (ATLA)", real: "Warren Buffett, Angela Merkel, Bill Gates" },
         "B.B.B.B": { name: "The Iron Vanguard", mantra: "Victory is a byproduct of preparation.", advice: "You are the floor. Stop looking for inspiration; you are fueled by ritual. Your genius is the compound interest of your discipline.", action: "Design a 30-minute pre-work ritual that never changes. The ritual is the floor that allows you to perform.", desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.", eff: "Leading armies, high-stakes surgery, nuclear reactor management.", fic: "Captain America, Robocop, Spock", real: "David Goggins, Colin Powell, Tiger Woods" },
         "B.B.B.A": { name: "The Logic Technician", mantra: "Personal excellence is the only metric.", advice: "Your ego is tied to competence. To grow, you must find mentors who are 'More Right' than you to expand your logical ceiling.", action: "Enroll in a high-difficulty track or project where you are currently the least informed person in the room.", desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study harder than anyone to own the room.", eff: "Competitive academic rankings, law firms, and elite debate.", fic: "Hermione Granger, Amy Farrah Fowler, Annie Leonhart", real: "Ben Shapiro, Jordan Peterson, RBG" },
