@@ -76,12 +76,15 @@
         .icon-list p { font-weight: 700; font-size: 0.95rem; }
 
         .btn-main { background: var(--neon); color: #000; border: none; padding: 1.2rem 3rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 4px; }
-        .btn-restart { background: none; border: 1px solid var(--border); color: var(--dim); padding: 1rem 2rem; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; margin-top: 2rem; }
+        .btn-restart { background: none; border: 1px solid var(--border); color: var(--dim); padding: 1rem 2rem; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; margin-top: 2rem; transition: 0.2s; }
+        .btn-restart:hover { border-color: var(--neon); color: var(--neon); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         @media (max-width: 600px) {
             .domain-grid, .binary-split, .strategic-grid, .icon-grid { grid-template-columns: 1fr; }
+            h1.hero { font-size: 2.5rem; }
+            .res-name { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -177,7 +180,7 @@
         <div class="res-code" id="out-code">B.B.A.B</div>
         <h1 class="res-name" id="out-name">Tactical Oracle</h1>
         <p class="res-mantra" id="out-mantra">"Master the system to ignite the vision."</p>
-        <p class="res-description" id="out-desc">Enhanced description here.</p>
+        <p class="res-description" id="out-desc">Description goes here.</p>
     </div>
 
     <div class="res-section">
@@ -213,62 +216,10 @@
         </div>
     </div>
 
-    <button class="btn-restart" onclick="location.reload()">Re-Initialize Diagnostics</button>
-    <script>
-    // ... (Keep existing questions and database)
-
-    const calibrationQuestions = [
-        { d: "System", q: "The Sudden Void: No desk, no boss, no instructions. Do you feel a surge of creative energy or deep irritation?", a: "Creative Energy", b: "Deep Irritation" },
-        { d: "System", q: "The Breaking Point: A teammate ignores the process to go faster. Do you admire their efficiency or view them as a liability?", a: "Admire Efficiency", b: "View as Liability" },
-        { d: "System", q: "The Sandbox: Would you rather play a game with no rules or a game with a strict, unbreakable physics engine?", a: "No Rules", b: "Strict Engine" },
-        { d: "Environment", q: "The Open Calendar: Zero meetings all week. Is this your most productive week or do you end up paralyzed?", a: "Most Productive", b: "Paralyzed" },
-        { d: "Environment", q: "The Shot Clock: 20 minutes to solve a 2-hour problem. Do you feel 'switched on' or an urge to escape?", a: "Urge to Escape", b: "Switched On" },
-        { d: "Environment", q: "The Oversight: Working alone on a deserted island. Do you work just as hard or find it impossible to start?", a: "Work Just as Hard", b: "Impossible to Start" },
-        { d: "Acquisition", q: "The Manual: Complex furniture assembly. Do you throw the manual away or read it front-to-back first?", a: "Throw it Away", b: "Read First" },
-        { d: "Acquisition", q: "The 'Why': Someone asks how you solved it. Is your answer 'I just saw it' or 'I applied X framework'?", a: "I just saw it", b: "Applied Framework" },
-        { d: "Acquisition", q: "The New Skill: Learning a language. Do you prefer Immersion/Trial-and-Error or Grammar Drills?", a: "Immersion", b: "Grammar Drills" },
-        { d: "Motivation", q: "The Anonymous Hero: You save the world but get no credit. Is internal satisfaction enough or does it feel like a fail?", a: "Internal Satisfaction", b: "Lack of Credit Hurts" },
-        { d: "Motivation", q: "The Paycheck: Would you rather be the highest-paid with no title or moderately paid as 'Senior Partner'?", a: "High Pay / No Title", b: "Senior Partner Title" },
-        { d: "Motivation", q: "The Burnout: When exhausted, is it because of no 'Me Time' or because you aren't being 'Useful'?", a: "No 'Me Time'", b: "Not being Useful" }
-    ];
-
-    let isCalibrating = false;
-
-    function startCalibration() {
-        isCalibrating = true;
-        step = 0;
-        // We reset the scores for a fresh 'weighted' average
-        results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
-        document.getElementById('results').classList.remove('active');
-        document.getElementById('quiz').classList.add('active');
-        loadCalibrationQuestion();
-    }
-
-    function loadCalibrationQuestion() {
-        const q = calibrationQuestions[step];
-        document.getElementById('domain').innerText = `Calibration: ${q.d}`;
-        document.getElementById('question').innerText = q.q;
-        document.getElementById('optA').innerText = q.a;
-        document.getElementById('optB').innerText = q.b;
-        document.getElementById('progress-fill').style.width = `${(step / calibrationQuestions.length) * 100}%`;
-    }
-
-    // Update the answer function to handle both modes
-    function answer(val) {
-        const qList = isCalibrating ? calibrationQuestions : questions;
-        results[qList[step].d].push(val);
-        step++;
-        
-        if (step < qList.length) {
-            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
-        } else {
-            finalize();
-        }
-    }
-
-    // Add this button to your "results" view in the HTML:
-    // <button class="btn-restart" style="border-color: var(--neon); color: var(--neon);" onclick="startCalibration()">Calibrate Results</button>
-</script>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn-restart" onclick="location.reload()">Reset System</button>
+        <button class="btn-restart" style="border-color: var(--neon); color: var(--neon);" onclick="startCalibration()">Calibrate Results</button>
+    </div>
 </div>
 
 <script>
@@ -295,15 +246,30 @@
         { d: "Motivation", q: "The Driver: Are you fueled by personal curiosity or systemic responsibility?", a: "Personal Curiosity", b: "Responsibility" }
     ];
 
+    const calibrationQuestions = [
+        { d: "System", q: "The Sudden Void: No desk, no boss, no instructions. Do you feel a surge of creative energy or deep irritation?", a: "Creative Energy", b: "Deep Irritation" },
+        { d: "System", q: "The Breaking Point: A teammate ignores the process to go faster. Do you admire their efficiency or view them as a liability?", a: "Admire Efficiency", b: "View as Liability" },
+        { d: "System", q: "The Sandbox: Would you rather play a game with no rules or a game with a strict, unbreakable physics engine?", a: "No Rules", b: "Strict Engine" },
+        { d: "Environment", q: "The Open Calendar: Zero meetings all week. Is this your most productive week or do you end up paralyzed?", a: "Most Productive", b: "Paralyzed" },
+        { d: "Environment", q: "The Shot Clock: 20 minutes to solve a 2-hour problem. Do you feel 'switched on' or an urge to escape?", a: "Urge to Escape", b: "Switched On" },
+        { d: "Environment", q: "The Oversight: Working alone on a deserted island. Do you work just as hard or find it impossible to start?", a: "Work Just as Hard", b: "Impossible to Start" },
+        { d: "Acquisition", q: "The Manual: Complex furniture assembly. Do you throw the manual away or read it front-to-back first?", a: "Throw it Away", b: "Read First" },
+        { d: "Acquisition", q: "The 'Why': Someone asks how you solved it. Is your answer 'I just saw it' or 'I applied X framework'?", a: "I just saw it", b: "Applied Framework" },
+        { d: "Acquisition", q: "The New Skill: Learning a language. Do you prefer Immersion/Trial-and-Error or Grammar Drills?", a: "Immersion", b: "Grammar Drills" },
+        { d: "Motivation", q: "The Anonymous Hero: You save the world but get no credit. Is internal satisfaction enough or does it feel like a fail?", a: "Internal Satisfaction", b: "Lack of Credit Hurts" },
+        { d: "Motivation", q: "The Paycheck: Would you rather be the highest-paid with no title or moderately paid as 'Senior Partner'?", a: "High Pay / No Title", b: "Senior Partner Title" },
+        { d: "Motivation", q: "The Burnout: When exhausted, is it because of no 'Me Time' or because you aren't being 'Useful'?", a: "No 'Me Time'", b: "Not being Useful" }
+    ];
+
     const database = {
         "B.B.A.B": { 
             name: "The Tactical Oracle", 
             mantra: "Master the system to ignite the vision.", 
             advice: "You will always feel like a spectator in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the path is narrow.",
             action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. The pressure is your only fuel.",
-            desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state.", 
+            desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state. You thrive when order meets lethal pressure.", 
             eff: "Mergers & Acquisitions, crisis management, and the final 2 minutes of a losing game.",
-            fic: "Batman, Darrow (Red Rising), Levi Ackerman",
+            fic: "Batman, Harvey Specter, Darrow (Red Rising)",
             real: "Tom Brady, Winston Churchill, Kobe Bryant"
         },
         "B.A.B.B": { 
@@ -384,7 +350,7 @@
             desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve 'impossible' problems through instinct.", 
             eff: "Unconventional warfare, hacking, solving murder mysteries.",
             fic: "John Wick, L (Death Note), Sevro au Barca",
-            real: "Michael Jordan, Edward Snowden, John Wick"
+            real: "Michael Jordan, Edward Snowden"
         },
         "A.B.B.A": { 
             name: "The Pressure Tank", 
@@ -423,7 +389,7 @@
             action: "Change your environment completely today. Work from a new city, park, or library to reset your learner engine.",
             desc: "The Eternal Student. You live in chaos just to see what happens, valuing the soul of the journey over results.", 
             eff: "Travel journalism, experimental philosophy, busking.",
-            fic: "Gon Freecss, Frodo Baggins, Anthony Bourdain",
+            fic: "Gon Freecss, Frodo Baggins, The Dude",
             real: "Anthony Bourdain, Diogenes"
         },
         "A.A.A.B": { 
@@ -460,11 +426,22 @@
 
     let step = 0;
     let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+    let isCalibrating = false;
 
     function initQuiz() {
         document.getElementById('intro').classList.remove('active');
         document.getElementById('quiz').classList.add('active');
+        isCalibrating = false;
         loadQuestion();
+    }
+
+    function startCalibration() {
+        isCalibrating = true;
+        step = 0;
+        results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+        document.getElementById('results').classList.remove('active');
+        document.getElementById('quiz').classList.add('active');
+        loadCalibrationQuestion();
     }
 
     function loadQuestion() {
@@ -476,11 +453,25 @@
         document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
     }
 
+    function loadCalibrationQuestion() {
+        const q = calibrationQuestions[step];
+        document.getElementById('domain').innerText = `Calibration: ${q.d}`;
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('optA').innerText = q.a;
+        document.getElementById('optB').innerText = q.b;
+        document.getElementById('progress-fill').style.width = `${(step / calibrationQuestions.length) * 100}%`;
+    }
+
     function answer(val) {
-        results[questions[step].d].push(val);
+        const qList = isCalibrating ? calibrationQuestions : questions;
+        results[qList[step].d].push(val);
         step++;
-        if (step < questions.length) loadQuestion();
-        else finalize();
+        
+        if (step < qList.length) {
+            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+        } else {
+            finalize();
+        }
     }
 
     function finalize() {
@@ -495,9 +486,9 @@
         document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
         document.getElementById('out-name').innerText = p.name;
         document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
+        document.getElementById('out-desc').innerText = p.desc;
         document.getElementById('out-advice').innerText = p.advice;
         document.getElementById('out-action').innerText = p.action;
-        document.getElementById('out-desc').innerText = p.desc;
         document.getElementById('out-eff').innerText = p.eff;
         document.getElementById('out-fic').innerText = p.fic;
         document.getElementById('out-real').innerText = p.real;
