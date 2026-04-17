@@ -215,18 +215,44 @@
     </div>
 
     <div id="deep-analysis-trigger" class="res-section" style="border: 1px dashed var(--neon); text-align: center;">
-        <h3 style="color: var(--neon);">Integrate Unified Strategy?</h3>
-        <p style="margin-bottom: 1.5rem; color: var(--dim);">Layer your cognitive wiring and internal narrative for targeted insights.</p>
-        
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
-            <select id="mbti-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px;">
-                <option value="INTJ">INTJ</option><option value="ENTJ">ENTJ</option> </select>
-            <select id="enneagram-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px;">
-                <option value="1">Type 1</option><option value="2">Type 2</option> </select>
-        </div>
-        
-        <button class="btn-main" onclick="integrateDeepAnalysis()" style="padding: 1rem 2rem; font-size: 0.8rem;">Generate Unified Field</button>
+        <h3 style="color: var(--neon); letter-spacing: 2px;">Integrate Unified Strategy?</h3>
+    <p style="margin-bottom: 1.5rem; color: var(--dim);">Layer your cognitive wiring and internal narrative for targeted insights.</p>
+    
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <select id="mbti-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px; cursor: pointer;">
+            <option value="INTJ">INTJ (Architect)</option>
+            <option value="ENTJ">ENTJ (Commander)</option>
+            <option value="INTP">INTP (Logician)</option>
+            <option value="ENTP">ENTP (Debater)</option>
+            <option value="INFJ">INFJ (Advocate)</option>
+            <option value="ENFJ">ENFJ (Protagonist)</option>
+            <option value="INFP">INFP (Mediator)</option>
+            <option value="ENFP">ENFP (Campaigner)</option>
+            <option value="ISTJ">ISTJ (Logistician)</option>
+            <option value="ESTJ">ESTJ (Executive)</option>
+            <option value="ISFJ">ISFJ (Defender)</option>
+            <option value="ESFJ">ESFJ (Consul)</option>
+            <option value="ISTP">ISTP (Virtuoso)</option>
+            <option value="ESTP">ESTP (Entrepreneur)</option>
+            <option value="ISFP">ISFP (Adventurer)</option>
+            <option value="ESFP">ESFP (Entertainer)</option>
+        </select>
+
+        <select id="enneagram-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px; cursor: pointer;">
+            <option value="1">Type 1: The Reformer</option>
+            <option value="2">Type 2: The Helper</option>
+            <option value="3">Type 3: The Achiever</option>
+            <option value="4">Type 4: The Individualist</option>
+            <option value="5">Type 5: The Investigator</option>
+            <option value="6">Type 6: The Loyalist</option>
+            <option value="7">Type 7: The Enthusiast</option>
+            <option value="8">Type 8: The Challenger</option>
+            <option value="9">Type 9: The Peacemaker</option>
+        </select>
     </div>
+    
+    <button class="btn-main" onclick="integrateDeepAnalysis()" style="padding: 1rem 2rem; font-size: 0.8rem;">Generate Unified Field</button>
+</div>
 
     <div id="deep-dive-container" style="display: none;">
         <div class="res-section">
@@ -258,6 +284,7 @@
 </div>
 
 <script>
+    let currentAMCode = ""; // This "remembers" your engine code for the second step
     const questions = [
         { d: "System", q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
         { d: "System", q: "In a chaotic room, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
@@ -394,57 +421,51 @@
         }
     }
 
-    function displayResult(code) {
-      currentAMCode = code; // Save the code for later
+function displayResult(code) {
+      currentAMCode = code; // Save it to the global variable
     const p = database[code];
 
-    // 1. Fill Initial AM Results
+    // Fill the basic AM IDs
     document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
     document.getElementById('out-name').innerText = p.name;
     document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
-    document.getElementById('out-desc').innerText = p.desc;
     document.getElementById('am-advice').innerText = p.advice;
     document.getElementById('am-action').innerText = p.action;
-    document.getElementById('out-eff').innerText = p.eff;
-    document.getElementById('out-fic').innerText = `FICTIONAL: ${p.fic}`;
-    document.getElementById('out-real').innerText = `REAL WORLD: ${p.real}`;
 
-    // 2. Hide Deep Dive until requested
+    // Reset the Deep Dive UI
     document.getElementById('deep-dive-container').style.display = "none";
     document.getElementById('deep-analysis-trigger').style.display = "block";
 
-    // 3. Toggle View
+    // Switch views
     document.getElementById('quiz').classList.remove('active');
     document.getElementById('results').classList.add('active');
-    window.scrollTo(0, 0);
 }
-
-let currentAMCode = ""; // Global to store the AM code for the second-stage integration   
     
 function integrateDeepAnalysis() {
     const mbti = document.getElementById('mbti-select').value;
     const enneaVal = document.getElementById('enneagram-select').value;
     
+   // Pull from your previously defined objects
     const lens = mbtiLenses[mbti];
     const ennea = enneaNarratives[enneaVal];
 
-    // Populating MBTI Section
+    // Populating UI
     document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
     document.getElementById('mbti-advice').innerText = lens.advice;
     document.getElementById('mbti-action').innerText = lens.action;
 
-    // Populating Enneagram Section
     document.getElementById('ennea-title').innerText = `Internal Narrative (Type ${enneaVal} Friction)`;
     document.getElementById('ennea-advice').innerText = ennea.advice;
     document.getElementById('ennea-action').innerText = ennea.action;
 
-    // Generating the Master Mandate (using your existing synthesis logic)
+    // Generate the Mandate
     const mandate = generateMasterDirective(currentAMCode, mbti, enneaVal);
     document.getElementById('master-directive').innerText = mandate;
 
-    // Show results and hide the trigger
+    // UI Toggle
     document.getElementById('deep-dive-container').style.display = "block";
     document.getElementById('deep-analysis-trigger').style.display = "none";
+    document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
     
     // Smooth scroll to the new insights
     document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
