@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activation Matrix | Platinum Edition</title>
+    <title>Activation Matrix | Strategic Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,8 @@
             --text: #f4f4f5;
             --dim: #71717a;
             --border: #27272a;
+            --accent-b: #60a5fa;
+            --accent-a: #f472b6;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
@@ -28,10 +30,23 @@
         .view.active { display: block; animation: fadeIn 0.4s ease-out; }
 
         /* Intro */
-        #intro { text-align: center; padding-top: 10vh; }
+        #intro { text-align: center; padding-top: 5vh; }
         h1.hero { font-size: 4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 1.5rem; }
         .tagline { color: var(--dim); font-size: 1.2rem; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 
+        /* Manual Section */
+        .matrix-manual { padding: 4rem 0; color: #f4f4f5; text-align: left; }
+        .manual-header { text-align: center; margin-bottom: 4rem; }
+        .manual-header h2 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; }
+        .manual-header span { color: var(--neon); }
+        .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        .domain-box { background: var(--card); border: 1px solid var(--border); padding: 2rem; border-radius: 8px; position: relative; }
+        .domain-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); }
+        .domain-title { color: var(--neon); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; margin-bottom: 0.5rem; }
+        .domain-concept { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
+        .binary-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .binary-option h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .binary-option p { font-size: 0.8rem; color: var(--dim); line-height: 1.4; }
 
         /* Quiz */
         .domain-tag { color: var(--neon); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 1rem; }
@@ -50,6 +65,11 @@
         .res-section { background: var(--card); border: 1px solid var(--border); padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
         .res-section h3 { font-size: 0.8rem; text-transform: uppercase; color: var(--neon); letter-spacing: 2px; margin-bottom: 1rem; }
         
+        .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .directive-box h4 { font-size: 0.7rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.5rem; }
+        .directive-box p { font-weight: 500; font-size: 1rem; line-height: 1.5; }
+        .trigger-text { color: var(--neon); font-weight: 700; }
+
         .icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
         .icon-list h4 { font-size: 0.7rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.5rem; }
         .icon-list p { font-weight: 700; font-size: 0.95rem; }
@@ -58,6 +78,10 @@
         .btn-restart { background: none; border: 1px solid var(--border); color: var(--dim); padding: 1rem 2rem; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; margin-top: 2rem; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 600px) {
+            .domain-grid, .binary-split, .strategic-grid, .icon-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -71,167 +95,71 @@
     <h1 class="hero">Decode Your <span style="color:var(--neon)">Engine</span></h1>
     <p class="tagline">The 20-point diagnostic to identify your performance archetype. Move from spectator to master of the system.</p>
     <button class="btn-main" onclick="initQuiz()">Start Intake</button>
-    <style>
-    .matrix-manual {
-        padding: 4rem 2rem;
-        background: #050507;
-        color: #f4f4f5;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
 
-    .manual-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    .manual-header h2 {
-        font-size: 2.5rem;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: -1px;
-    }
-
-    .manual-header span {
-        color: #00d4ff;
-    }
-
-    .domain-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 2.5rem;
-    }
-
-    .domain-box {
-        background: #0f0f13;
-        border: 1px solid #27272a;
-        padding: 2rem;
-        border-radius: 8px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .domain-box::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: #00d4ff;
-    }
-
-    .domain-title {
-        color: #00d4ff;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-    }
-
-    .domain-concept {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-    }
-
-    .binary-split {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-    }
-
-    .binary-option h4 {
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
-        color: #f4f4f5;
-    }
-
-    .binary-option p {
-        font-size: 0.85rem;
-        color: #71717a;
-        line-height: 1.5;
-    }
-
-    .accent-b { color: #60a5fa !important; } /* Blue for Order/Structure */
-    .accent-a { color: #f472b6 !important; } /* Pink for Chaos/Genius */
-
-    @media (max-width: 600px) {
-        .domain-grid { grid-template-columns: 1fr; }
-        .binary-split { grid-template-columns: 1fr; }
-    }
-</style>
-
-<div class="matrix-manual">
-    <div class="manual-header">
-        <h2>The Four <span>Domains</span></h2>
-        <p style="color: #71717a;">The logic gates of human execution.</p>
-    </div>
-
-    <div class="domain-grid">
-        <div class="domain-box">
-            <div class="domain-title">Domain 01</div>
-            <div class="domain-concept">System: The state of the world you need to see before you can even begin to process a task.</div>
-            <div class="binary-split">
-                <div class="binary-option">
-                    <h4 class="accent-b">Order [B]</h4>
-                    <p>Operates through quantified variables, clear hierarchies, and established rules.</p>
-                </div>
-                <div class="binary-option">
-                    <h4 class="accent-a">Chaos [A]</h4>
-                    <p>Anti-fragile. Thrives in the noise. Prefers organic, shifting environments where they create their own gravity.</p>
+    <div class="matrix-manual">
+        <div class="manual-header">
+            <h2>The Four <span>Domains</span></h2>
+            <p style="color: var(--dim);">The logic gates of human execution.</p>
+        </div>
+        <div class="domain-grid">
+            <div class="domain-box">
+                <div class="domain-title">Domain 01</div>
+                <div class="domain-concept">System: Your Internal Gravity</div>
+                <div class="binary-split">
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-b)">Order [B]</h4>
+                        <p>Operates through quantified variables, clear hierarchies, and rules.</p>
+                    </div>
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-a)">Chaos [A]</h4>
+                        <p>Anti-fragile. Thrives in noise. Creates gravity organicially.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="domain-box">
-            <div class="domain-title">Domain 02</div>
-            <div class="domain-concept">Environment: The specific pressure-setting required for your engine to activate.</div>
-            <div class="binary-split">
-                <div class="binary-option">
-                    <h4 class="accent-b">Restriction [B]</h4>
-                    <p>The Clutch Performer. Requires lethal stakes and hard deadlines to activate.</p>
-                </div>
-                <div class="binary-option">
-                    <h4 class="accent-a">Freedom [A]</h4>
-                    <p>The Marathon Performer. Needs space to breathe and infinite options to explore. Pressure stalls them.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="domain-box">
-            <div class="domain-title">Domain 03</div>
-            <div class="domain-concept">Acquisition: The method by which you gain mastery over a system and execute solutions.</div>
-            <div class="binary-split">
-                <div class="binary-option">
-                    <h4 class="accent-b">Learner [B]</h4>
-                    <p>The Sponge. Masters systems through methodical study, frameworks, and "paying dues." Power is cumulative.</p>
-                </div>
-                <div class="binary-option">
-                    <h4 class="accent-a">Genius [A]</h4>
-                    <p>The Oracle. Talent is innate and intuitive. Skips steps and solves via "Blackout" flow states.</p>
+            <div class="domain-box">
+                <div class="domain-title">Domain 02</div>
+                <div class="domain-concept">Environment: The Ignition Spark</div>
+                <div class="binary-split">
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-b)">Restriction [B]</h4>
+                        <p>The Clutch Performer. Requires lethal stakes and deadlines to activate.</p>
+                    </div>
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-a)">Freedom [A]</h4>
+                        <p>The Marathon Performer. Needs space and infinite options to explore.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="domain-box">
-            <div class="domain-title">Domain 04</div>
-            <div class="domain-concept">Motivation: Why you are playing the game and what kind of reward sustains your long-term effort and prevents burnout.</div>
-            <div class="binary-split">
-                <div class="binary-option">
-                    <h4 class="accent-b">World-Type [B]</h4>
-                    <p>Mission-Driven. Seeks legitimacy and a defined role. Fulfillment comes from serving a cause or legacy.</p>
+            <div class="domain-box">
+                <div class="domain-title">Domain 03</div>
+                <div class="domain-concept">Acquisition: The Processor Type</div>
+                <div class="binary-split">
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-b)">Learner [B]</h4>
+                        <p>The Sponge. Masters systems through methodical study and "paying dues."</p>
+                    </div>
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-a)">Genius [A]</h4>
+                        <p>The Oracle. Talent is innate and intuitive. Solves via "Blackout" flow states.</p>
+                    </div>
                 </div>
-                <div class="binary-option">
-                    <h4 class="accent-a">Self-Type [A]</h4>
-                    <p>Ego-Driven. Seeks personal mastery, pride, and the thrill of the "Self." Plays to prove personal excellence.</p>
+            </div>
+            <div class="domain-box">
+                <div class="domain-title">Domain 04</div>
+                <div class="domain-concept">Motivation: The Primary Fuel</div>
+                <div class="binary-split">
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-b)">World-Type [B]</h4>
+                        <p>Mission-Driven. Seeks legitimacy and a defined role in a legacy.</p>
+                    </div>
+                    <div class="binary-option">
+                        <h4 style="color: var(--accent-a)">Self-Type [A]</h4>
+                        <p>Ego-Driven. Seeks personal mastery and the thrill of the "Self."</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <div id="quiz" class="view">
@@ -248,6 +176,20 @@
         <div class="res-code" id="out-code">B.B.A.B</div>
         <h1 class="res-name" id="out-name">Tactical Oracle</h1>
         <p class="res-mantra" id="out-mantra">"Master the system to ignite the vision."</p>
+    </div>
+
+    <div class="res-section">
+        <h3>Strategic Directives</h3>
+        <div class="strategic-grid">
+            <div class="directive-box">
+                <h4>Internal Counsel</h4>
+                <p id="out-advice">Advice goes here.</p>
+            </div>
+            <div class="directive-box">
+                <h4>The First Trigger</h4>
+                <p id="out-action" class="trigger-text">Action step goes here.</p>
+            </div>
+        </div>
     </div>
 
     <div class="res-section">
@@ -277,120 +219,23 @@
     <button class="btn-restart" onclick="location.reload()">Re-Initialize Diagnostics</button>
 </div>
 
-<style>
-    .matrix-manual {
-        padding: 4rem 2rem;
-        background: #050507;
-        color: #f4f4f5;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    .manual-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    .manual-header h2 {
-        font-size: 2.5rem;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: -1px;
-    }
-
-    .manual-header span {
-        color: #00d4ff;
-    }
-
-    .domain-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 2.5rem;
-    }
-
-    .domain-box {
-        background: #0f0f13;
-        border: 1px solid #27272a;
-        padding: 2rem;
-        border-radius: 8px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .domain-box::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: #00d4ff;
-    }
-
-    .domain-title {
-        color: #00d4ff;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-    }
-
-    .domain-concept {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-    }
-
-    .binary-split {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-    }
-
-    .binary-option h4 {
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
-        color: #f4f4f5;
-    }
-
-    .binary-option p {
-        font-size: 0.85rem;
-        color: #71717a;
-        line-height: 1.5;
-    }
-
-    .accent-b { color: #60a5fa !important; } /* Blue for Order/Structure */
-    .accent-a { color: #f472b6 !important; } /* Pink for Chaos/Genius */
-
-    @media (max-width: 600px) {
-        .domain-grid { grid-template-columns: 1fr; }
-        .binary-split { grid-template-columns: 1fr; }
-    }
-</style>
-
 <script>
     const questions = [
-        // System: Order (B) vs Chaos (A)
         { d: "System", q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
         { d: "System", q: "In a chaotic room/project, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
         { d: "System", q: "Do you prefer a world with defined hierarchies/roles or one with organic, shifting leadership?", a: "Organic Shifts", b: "Defined Hierarchy" },
         { d: "System", q: "When a process breaks, do you seek to repair the rules or bypass them to get the result?", a: "Bypass Rules", b: "Repair Rules" },
         { d: "System", q: "Do you find 'objective facts' more useful than 'intuitive vibes'?", a: "Intuitive Vibes", b: "Objective Facts" },
-        // Environment: Freedom (A) vs Restriction (B)
         { d: "Environment", q: "Deadlines: Do you perform best with slow, steady progress or in the high-pressure final 48 hours?", a: "Slow & Steady", b: "High-Pressure Crunch" },
         { d: "Environment", q: "Infinite options: Does having 100 paths feel like a gift of power or a paralyzing burden?", a: "Gift of Power", b: "Paralyzing Burden" },
         { d: "Environment", q: "Do you work best when the world is quiet and free or when stakes are lethal and paths are narrow?", a: "Quiet & Free", b: "Narrow & Lethal" },
         { d: "Environment", q: "Does oversight feel like a suffocating cage or a safety rail that prevents wasted energy?", a: "Suffocating Cage", b: "Safety Rail" },
         { d: "Environment", q: "Do your best ideas strike while relaxing or while in the 'mud' of a crisis?", a: "Relaxing/Vacation", b: "Crisis/Conflict" },
-        // Acquisition: Genius (A) vs Learner (B)
         { d: "Acquisition", q: "Learning: Do you prefer a methodical manual or intuitive trial-and-error?", a: "Trial & Error", b: "Methodical Manual" },
         { d: "Acquisition", q: "Performance: Can you explain your logic step-by-step or is it an out-of-body 'blackout'?", a: "Intuitive Blackout", b: "Step-by-Step Logic" },
         { d: "Acquisition", q: "Do you value elite technical certifications or raw, unearned innate talent?", a: "Raw Talent", b: "Certifications/Degrees" },
         { d: "Acquisition", q: "After a failure, do you return to the books or immediately try a different gut instinct?", a: "Gut Instinct", b: "Return to Books" },
         { d: "Acquisition", q: "Teaching: Would you give someone 10 steps or explain the 'soul' of the task and let them figure it out?", a: "Explain 'Soul'", b: "Give 10 Steps" },
-        // Motivation: Self (A) vs World (B)
         { d: "Motivation", q: "Success: Is a secret victory enough for you or do you need legitimacy and rank?", a: "Secret Victory", b: "Legitimacy & Rank" },
         { d: "Motivation", q: "The Sacrifice: Is personal peace your priority or is mission success worth the struggle?", a: "Personal Peace", b: "Mission Success" },
         { d: "Motivation", q: "Guilt: Do you feel guilty for ignoring personal desires or for failing your duty to others?", a: "Ignoring Desires", b: "Failing Duty" },
@@ -402,95 +247,119 @@
         "B.B.A.B": { 
             name: "The Tactical Oracle", 
             mantra: "Master the system to ignite the vision.", 
-            desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state. You thrive when order meets lethal pressure.", 
-            eff: "Mergers & Acquisitions, crisis management, and the final 2 minutes of a losing game.",
-            fic: "Batman, Darrow (Red Rising), Geralt of Rivia",
+            advice: "You will always feel like a spectator in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the path is narrow.",
+            action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. The pressure is your only fuel.",
+            desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate, intuitive 'Vision' to solve them in a blackout flow state.", 
+            eff: "M&A, crisis management, and the final 2 minutes of a losing game.",
+            fic: "Batman, Darrow (Red Rising), Levi Ackerman",
             real: "Tom Brady, Winston Churchill, Kobe Bryant"
         },
         "B.A.B.B": { 
             name: "The Strategic Architect", 
             mantra: "Learn the world to build the path.", 
-            desc: "The World-Builder. You use your freedom to absorb every available framework, slowly building a better version of reality for everyone else to inhabit.", 
-            eff: "Founding non-profits, urban planning, and building complex narrative universes.",
-            fic: "Leia Organa, Lisa Simpson, Professor X",
+            advice: "You see the future system while others see current chaos. You need freedom to learn; if micromanaged, your architect engine will stall.",
+            action: "Block off 4 hours of 'Unrestricted Deep Work' this week. No meetings. No oversight. Just building your world-bible.",
+            desc: "The World-Builder. You use your freedom to absorb every framework, building a better version of reality for others.", 
+            eff: "Founding non-profits, urban planning, and complex narrative universes.",
+            fic: "Leia Organa, Lisa Simpson, Katara (ATLA)",
             real: "Warren Buffett, Angela Merkel, Bill Gates"
         },
         "B.B.B.B": { 
             name: "The Iron Vanguard", 
             mantra: "Victory is a byproduct of preparation.", 
-            desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules. Your power is consistency.", 
+            advice: "You are the floor. Stop looking for inspiration; you are fueled by ritual. Your genius is the compound interest of your discipline.",
+            action: "Design a 30-minute pre-work ritual that never changes. The ritual is the floor that allows you to perform.",
+            desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.", 
             eff: "Leading armies, high-stakes surgery, nuclear reactor management.",
-            fic: "Captain America, Robocop, Ned Stark",
+            fic: "Captain America, Robocop, Spock",
             real: "David Goggins, Colin Powell, Tiger Woods"
         },
         "B.B.B.A": { 
             name: "The Logic Technician", 
             mantra: "Personal excellence is the only metric.", 
-            desc: "The Competence-Obsessed. A high-pressure learner who views their brilliance as their identity. You study harder than everyone else to own the room.", 
-            eff: "Competitive academic rankings, top-tier law firms, and elite debate.",
-            fic: "Hermione Granger, Amy Farrah Fowler",
+            advice: "Your ego is tied to competence. To grow, you must find mentors who are 'More Right' than you to expand your logical ceiling.",
+            action: "Enroll in a high-difficulty track or project where you are currently the least informed person in the room.",
+            desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study harder than anyone to own the room.", 
+            eff: "Competitive academic rankings, law firms, and elite debate.",
+            fic: "Hermione Granger, Amy Farrah Fowler, Annie Leonhart",
             real: "Ben Shapiro, Jordan Peterson, RBG"
         },
         "B.B.A.A": { 
             name: "The Apex Specialist", 
             mantra: "Control the variables to claim the win.", 
-            desc: "The Gifted Predator. You love complex rules because they are variables you can manipulate. You play to prove you are the best, not to save the world.", 
+            advice: "You love complex rules because they are variables you can manipulate. Use the system as a cage for your prey.",
+            action: "Gamify your primary metric today. Set up a leaderboard with a rival. Only the win matters.",
+            desc: "The Gifted Predator. You play to prove you are the best, not to save the world. Rules are your playground.", 
             eff: "High-frequency trading, elite Esports, professional poker.",
-            fic: "Sherlock Holmes, Azula, Light Yagami (Death Note)",
+            fic: "Sherlock Holmes, Azula (ATLA), Light Yagami",
             real: "Magnus Carlsen, James Simons, Bobby Fischer"
         },
         "B.A.B.A": { 
             name: "The Framework Artist", 
             mantra: "The manual is the canvas for mastery.", 
-            desc: "The Academic Nomad. You love deep history and logic but want total freedom to wander through it. You seek Truth for intellectual satisfaction.", 
+            advice: "You are an explorer of logic. Never feel guilty for wasting time on deep research—that is your acquisition engine at work.",
+            action: "Start a personal Wiki or Commonplace Book to synthesize three unrelated frameworks into a new theory.",
+            desc: "The Academic Nomad. You love deep history and logic but want total freedom to wander through it.", 
             eff: "Investigative research, conceptual art, university professorships.",
-            fic: "Albus Dumbledore, Indiana Jones, Doctor Who",
+            fic: "Albus Dumbledore, Indiana Jones, Doctor Strange",
             real: "Carl Jung, Christopher Nolan, Noam Chomsky"
         },
         "B.A.A.B": { 
             name: "The Sovereign Visionary", 
             mantra: "The plan is the playground.", 
-            desc: "The Natural Leader. You possess an innate genius for people and systems. You don't need a playbook because you intuitively feel the spirit of the game.", 
+            advice: "You are a natural force of stability. Trust your first instinct. Over-analyzing the manual will only stall your social genius.",
+            action: "Identify the most 'orderly' task on your plate and delegate it immediately. Focus only on the high-level spirit of the goal.",
+            desc: "The Natural Leader. You possess an innate genius for people and systems. You intuitively feel the spirit of the game.", 
             eff: "High-level diplomacy, executive leadership, creative directing.",
-            fic: "Gandalf, Uncle Iroh (ATLA), Black Panther",
+            fic: "Gandalf, Uncle Iroh, Jean-Luc Picard",
             real: "Barack Obama, Nelson Mandela, Oprah Winfrey"
         },
         "B.A.A.A": { 
             name: "The Fluid Director", 
             mantra: "Order is the stage; I am the play.", 
-            desc: "The Virtuoso. You treat the world's rules like a stage. You possess a raw talent that you use to entertain yourself and dominate the field.", 
+            advice: "You are a virtuoso. You need an audience. Working in a vacuum will kill your drive and stall your talent.",
+            action: "Schedule a public presentation or high-visibility meeting this week to showcase your latest work.",
+            desc: "The Virtuoso. You treat the world's rules like a stage. You possess raw talent used to dominate the field.", 
             eff: "Performance arts, professional athletics, celebrity brand-building.",
-            fic: "Tony Stark, Jack Sparrow, Lando Calrissian",
+            fic: "Tony Stark, Jack Sparrow, Saitama",
             real: "Cristiano Ronaldo, Robert Downey Jr., Tom Cruise"
         },
         "A.B.A.B": { 
             name: "The Guerrilla Kinetic", 
             mantra: "Find the heat to find the answer.", 
-            desc: "The Ghost. A feral genius who is invisible in peace but becomes a god in the mud. You solve 'impossible' problems through pure instinct.", 
-            eff: "Unconventional warfare, counter-culture hacking, solving murder mysteries.",
-            fic: "John Wick, L (Death Note), Eleven",
-            real: "Michael Jordan, Edward Snowden"
+            advice: "You are a feral genius. Stop trying to act 'Professional' in the rigid sense. Your value is in your unconventionality.",
+            action: "Go dark. Work in total isolation until a crisis hits, then drop the solution and disappear.",
+            desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve 'impossible' problems through instinct.", 
+            eff: "Unconventional warfare, hacking, solving murder mysteries.",
+            fic: "John Wick, L (Death Note), Sevro au Barca",
+            real: "Michael Jordan, Edward Snowden, John Wick"
         },
         "A.B.B.A": { 
             name: "The Pressure Tank", 
             mantra: "Built for the storm, fueled by the goal.", 
-            desc: "The Gladiator. You view life as chaotic struggle and use the mess as a gym to build personal strength. You thrive when things get hard.", 
+            advice: "Your growth is proportional to your struggle. If life is easy, you are stagnant. Embrace the grind.",
+            action: "Pick one 'Impossible' habit—a cold plunge or a massive cold-call quota—and do it specifically because it's hard.",
+            desc: "The Gladiator. You view life as chaotic struggle and use it as a gym to build personal strength.", 
             eff: "Boot camps, solo startup founding, survival challenges.",
-            fic: "Wolverine, Rocky Balboa",
+            fic: "Wolverine, Rocky Balboa, Guts",
             real: "Arnold Schwarzenegger, Conor McGregor"
         },
         "A.B.B.B": { 
             name: "The Resilient Anchor", 
             mantra: "Absorb the blow to control the flow.", 
-            desc: "The Survivor. You use your pressure-tested learning to keep everyone else from drowning in chaotic environments.", 
-            eff: "Disaster relief, ER nursing, community management in war zones.",
+            advice: "You are the saint of the matrix. Seek out messy projects. You are invisible in perfection but indispensable in a disaster.",
+            action: "Volunteer for the most dysfunctional department or turnaround case in your firm today.",
+            desc: "The Survivor. You use your pressure-tested learning to keep everyone else from drowning in chaos.", 
+            eff: "Disaster relief, ER nursing, community management.",
             fic: "Neville Longbottom, Samwise Gamgee, Ellen Ripley",
             real: "Chef José Andrés, Malala Yousafzai"
         },
         "A.A.B.B": { 
             name: "The Emergent Leader", 
             mantra: "Synthesize the mess to lead the way.", 
-            desc: "The Beacon. You walk into the void and start building, using empathy and vision to lead people without an established manual.", 
+            advice: "You are a pioneer. You learn by doing. Don't wait for a manual; the manual doesn't exist for where you're going.",
+            action: "Launch a 'Beta' version of your project today. Don't wait for perfection; learn from the noise of the launch.",
+            desc: "The Beacon. You walk into the void and build, using empathy and vision to lead without a map.", 
             eff: "Social revolutions, early-stage venture capital, frontier exploration.",
             fic: "Naruto Uzumaki, Paul Atreides, Aang (ATLA)",
             real: "Elon Musk, Richard Branson"
@@ -498,14 +367,18 @@
         "A.A.B.A": { 
             name: "The Exploratory Nomad", 
             mantra: "The lesson is the destination.", 
-            desc: "The Eternal Student. You live in chaos just to see what happens, valuing the soul of the journey and personal growth over results.", 
+            advice: "Stop trying to find a career; your career is the collection of experiences. You find truth in the journey.",
+            action: "Change your environment completely today. Work from a new city, park, or library to reset your learner engine.",
+            desc: "The Eternal Student. You live in chaos just to see what happens, valuing the soul of the journey over results.", 
             eff: "Travel journalism, experimental philosophy, busking.",
-            fic: "Gon Freecss, Frodo Baggins, The Dude (The Big Lebowski)",
+            fic: "Gon Freecss, Frodo Baggins, Anthony Bourdain",
             real: "Anthony Bourdain, Diogenes"
         },
         "A.A.A.B": { 
             name: "The World-Changer", 
             mantra: "Intuition leads; the world follows.", 
+            advice: "You are a revolutionary. You will be misunderstood by the 'Anchors.' Don't waste energy convincing them; just show the result.",
+            action: "Identify the one 'Rule' in your industry holding everyone back and find an intuitive way to break it.",
             desc: "The Revolutionary. You possess an innate vision for a world that doesn't exist yet, breaking the current Order to force evolution.", 
             eff: "Creative disruption, leading rebellions, inventing new genres.",
             fic: "Luffy, Daenerys Targaryen, Katniss Everdeen",
@@ -514,7 +387,9 @@
         "A.A.A.A": { 
             name: "The Chaos Catalyst", 
             mantra: "Burn the map to rule the ash.", 
-            desc: "The Pure Predator. Pure instinct and pride. You dismantle everything in your path just to prove you can. Total freedom is your oxygen.", 
+            advice: "You are pure predator energy. You need absolute freedom. If you feel managed, you will eventually destroy the manager.",
+            action: "Move toward 100% equity or commission-based work. You need to 'Kill what you eat' to feel alive.",
+            desc: "The Pure Predator. Pure instinct and pride. You dismantle everything in your path just to prove you can.", 
             eff: "Hostile takeovers, black-market manipulation, scorched-earth warfare.",
             fic: "The Joker, Sukuna, Homelander",
             real: "Napoleon Bonaparte, John McEnroe"
@@ -522,7 +397,9 @@
         "A.B.A.A": { 
             name: "The Impact Sniper", 
             mantra: "Pressure turns the spark into a flame.", 
-            desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction. You play for the high of the win.", 
+            advice: "You live for the high. Avoid marathon tasks; you are a sprinter. You wait for the peak chaos to strike.",
+            action: "Take sole ownership of the 'Pitch' or the 'Closing Deal'—the single moment where one decision settles the score.",
+            desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.", 
             eff: "High-stakes gambling, stunt work, specialized demolition.",
             fic: "Billy Butcher, Deadpool, Rick Sanchez",
             real: "Hunter S. Thompson, Evel Knievel"
@@ -566,6 +443,8 @@
         document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
         document.getElementById('out-name').innerText = p.name;
         document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
+        document.getElementById('out-advice').innerText = p.advice;
+        document.getElementById('out-action').innerText = p.action;
         document.getElementById('out-desc').innerText = p.desc;
         document.getElementById('out-eff').innerText = p.eff;
         document.getElementById('out-fic').innerText = p.fic;
@@ -574,6 +453,7 @@
         document.getElementById('quiz').classList.remove('active');
         document.getElementById('results').classList.add('active');
         document.getElementById('progress-fill').style.width = `100%`;
+        window.scrollTo(0, 0);
     }
 </script>
 
