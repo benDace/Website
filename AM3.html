@@ -316,7 +316,8 @@
 </div>
 
 <script>
-    let currentAMCode = ""; // This "remembers" your engine code for the second step
+    let step = 0;
+    let quizHistory = []; // Tracks answers so we can go back
     const questions = [
         { d: "System", q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
         { d: "System", q: "In a chaotic room, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
@@ -524,8 +525,6 @@ function adjustSelections() {
     document.getElementById('optA').innerText = q.a;
     document.getElementById('optB').innerText = q.b;
     document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
-    
-    // Show back button only if we aren't on the first question
     document.getElementById('back-btn').style.display = step > 0 ? "block" : "none";
 }
 
