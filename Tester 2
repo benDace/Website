@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activation Matrix | Unified Field Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #141416;           /* Soft Obsidian Base */
+            --card: rgba(28, 28, 30, 0.6); 
+            --neon: #d4af37;         /* Metallic Gold/Bronze */
+            --text: #f5f5f0;         /* Warm Paper White */
+            --dim: #a1a1aa;          
+            --border: rgba(255, 255, 255, 0.08);
+            --accent-b: #8da9c4;     
+            --accent-a: #c89f9c;     
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* LIGHTING & TEXTURE */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 30%, #252529 0%, #141416 75%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.04;
+            z-index: -1;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .header { 
+            padding: 1.5rem 2rem; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; 
+            background: rgba(20, 20, 22, 0.7); 
+            z-index: 100; 
+            backdrop-filter: blur(15px); 
+        }
+
+        .logo { font-weight: 900; letter-spacing: -1px; text-transform: uppercase; font-size: 1.1rem; }
+        .logo span { color: var(--neon); }
+        .progress-bar-bg { width: 150px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+        #progress-fill { width: 0%; height: 100%; background: var(--neon); box-shadow: 0 0 15px var(--neon); transition: 0.3s; }
+
+        .view { display: none; min-height: 80vh; padding: 3rem 1.5rem; max-width: 900px; margin: 0 auto; }
+        .view.active { display: block; animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+
+        #intro { text-align: center; padding-top: 5vh; }
+        h1.hero { font-size: 4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 1.5rem; letter-spacing: -2px; }
+        .tagline { color: var(--dim); font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* MBTI SELECTOR */
+        .mbti-intake { margin-bottom: 3rem; }
+        .mbti-intake select {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 4rem;}
+        .domain-box, .opt-btn, .res-section { 
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border); 
+            padding: 2.5rem; 
+            border-radius: 16px; 
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: all 0.4s ease;
+        }
+
+        .domain-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); border-radius: 16px 0 0 16px; }
+        .domain-title { color: var(--neon); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; margin-bottom: 0.5rem; }
+        .domain-concept { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.4; }
+        .binary-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .binary-option h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .binary-option p { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+
+        .domain-tag { color: var(--neon); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 1rem; }
+        .question { font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 3.5rem; }
+        .options-grid { display: grid; gap: 1.2rem; }
+        .opt-btn { cursor: pointer; text-align: left; font-size: 1.15rem; }
+        .opt-btn:hover { border-color: var(--neon); background: rgba(212, 175, 55, 0.05); transform: translateY(-3px); }
+        .opt-btn span { color: var(--neon); font-weight: 900; margin-right: 1rem; }
+
+        .res-header { margin-bottom: 3.5rem; border-left: 6px solid var(--neon); padding-left: 2.5rem; }
+        .res-code { font-size: 0.95rem; color: var(--neon); letter-spacing: 4px; font-weight: 800; margin-bottom: 0.75rem; }
+        .res-name { font-size: 3.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -2px; }
+        .res-mantra { font-size: 1.4rem; font-style: italic; color: var(--dim); margin-bottom: 1.5rem; }
+        .res-description { font-size: 1.15rem; line-height: 1.7; color: var(--text); max-width: 800px; border-top: 1px solid var(--border); padding-top: 1.5rem;}
+        
+        .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .directive-box h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.75rem; }
+        .directive-box p { font-weight: 500; font-size: 1.1rem; line-height: 1.6; }
+        .trigger-text { color: var(--neon); font-weight: 800; }
+
+        .btn-main { background: var(--neon); color: #141416; border: none; padding: 1.4rem 3.5rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 8px; font-size: 1rem; transition: 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+        .btn-restart { background: transparent; border: 1px solid var(--border); color: var(--dim); padding: 1.2rem 2.2rem; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; border-radius: 8px; transition: 0.3s; }
+        .btn-restart:hover { border-color: var(--neon); color: var(--neon); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 768px) {
+            .domain-grid, .binary-split, .strategic-grid { grid-template-columns: 1fr; }
+            h1.hero { font-size: 2.8rem; }
+            .res-name { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">Activation <span>Matrix</span></div>
+    <div class="progress-bar-bg"><div id="progress-fill"></div></div>
+</div>
+
+<div id="intro" class="view active">
+    <h1 class="hero">Decode Your <span style="color:var(--neon)">Engine</span></h1>
+    <p class="tagline">The Unified Field diagnostic: Merging execution mechanics with cognitive wiring.</p>
+    
+    <div class="mbti-intake">
+        <label style="display:block; font-size:0.7rem; text-transform:uppercase; color:var(--dim); margin-bottom:0.5rem; letter-spacing:2px;">Select Cognitive Base (MBTI)</label>
+        <select id="mbti-select">
+            <option value="INTJ">INTJ (Architect)</option>
+            <option value="ENTJ">ENTJ (Commander)</option>
+            <option value="INTP">INTP (Logician)</option>
+            <option value="ENTP">ENTP (Debater)</option>
+            <option value="INFJ">INFJ (Advocate)</option>
+            <option value="ENFJ">ENFJ (Protagonist)</option>
+            <option value="INFP">INFP (Mediator)</option>
+            <option value="ENFP">ENFP (Campaigner)</option>
+            <option value="ISTJ">ISTJ (Logistician)</option>
+            <option value="ESTJ">ESTJ (Executive)</option>
+            <option value="ISFJ">ISFJ (Defender)</option>
+            <option value="ESFJ">ESFJ (Consul)</option>
+            <option value="ISTP">ISTP (Virtuoso)</option>
+            <option value="ESTP">ESTP (Entrepreneur)</option>
+            <option value="ISFP">ISFP (Adventurer)</option>
+            <option value="ESFP">ESFP (Entertainer)</option>
+        </select>
+    </div>
+
+    <button class="btn-main" onclick="initQuiz()">Initialize Intake</button>
+
+    <div class="domain-grid">
+        <div class="domain-box">
+            <div class="domain-title">Domain 01</div>
+            <div class="domain-concept">System: Your Internal Gravity</div>
+            <div class="binary-split">
+                <div class="binary-option"><h4 style="color: var(--accent-b)">Order [B]</h4><p>Rules, hierarchies, quantified variables.</p></div>
+                <div class="binary-option"><h4 style="color: var(--accent-a)">Chaos [A]</h4><p>Anti-fragile. Thrives in noise.</p></div>
+            </div>
+        </div>
+        <div class="domain-box">
+            <div class="domain-title">Domain 02</div>
+            <div class="domain-concept">Environment: Ignition Point</div>
+            <div class="binary-split">
+                <div class="binary-option"><h4 style="color: var(--accent-b)">Restriction [B]</h4><p>Clutch performer. High pressure.</p></div>
+                <div class="binary-option"><h4 style="color: var(--accent-a)">Freedom [A]</h4><p>Marathon performer. Creative space.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="quiz" class="view">
+    <div id="domain" class="domain-tag">System</div>
+    <div id="question" class="question">Question Text?</div>
+    <div class="options-grid">
+        <button class="opt-btn" onclick="answer('A')"><span>A.</span> <span id="optA">Option A</span></button>
+        <button class="opt-btn" onclick="answer('B')"><span>B.</span> <span id="optB">Option B</span></button>
+    </div>
+</div>
+
+<div id="results" class="view">
+    <div class="res-header">
+        <div class="res-code" id="out-code">B.B.A.B</div>
+        <h1 class="res-name" id="out-name">Tactical Oracle</h1>
+        <p class="res-mantra" id="out-mantra">"Master the system to ignite the vision."</p>
+        <p class="res-description" id="out-desc">Description goes here.</p>
+    </div>
+
+    <div class="res-section">
+        <h3 id="unified-title">Unified Strategy (AM + MBTI)</h3>
+        <div class="strategic-grid">
+            <div class="directive-box">
+                <h4>Core Advice</h4>
+                <p id="out-advice">Advice goes here.</p>
+            </div>
+            <div class="directive-box">
+                <h4>Tactical Step</h4>
+                <p id="out-action" class="trigger-text">Action step goes here.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="res-section">
+        <h3>Maximum Efficiency Zone</h3>
+        <p id="out-eff">Efficiency situation here.</p>
+    </div>
+
+    <div class="res-section">
+        <h3>Ego Benchmarks</h3>
+        <div class="icon-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+            <div class="icon-list"><h4>Fictional Icons</h4><p id="out-fic"></p></div>
+            <div class="icon-list"><h4>Real World Power</h4><p id="out-real"></p></div>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn-restart" onclick="location.reload()">Reset System</button>
+        <button class="btn-restart" style="border-color: var(--neon); color: var(--neon);" onclick="startCalibration()">Calibrate Results</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { d: "System", q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
+        { d: "System", q: "In a chaotic room, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
+        { d: "System", q: "Do you prefer a world with defined hierarchies or one with organic, shifting leadership?", a: "Organic Shifts", b: "Defined Hierarchy" },
+        { d: "System", q: "When a process breaks, do you repair the rules or bypass them to get the result?", a: "Bypass Rules", b: "Repair Rules" },
+        { d: "System", q: "Do you find 'objective facts' more useful than 'intuitive vibes'?", a: "Intuitive Vibes", b: "Objective Facts" },
+        { d: "Environment", q: "Deadlines: Do you perform best with steady progress or in the high-pressure final 48 hours?", a: "Steady Progress", b: "High-Pressure Crunch" },
+        { d: "Environment", q: "Infinite options: Does having 100 paths feel like a gift of power or a paralyzing burden?", a: "Gift of Power", b: "Paralyzing Burden" },
+        { d: "Environment", q: "Do you work best when the world is quiet or when stakes are lethal and paths are narrow?", a: "Quiet & Free", b: "Narrow & Lethal" },
+        { d: "Environment", q: "Does oversight feel like a suffocating cage or a safety rail?", a: "Suffocating Cage", b: "Safety Rail" },
+        { d: "Environment", q: "Do your best ideas strike while relaxing or while in the 'mud' of a crisis?", a: "Relaxing", b: "Crisis/Conflict" },
+        { d: "Acquisition", q: "Learning: Do you prefer a methodical manual or trial-and-error?", a: "Trial & Error", b: "Methodical Manual" },
+        { d: "Acquisition", q: "Performance: Can you explain your logic step-by-step or is it a 'blackout' flow?", a: "Intuitive Blackout", b: "Step-by-Step Logic" },
+        { d: "Acquisition", q: "Do you value elite certifications or raw, unearned innate talent?", a: "Raw Talent", b: "Certifications" },
+        { d: "Acquisition", q: "After a failure, do you return to the books or try a different gut instinct?", a: "Gut Instinct", b: "Return to Books" },
+        { d: "Acquisition", q: "Teaching: Would you give someone 10 steps or explain the 'soul' of the task?", a: "Explain 'Soul'", b: "Give 10 Steps" },
+        { d: "Motivation", q: "Success: Is a secret victory enough or do you need legitimacy and rank?", a: "Secret Victory", b: "Legitimacy & Rank" },
+        { d: "Motivation", q: "Sacrifice: Is personal peace your priority or is mission success worth the struggle?", a: "Personal Peace", b: "Mission Success" },
+        { d: "Motivation", q: "Guilt: Do you feel guilty for ignoring personal desires or for failing your duty?", a: "Ignoring Desires", b: "Failing Duty" },
+        { d: "Motivation", q: "Legacy: Do you want to be a 'One-of-a-kind individual' or a 'Pillar of the Institution'?", a: "One-of-a-Kind", b: "Institutional Pillar" },
+        { d: "Motivation", q: "The Driver: Are you fueled by personal curiosity or systemic responsibility?", a: "Personal Curiosity", b: "Responsibility" }
+    ];
+
+    const calibrationQuestions = [
+        { d: "System", q: "Sudden Void: No boss, no instructions. Surge of energy or deep irritation?", a: "Creative Energy", b: "Deep Irritation" },
+        { d: "System", q: "Teammate ignores the process to go faster. Admire efficiency or view as a liability?", a: "Admire Efficiency", b: "View as Liability" },
+        { d: "System", q: "Sandbox: Play a game with no rules or one with a strict physics engine?", a: "No Rules", b: "Strict Engine" },
+        { d: "Environment", q: "Open Calendar: No meetings all week. Productive or paralyzed?", a: "Most Productive", b: "Paralyzed" },
+        { d: "Environment", q: "Shot Clock: 20 mins to solve a 2-hour problem. Switched on or urge to escape?", a: "Urge to Escape", b: "Switched On" },
+        { d: "Environment", q: "Desert Island: Working alone. Work hard or find it impossible to start?", a: "Work Hard", b: "Impossible to Start" },
+        { d: "Acquisition", q: "IKEA Manual: Throw it away or read it front-to-back first?", a: "Throw it Away", b: "Read First" },
+        { d: "Acquisition", q: "The 'Why': Answer 'I just saw it' or 'I applied a framework'?", a: "I just saw it", b: "Applied Framework" },
+        { d: "Acquisition", q: "New Language: Immersion or Grammar Drills?", a: "Immersion", b: "Grammar Drills" },
+        { d: "Motivation", q: "Anonymous Hero: Save the world but no credit. Satisfaction enough or feels like failure?", a: "Satisfaction Enough", b: "Needs Credit" },
+        { d: "Motivation", q: "Paycheck: Highest-paid with no title or moderately paid 'Senior Partner'?", a: "High Pay / No Title", b: "Senior Partner Title" },
+        { d: "Motivation", q: "Burnout: Caused by no 'Me Time' or not being 'Useful'?", a: "No 'Me Time'", b: "Not being Useful" }
+    ];
+
+    const database = {
+        "B.B.A.B": { name: "Tactical Oracle", mantra: "Master the system to ignite the vision.", desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate 'Vision' to solve them in a blackout flow state.", eff: "M&A, crisis management, and the final 2 minutes of a losing game.", fic: "Batman, Harvey Specter, Darrow", real: "Tom Brady, Winston Churchill, Kobe Bryant" },
+        "B.B.B.B": { name: "Iron Vanguard", mantra: "Victory is a byproduct of preparation.", desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.", eff: "Leading armies, high-stakes surgery, nuclear reactor management.", fic: "Captain America, Robocop, Spock", real: "David Goggins, Tiger Woods, Colin Powell" },
+        "B.A.B.B": { name: "Strategic Architect", mantra: "Learn the world to build the path.", desc: "The World-Builder. You use freedom to absorb frameworks and build a better version of reality for others.", eff: "Founding non-profits, urban planning, narrative world-building.", fic: "Leia Organa, Lisa Simpson, Katara", real: "Warren Buffett, Angela Merkel, Bill Gates" },
+        "B.B.B.A": { name: "Logic Technician", mantra: "Personal excellence is the only metric.", desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study to own the room.", eff: "Competitive academic rankings, law firms, elite debate.", fic: "Hermione Granger, Amy Farrah Fowler", real: "Ben Shapiro, Jordan Peterson, RBG" },
+        "B.B.A.A": { name: "Apex Specialist", mantra: "Control the variables to claim the win.", desc: "The Gifted Predator. You play to prove you are the best. Rules are your weapon.", eff: "High-frequency trading, elite Esports, professional poker.", fic: "Sherlock Holmes, Azula, Light Yagami", real: "Magnus Carlsen, James Simons, Bobby Fischer" },
+        "B.A.B.A": { name: "Framework Artist", mantra: "The manual is the canvas for mastery.", desc: "The Academic Nomad. You love deep history and logic but want freedom to wander through it.", eff: "Investigative research, conceptual art, professorships.", fic: "Albus Dumbledore, Indiana Jones", real: "Carl Jung, Christopher Nolan, Noam Chomsky" },
+        "B.A.A.B": { name: "Sovereign Visionary", mantra: "The plan is the playground.", desc: "The Natural Leader. You possess an innate genius for people. You intuitively feel the spirit of the game.", eff: "High-level diplomacy, executive leadership, creative directing.", fic: "Gandalf, Uncle Iroh, Jean-Luc Picard", real: "Barack Obama, Nelson Mandela, Oprah Winfrey" },
+        "B.A.A.A": { name: "Fluid Director", mantra: "Order is the stage; I am the play.", desc: "The Virtuoso. You treat rules like a stage. You possess raw talent used to dominate the field.", eff: "Performance arts, pro athletics, celebrity brand-building.", fic: "Tony Stark, Jack Sparrow, Saitama", real: "Cristiano Ronaldo, Robert Downey Jr., Tom Cruise" },
+        "A.B.A.B": { name: "Guerrilla Kinetic", mantra: "Find the heat to find the answer.", desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve problems through instinct.", eff: "Unconventional warfare, hacking, solving murder mysteries.", fic: "John Wick, L, Sevro au Barca", real: "Michael Jordan, Edward Snowden" },
+        "A.B.B.A": { name: "Pressure Tank", mantra: "Built for the storm, fueled by the goal.", desc: "The Gladiator. You view life as chaotic struggle and use it as a gym to build strength.", eff: "Boot camps, solo startup founding, survival challenges.", fic: "Wolverine, Rocky Balboa, Guts", real: "Arnold Schwarzenegger, Conor McGregor" },
+        "A.B.B.B": { name: "Resilient Anchor", mantra: "Absorb the blow to control the flow.", desc: "The Survivor. You use pressure-tested learning to keep everyone else from drowning.", eff: "Disaster relief, ER nursing, community management.", fic: "Neville Longbottom, Samwise Gamgee, Ellen Ripley", real: "Chef José Andrés, Malala Yousafzai" },
+        "A.A.B.B": { name: "Emergent Leader", mantra: "Synthesize the mess to lead the way.", desc: "The Beacon. You walk into the void and build, using empathy to lead without a map.", eff: "Social revolutions, early-stage VC, frontier exploration.", fic: "Naruto Uzumaki, Paul Atreides, Aang", real: "Elon Musk, Richard Branson" },
+        "A.A.B.A": { name: "Exploratory Nomad", mantra: "The lesson is the destination.", desc: "The Eternal Student. You live in chaos to see what happens, valuing the soul of the journey.", eff: "Travel journalism, experimental philosophy, busking.", fic: "Gon Freecss, Frodo Baggins, The Dude", real: "Anthony Bourdain, Diogenes" },
+        "A.A.A.B": { name: "World-Changer", mantra: "Intuition leads; the world follows.", desc: "The Revolutionary. You possess a vision for a world that doesn't exist yet, breaking Order to force evolution.", eff: "Creative disruption, leading rebellions, inventing new genres.", fic: "Luffy, Daenerys Targaryen, Katniss Everdeen", real: "Steve Jobs, MLK Jr., Alexander the Great" },
+        "A.A.A.A": { name: "Chaos Catalyst", mantra: "Burn the map to rule the ash.", desc: "The Pure Predator. Pure instinct and pride. You dismantle everything just to prove you can.", eff: "Hostile takeovers, black-market manipulation, scorched-earth warfare.", fic: "The Joker, Sukuna, Homelander", real: "Napoleon Bonaparte, John McEnroe" },
+        "A.B.A.A": { name: "Impact Sniper", mantra: "Pressure turns the spark into a flame.", desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.", eff: "High-stakes gambling, stunt work, specialized demolition.", fic: "Billy Butcher, Deadpool, Rick Sanchez", real: "Hunter S. Thompson, Evel Knievel" }
+    };
+
+    const mbtiLenses = {
+        "INTJ": { advice: "As an INTJ, your internal logic is a fortress. Use your code to stop over-researching and start executing once the first variable is set.", action: "Trust your N-type intuition. If the AM code says blackout, don't look for more data. Move." },
+        "ENTJ": { advice: "The ultimate Commander. Your drive for legitimacy is high. Ensure you don't let the 'System' crush your innate tactical genius.", action: "Delegate all 'Order' tasks to a trusted Vanguard. Focus solely on the 'World' impact." },
+        "ENFP": { advice: "The Campaigner's chaos will fight the AM's Order. Use your system logic only as a launchpad, never a cage.", action: "Schedule 2 hours of 'Chaos Exploration' to fuel your vision before returning to the grid." },
+        "INFJ": { advice: "The Advocate must balance World-type service with Self-type growth. Don't drown in the mission's needs.", action: "Write down one 'Selfish' mastery goal that has nothing to do with helping others." },
+        "ENTP": { advice: "The Debater thrives on Chaos (A). Ensure your AM 'Environment' provides enough restriction to actually ship results.", action: "Set a 'Public Bet' with a rival. The social pressure will activate your N-type logic." },
+        "INTP": { advice: "The Logician loves the 'Manual.' Your AM code must force you out of the 'Learner' loop into execution.", action: "Stop reading. Pick the most 'Lethal' deadline on your list and start there." },
+        "ENFJ": { advice: "The Protagonist needs the 'World' (B) to feel alive. Use your AM 'System' to build the team's floor.", action: "Identify one team member who is 'stalling' and build a custom order-system for them." },
+        "INFP": { advice: "The Mediator's Freedom (A) is sacred. Ensure your AM environment doesn't suffocate your intuitive flow.", action: "Remove all 'Check-ins' from your calendar for 24 hours. See what your engine creates in the void." },
+        "ISTJ": { advice: "The Logistician is the ultimate 'Anchor.' Your AM code is the mechanical verification of your duty.", action: "Optimizing the 'Order' is your gift. Create a template today that removes friction for others." },
+        "ESTJ": { advice: "The Executive needs the 'Restriction' (B) of a hierarchy. Use the AM to solidify your rank.", action: "Audit your current department. Where is the noise? Apply the 'Iron Vanguard' logic to silence it." },
+        "ISFJ": { advice: "The Defender seeks World-type stability. Your AM code is your shield for the people you protect.", action: "Build a 'Stability Guide' for your family or team to handle the next chaotic event." },
+        "ESFJ": { advice: "The Consul lives for the group. Use your AM 'Acquisition' style to learn the needs of your 'World'.", action: "Host a strategic review where the only goal is to define the team's 'Mantra'." },
+        "ISTP": { advice: "The Virtuoso is a natural Sniper. Your AM code must allow for high-stakes, short-burst execution.", action: "Find the most technical 'Problem' in the room and solve it alone. Don't explain the logic." },
+        "ESTP": { advice: "The Entrepreneur thrives on the 'High'. Use your AM 'Restriction' to stop you from drifting.", action: "Take a high-stakes risk today where the win is purely personal (Self-type)." },
+        "ISFP": { advice: "The Adventurer needs Freedom (A). Your AM code is the canvas for your personal mastery.", action: "Produce one piece of 'Work as Art' today. Ignore the efficiency metrics." },
+        "ESFP": { advice: "The Entertainer treat the 'Order' like a stage. Use your AM engine to own the spotlight.", action: "Perform your results. Present a complex strategy with the flair of a Fluid Director." }
+    };
+
+    let step = 0;
+    let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+    let isCalibrating = false;
+    let originalCode = "";
+
+    function initQuiz() {
+        document.getElementById('intro').classList.remove('active');
+        document.getElementById('quiz').classList.add('active');
+        isCalibrating = false;
+        step = 0;
+        results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+        loadQuestion();
+    }
+
+    function startCalibration() {
+        isCalibrating = true;
+        step = 0;
+        results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+        document.getElementById('results').classList.remove('active');
+        document.getElementById('quiz').classList.add('active');
+        loadCalibrationQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questions[step];
+        document.getElementById('domain').innerText = `Domain: ${q.d}`;
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('optA').innerText = q.a;
+        document.getElementById('optB').innerText = q.b;
+        document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
+    }
+
+    function loadCalibrationQuestion() {
+        const q = calibrationQuestions[step];
+        document.getElementById('domain').innerText = `Calibration: ${q.d}`;
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('optA').innerText = q.a;
+        document.getElementById('optB').innerText = q.b;
+        document.getElementById('progress-fill').style.width = `${(step / calibrationQuestions.length) * 100}%`;
+    }
+
+    function answer(val) {
+        const qList = isCalibrating ? calibrationQuestions : questions;
+        results[qList[step].d].push(val);
+        step++;
+        
+        if (step < qList.length) {
+            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+        } else {
+            finalize();
+        }
+    }
+
+    function finalize() {
+        const getMode = (arr) => {
+            const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
+            return counts['A'] > counts['B'] ? 'A' : 'B';
+        };
+
+        const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
+        
+        if (!isCalibrating) {
+            originalCode = code;
+            displayResult(code);
+        } else {
+            if (code === originalCode) {
+                alert("CALIBRATION SUCCESSFUL: Engine Designation Verified.");
+                displayResult(code);
+            } else {
+                const consent = confirm(`DIVERGENCE DETECTED.\n\nInitial: ${originalCode}\nCalibration: ${code}\n\nReset and re-take Intake?`);
+                if (consent) initQuiz();
+                else displayResult(code);
+            }
+        }
+    }
+
+    function displayResult(code) {
+        const p = database[code];
+        const mbti = document.getElementById('mbti-select').value;
+        const lens = mbtiLenses[mbti];
+
+        document.getElementById('unified-title').innerText = `Unified Strategy: ${p.name} + ${mbti}`;
+        document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
+        document.getElementById('out-name').innerText = p.name;
+        document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
+        document.getElementById('out-desc').innerText = p.desc;
+        
+        // MIXED ADVICE
+        document.getElementById('out-advice').innerText = lens.advice;
+        document.getElementById('out-action').innerText = lens.action;
+        
+        document.getElementById('out-eff').innerText = p.eff;
+        document.getElementById('out-fic').innerText = p.fic;
+        document.getElementById('out-real').innerText = p.real;
+
+        document.getElementById('quiz').classList.remove('active');
+        document.getElementById('results').classList.add('active');
+        document.getElementById('progress-fill').style.width = `100%`;
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
