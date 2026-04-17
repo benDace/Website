@@ -214,6 +214,61 @@
     </div>
 
     <button class="btn-restart" onclick="location.reload()">Re-Initialize Diagnostics</button>
+    <script>
+    // ... (Keep existing questions and database)
+
+    const calibrationQuestions = [
+        { d: "System", q: "The Sudden Void: No desk, no boss, no instructions. Do you feel a surge of creative energy or deep irritation?", a: "Creative Energy", b: "Deep Irritation" },
+        { d: "System", q: "The Breaking Point: A teammate ignores the process to go faster. Do you admire their efficiency or view them as a liability?", a: "Admire Efficiency", b: "View as Liability" },
+        { d: "System", q: "The Sandbox: Would you rather play a game with no rules or a game with a strict, unbreakable physics engine?", a: "No Rules", b: "Strict Engine" },
+        { d: "Environment", q: "The Open Calendar: Zero meetings all week. Is this your most productive week or do you end up paralyzed?", a: "Most Productive", b: "Paralyzed" },
+        { d: "Environment", q: "The Shot Clock: 20 minutes to solve a 2-hour problem. Do you feel 'switched on' or an urge to escape?", a: "Urge to Escape", b: "Switched On" },
+        { d: "Environment", q: "The Oversight: Working alone on a deserted island. Do you work just as hard or find it impossible to start?", a: "Work Just as Hard", b: "Impossible to Start" },
+        { d: "Acquisition", q: "The Manual: Complex furniture assembly. Do you throw the manual away or read it front-to-back first?", a: "Throw it Away", b: "Read First" },
+        { d: "Acquisition", q: "The 'Why': Someone asks how you solved it. Is your answer 'I just saw it' or 'I applied X framework'?", a: "I just saw it", b: "Applied Framework" },
+        { d: "Acquisition", q: "The New Skill: Learning a language. Do you prefer Immersion/Trial-and-Error or Grammar Drills?", a: "Immersion", b: "Grammar Drills" },
+        { d: "Motivation", q: "The Anonymous Hero: You save the world but get no credit. Is internal satisfaction enough or does it feel like a fail?", a: "Internal Satisfaction", b: "Lack of Credit Hurts" },
+        { d: "Motivation", q: "The Paycheck: Would you rather be the highest-paid with no title or moderately paid as 'Senior Partner'?", a: "High Pay / No Title", b: "Senior Partner Title" },
+        { d: "Motivation", q: "The Burnout: When exhausted, is it because of no 'Me Time' or because you aren't being 'Useful'?", a: "No 'Me Time'", b: "Not being Useful" }
+    ];
+
+    let isCalibrating = false;
+
+    function startCalibration() {
+        isCalibrating = true;
+        step = 0;
+        // We reset the scores for a fresh 'weighted' average
+        results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+        document.getElementById('results').classList.remove('active');
+        document.getElementById('quiz').classList.add('active');
+        loadCalibrationQuestion();
+    }
+
+    function loadCalibrationQuestion() {
+        const q = calibrationQuestions[step];
+        document.getElementById('domain').innerText = `Calibration: ${q.d}`;
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('optA').innerText = q.a;
+        document.getElementById('optB').innerText = q.b;
+        document.getElementById('progress-fill').style.width = `${(step / calibrationQuestions.length) * 100}%`;
+    }
+
+    // Update the answer function to handle both modes
+    function answer(val) {
+        const qList = isCalibrating ? calibrationQuestions : questions;
+        results[qList[step].d].push(val);
+        step++;
+        
+        if (step < qList.length) {
+            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+        } else {
+            finalize();
+        }
+    }
+
+    // Add this button to your "results" view in the HTML:
+    // <button class="btn-restart" style="border-color: var(--neon); color: var(--neon);" onclick="startCalibration()">Calibrate Results</button>
+</script>
 </div>
 
 <script>
