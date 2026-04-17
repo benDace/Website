@@ -129,6 +129,30 @@
             h1.hero { font-size: 2.8rem; }
             .res-name { font-size: 2.5rem; }
         }
+
+        /* Navigation Buttons */
+.btn-nav { 
+    background: transparent; 
+    border: 1px solid var(--border); 
+    color: var(--dim); 
+    padding: 0.6rem 1.2rem; 
+    cursor: pointer; 
+    border-radius: 8px; 
+    text-transform: uppercase; 
+    font-weight: 700; 
+    font-size: 0.7rem; 
+    letter-spacing: 1px; 
+    transition: 0.3s;
+}
+.btn-nav:hover { 
+    border-color: var(--neon); 
+    color: var(--neon); 
+    background: rgba(212, 175, 55, 0.05); 
+}
+
+/* Make the logo feel like a link */
+.logo { cursor: pointer; transition: 0.3s; }
+.logo:hover { opacity: 0.7; }
     </style>
 </head>
 <body>
@@ -136,6 +160,7 @@
 <div class="header">
     <div class="logo">Activation <span>Matrix</span></div>
     <div class="progress-bar-bg"><div id="progress-fill"></div></div>
+    <div class="logo" onclick="location.reload()">Activation <span>Matrix</span></div>
 </div>
 
 <div id="intro" class="view active">
@@ -187,6 +212,10 @@
     <div class="options-grid">
         <button class="opt-btn" onclick="answer('A')"><span>A.</span> <span id="optA">Option A</span></button>
         <button class="opt-btn" onclick="answer('B')"><span>B.</span> <span id="optB">Option B</span></button>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <div id="domain" style="color:var(--neon); text-transform: uppercase; letter-spacing: 3px; font-weight: 800;">DOMAIN</div>
+    <button id="back-btn" class="btn-nav" onclick="prevQuestion()" style="display:none;">← Back</button>
     </div>
 </div>
 
@@ -255,6 +284,9 @@
 </div>
 
     <div id="deep-dive-container" style="display: none;">
+        <div style="text-align: right; margin-bottom: 1.5rem;">
+    <button class="btn-nav" onclick="adjustSelections()">← Adjust MBTI / Enneagram</button>
+    </div>
         <div class="res-section">
             <h3 id="mbti-title">Cognitive Alignment</h3>
             <div class="strategic-grid">
@@ -453,6 +485,20 @@
     let isCalibrating = false;
     let originalCode = "";
 
+
+    function prevQuestion() {
+    if (step > 0) {
+        step--;
+        quizHistory.pop(); // Remove the last answer
+        loadQuestion();
+    }
+}
+
+function adjustSelections() {
+    document.getElementById('deep-dive-container').style.display = "none";
+    document.getElementById('deep-analysis-trigger').style.display = "block";
+    document.getElementById('deep-analysis-trigger').scrollIntoView({ behavior: 'smooth' });
+}
     function initQuiz() {
         document.getElementById('intro').classList.remove('active');
         document.getElementById('quiz').classList.add('active');
@@ -471,14 +517,17 @@
         loadCalibrationQuestion();
     }
 
-    function loadQuestion() {
-        const q = questions[step];
-        document.getElementById('domain').innerText = `Domain: ${q.d}`;
-        document.getElementById('question').innerText = q.q;
-        document.getElementById('optA').innerText = q.a;
-        document.getElementById('optB').innerText = q.b;
-        document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
-    }
+   function loadQuestion() {
+    const q = questions[step];
+    document.getElementById('domain').innerText = `DOMAIN: ${q.d}`;
+    document.getElementById('question').innerText = q.q;
+    document.getElementById('optA').innerText = q.a;
+    document.getElementById('optB').innerText = q.b;
+    document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
+    
+    // Show back button only if we aren't on the first question
+    document.getElementById('back-btn').style.display = step > 0 ? "block" : "none";
+}
 
     function loadCalibrationQuestion() {
         const q = calibrationQuestions[step];
@@ -490,23 +539,22 @@
     }
 
     function answer(val) {
-        const qList = isCalibrating ? calibrationQuestions : questions;
-        results[qList[step].d].push(val);
-        step++;
-        
-        if (step < qList.length) {
-            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
-        } else {
-            finalize();
-        }
+    quizHistory.push(val); // Save answer to history
+    step++;
+    if (step < questions.length) loadQuestion();
+    else finalize();
     }
 
     function finalize() {
-        const getMode = (arr) => {
-            const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
-            return counts['A'] > counts['B'] ? 'A' : 'B';
-        };
-
+    const getMode = (start, end) => {
+        const slice = quizHistory.slice(start, end);
+        return slice.filter(v => v === 'A').length >= slice.filter(v => v === 'B').length ? 'A' : 'B';
+    };
+    
+    // Assumes 2 questions per domain (8 total)
+    currentAMCode = `${getMode(0,2)}.${getMode(2,4)}.${getMode(4,6)}.${getMode(6,8)}`;
+    displayResult(currentAMCode);
+}
         const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
         
         if (!isCalibrating) {
