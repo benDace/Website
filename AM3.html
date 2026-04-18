@@ -130,37 +130,20 @@
             .res-name { font-size: 2.5rem; }
         }
 
-        /* Navigation Buttons */
-.btn-nav { 
-    background: transparent; 
-    border: 1px solid var(--border); 
-    color: var(--dim); 
-    padding: 0.6rem 1.2rem; 
-    cursor: pointer; 
-    border-radius: 8px; 
-    text-transform: uppercase; 
-    font-weight: 700; 
-    font-size: 0.7rem; 
-    letter-spacing: 1px; 
-    transition: 0.3s;
-}
-.btn-nav:hover { 
-    border-color: var(--neon); 
-    color: var(--neon); 
-    background: rgba(212, 175, 55, 0.05); 
-}
-
-/* Make the logo feel like a link */
-.logo { cursor: pointer; transition: 0.3s; }
-.logo:hover { opacity: 0.7; }
+        .btn-nav { 
+            background: transparent; border: 1px solid var(--border); color: var(--dim); 
+            padding: 0.5rem 1rem; cursor: pointer; border-radius: 6px; 
+            text-transform: uppercase; font-weight: 700; font-size: 0.7rem; transition: 0.3s;
+        }
+        .btn-nav:hover { border-color: var(--neon); color: var(--neon); }
+        .logo { cursor: pointer; } /* Makes logo feel clickable */
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">Activation <span>Matrix</span></div>
-    <div class="progress-bar-bg"><div id="progress-fill"></div></div>
     <div class="logo" onclick="location.reload()">Activation <span>Matrix</span></div>
+    <div class="progress-bar-bg"><div id="progress-fill"></div></div>
 </div>
 
 <div id="intro" class="view active">
@@ -208,14 +191,15 @@
 
 <div id="quiz" class="view">
     <div id="domain" class="domain-tag">System</div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <div id="domain" class="domain-tag">System</div>
+        <button id="back-btn" class="btn-nav" onclick="prevQuestion()" style="display:none;">← Back</button>
+    </div>
+    
     <div id="question" class="question">Question Text?</div>
     <div class="options-grid">
         <button class="opt-btn" onclick="answer('A')"><span>A.</span> <span id="optA">Option A</span></button>
         <button class="opt-btn" onclick="answer('B')"><span>B.</span> <span id="optB">Option B</span></button>
-    </div>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-    <div id="domain" style="color:var(--neon); text-transform: uppercase; letter-spacing: 3px; font-weight: 800;">DOMAIN</div>
-    <button id="back-btn" class="btn-nav" onclick="prevQuestion()" style="display:none;">← Back</button>
     </div>
 </div>
 
@@ -285,7 +269,7 @@
 
     <div id="deep-dive-container" style="display: none;">
         <div style="text-align: right; margin-bottom: 1.5rem;">
-    <button class="btn-nav" onclick="adjustSelections()">← Adjust MBTI / Enneagram</button>
+        <button class="btn-nav" onclick="adjustSelections()">← Adjust Integration</button>
     </div>
         <div class="res-section">
             <h3 id="mbti-title">Cognitive Alignment</h3>
@@ -316,8 +300,59 @@
 </div>
 
 <script>
-    let step = 0;
-    let quizHistory = []; // Tracks answers so we can go back
+    let quizHistory = []; // Add this at the top with your other variables
+
+function answer(val) {
+    const qList = isCalibrating ? calibrationQuestions : questions;
+    const currentDomain = qList[step].d;
+    
+    // Save to results and track history for the Back button
+    results[currentDomain].push(val);
+    quizHistory.push(currentDomain); 
+    
+    step++;
+    if (step < qList.length) {
+        isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+    } else {
+        finalize();
+    }
+}
+
+function prevQuestion() {
+    if (step > 0) {
+        step--;
+        const lastDomain = quizHistory.pop();
+        results[lastDomain].pop(); // Remove the last answer from the score
+        loadQuestion();
+    }
+}
+
+function finalize() {
+    // FIXED: Now correctly handles 0 counts so 'A' can actually win
+    const getMode = (arr) => {
+        const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
+        const aCount = counts['A'] || 0;
+        const bCount = counts['B'] || 0;
+        return aCount > bCount ? 'A' : 'B';
+    };
+
+    const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
+    
+    if (!isCalibrating) {
+        originalCode = code;
+        displayResult(code);
+    } else {
+        if (code === originalCode) {
+            alert("CALIBRATION SUCCESSFUL: Engine Designation Verified.");
+            displayResult(code);
+        } else {
+            if (confirm("DIVERGENCE DETECTED. Reset and re-take?")) initQuiz();
+            else displayResult(code);
+        }
+    }
+}
+    
+    let currentAMCode = ""; // This "remembers" your engine code for the second step
     const questions = [
         { d: "System", q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
         { d: "System", q: "In a chaotic room, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
@@ -481,19 +516,11 @@
     }
 };
     
-    function prevQuestion() {
-    if (step > 0) {
-        step--;
-        quizHistory.pop(); // Remove the last answer
-        loadQuestion();
-    }
-}
+    let step = 0;
+    let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+    let isCalibrating = false;
+    let originalCode = "";
 
-function adjustSelections() {
-    document.getElementById('deep-dive-container').style.display = "none";
-    document.getElementById('deep-analysis-trigger').style.display = "block";
-    document.getElementById('deep-analysis-trigger').scrollIntoView({ behavior: 'smooth' });
-}
     function initQuiz() {
         document.getElementById('intro').classList.remove('active');
         document.getElementById('quiz').classList.add('active');
@@ -512,15 +539,14 @@ function adjustSelections() {
         loadCalibrationQuestion();
     }
 
-   function loadQuestion() {
-    const q = questions[step];
-    document.getElementById('domain').innerText = `DOMAIN: ${q.d}`;
-    document.getElementById('question').innerText = q.q;
-    document.getElementById('optA').innerText = q.a;
-    document.getElementById('optB').innerText = q.b;
-    document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
-    document.getElementById('back-btn').style.display = step > 0 ? "block" : "none";
-}
+    function loadQuestion() {
+        const q = questions[step];
+        document.getElementById('domain').innerText = `Domain: ${q.d}`;
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('optA').innerText = q.a;
+        document.getElementById('optB').innerText = q.b;
+        document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
+    }
 
     function loadCalibrationQuestion() {
         const q = calibrationQuestions[step];
@@ -532,22 +558,23 @@ function adjustSelections() {
     }
 
     function answer(val) {
-    quizHistory.push(val); // Save answer to history
-    step++;
-    if (step < questions.length) loadQuestion();
-    else finalize();
+        const qList = isCalibrating ? calibrationQuestions : questions;
+        results[qList[step].d].push(val);
+        step++;
+        
+        if (step < qList.length) {
+            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+        } else {
+            finalize();
+        }
     }
 
     function finalize() {
-    const getMode = (start, end) => {
-        const slice = quizHistory.slice(start, end);
-        return slice.filter(v => v === 'A').length >= slice.filter(v => v === 'B').length ? 'A' : 'B';
-    };
-    
-    // Assumes 2 questions per domain (8 total)
-    currentAMCode = `${getMode(0,2)}.${getMode(2,4)}.${getMode(4,6)}.${getMode(6,8)}`;
-    displayResult(currentAMCode);
-}
+        const getMode = (arr) => {
+            const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
+            return counts['A'] > counts['B'] ? 'A' : 'B';
+        };
+
         const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
         
         if (!isCalibrating) {
@@ -691,6 +718,24 @@ function integrateDeepAnalysis() {
     // Smooth scroll to the new insights
     document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
     }
+
+    function loadQuestion() {
+    const q = questions[step];
+    document.getElementById('domain').innerText = `Domain: ${q.d}`;
+    document.getElementById('question').innerText = q.q;
+    document.getElementById('optA').innerText = q.a;
+    document.getElementById('optB').innerText = q.b;
+    document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
+    
+    // Toggle Back Button visibility
+    document.getElementById('back-btn').style.display = step > 0 ? "block" : "none";
+}
+
+    function adjustSelections() {
+    document.getElementById('deep-dive-container').style.display = "none";
+    document.getElementById('deep-analysis-trigger').style.display = "block";
+    document.getElementById('deep-analysis-trigger').scrollIntoView({ behavior: 'smooth' });
+}
 </script>
 
 </body>
