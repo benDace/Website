@@ -662,27 +662,27 @@ function generateMasterDirective(code, mbti, ennea) {
 
     // GATE 1: THE REPRESSED GENIUS (Chaos Engine + Rigid Mind)
     if (isChaos && (!isIntuitive || gut)) {
-        return `You are a **Kinetic Engine** trapped in a **Control-centric narrative**. You stall because you try to 'Calculate' your way out of a 'Blackout' situation. You are looking for a 'Right' answer when your engine only produces 'Effective' ones. Close the books. Trust the mud. Ignite the engine before you're ready.`;
+        return `You are a Kinetic Engine trapped in a Control-centric narrative. You stall because you try to calculate your way out of an intuitive blackout situation. You are looking for the right answer when your engine only produces effective ones. Close the books. Trust the mud. Ignite the engine before you're ready.`;
     }
 
     // GATE 2: THE CAGED CAMPAIGNER (Order Engine + Free Spirit)
     if (isOrder && (isExtravert || head)) {
-        return `You are an **Order Engine** fueled by a **High-Activity mind**. You stall because you treat 'Systems' like a cage instead of a launchpad. You are currently looking for a 'New Path' when you should be optimizing the one you're on. Execute the ritual to fund your next act of freedom. Build the floor.`;
+        return `You are an Order Engine fueled by a High-Activity mind. You stall because you treat Systems like a cage instead of a launchpad. You are currently looking for a New Path when you should be optimizing the one you're on. Execute the ritual to fund your next act of freedom. Build the floor.`;
     }
 
     // GATE 3: THE SOCIAL ANCHOR (Mission-Driven + People-Focused Mind)
     if (code.endsWith('B') && isFeeler && heart) {
-        return `Your engine is built for **Legacy**, but your narrative is seeking **Validation**. You stall because you fear 'Separation' from the group if you move too fast. Reclaim your mission. The Oracle doesn't ask for permission; it reveals the path. Your team needs your strength more than your consensus.`;
+        return `Your engine is built for Legacy, but your narrative is seeking Validation. You stall because you fear separation from the group if you move too fast. Reclaim your mission. Doesn't ask for permission; go forward and reveal the path. Your group needs your strength more than your consensus.`;
     }
 
     // GATE 4: THE OVER-ANALYZER (Self-Type + Head Triad)
     if (code.endsWith('A') && !isExtravert && head) {
-        return `You are currently stalling through **Strategic Drifting**. You are hoarding information to protect your ego from failure. Realize that 'Order' is the logistics of victory, not a threat to your autonomy. Build the system today so you can use it as a weapon tomorrow. The manual is the canvas.`;
+        return `You are currently stalling through Strategic Drifting. You are hoarding information to protect your ego from failure. Realize that Order is the logistics of victory, not a threat to your autonomy. Build the system today so you can use it as a weapon tomorrow. The manual is the canvas.`;
     }
 
     // GATE 5: THE DISCONNECTED PIONEER (Chaos Engine + Intuitive Mind)
     if (isChaos && isIntuitive && isExtravert) {
-        return `You have achieved **Peak Fluidity**. You are a pure Disruptor. You stall only when you lose sight of the 'So What.' Do not look for a system; simply identify the biggest obstacle in your path and destroy it. Volume and speed are your only variables. Keep moving.`;
+        return `You have achieved Peak Fluidity. You are a pure Disruptor. You stall only when you lose sight of the So What. Do not look for a system; simply identify the biggest obstacle in your path and destroy it. Volume and speed are your only variables. Keep moving.`;
     }
 
     // DEFAULT: HIGH ALIGNMENT
