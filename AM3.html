@@ -221,6 +221,26 @@
         <p class="res-mantra" id="out-mantra">MANTRA</p>
         <p class="res-description" id="out-desc">DESCRIPTION</p>
     </div>
+    
+    <div id="career-terminal" class="view">
+    <div style="margin-bottom: 2rem;">
+        <button class="btn-nav" onclick="showView('results')">← Back to Results</button>
+    </div>
+    
+    <div class="res-section" style="border-left: 4px solid var(--neon);">
+        <h3 style="color: var(--neon); letter-spacing: 2px; margin-bottom: 1rem;">Professional Quadrant Terminal</h3>
+        <div id="quadrant-display">
+            <h2 id="quad-name" style="text-transform: uppercase; font-weight: 900; margin-bottom: 0.5rem; font-size: 2.5rem;">QUADRANT NAME</h2>
+            <p id="quad-vibe" style="color: var(--dim); margin-bottom: 2rem; font-style: italic; font-size: 1.1rem;"></p>
+            
+            <div class="directive-box">
+                <h4>2026 High-Impact Matches</h4>
+                <ul id="quad-roles" style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                    </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
   <div class="res-section">
         <h3>Activation Mechanics (Pure AM)</h3>
@@ -230,27 +250,18 @@
         </div>
     </div>
 
-    <div class="res-section" style="border-left: 4px solid var(--neon);">
-    <h3 style="color: var(--neon); letter-spacing: 2px; margin-bottom: 1rem;">Professional Quadrant</h3>
-    <div id="quadrant-display">
-        <h2 id="quad-name" style="text-transform: uppercase; font-weight: 900; margin-bottom: 0.5rem;">QUADRANT NAME</h2>
-        <p id="quad-vibe" style="color: var(--dim); margin-bottom: 1.5rem; font-style: italic;"></p>
-        
-        <div class="directive-box">
-            <h4>2026 High-Impact Matches</h4>
-            <ul id="quad-roles" style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-                </ul>
-        </div>
-    </div>
-</div>
- 
     <div class="res-section">
         <h3>Operational Stats</h3>
         <div class="strategic-grid">
             <div class="directive-box"><h4>Efficiency Zone</h4><p id="out-eff"></p></div>
             <div class="directive-box"><h4>Ego Benchmarks</h4><p id="out-fic"></p><p id="out-real"></p></div>
         </div>
+        <button class="btn-main" onclick="openCareerTerminal()" style="width: 100%; margin-top: 1rem; background: transparent; border: 1px solid var(--neon); color: var(--neon);">
+    Open Career Alignment Terminal
+</button>
     </div>
+
+    
 
     <div id="deep-analysis-trigger" class="res-section" style="border: 1px dashed var(--neon); text-align: center;">
         <h3 style="color: var(--neon); letter-spacing: 2px;">Integrate Unified Strategy?</h3>
@@ -325,13 +336,14 @@
 </div>
 
 <script>
-    let quizHistory = []; // Add this at the top with your other variables
+    // 1. Ensure this variable is at the top of your script
+let quizHistory = []; 
 
 function answer(val) {
     const qList = isCalibrating ? calibrationQuestions : questions;
     const currentDomain = qList[step].d;
     
-    // Save to results and track history for the Back button
+    // Save to results and track which domain was answered for the Back button
     results[currentDomain].push(val);
     quizHistory.push(currentDomain); 
     
@@ -347,13 +359,13 @@ function prevQuestion() {
     if (step > 0) {
         step--;
         const lastDomain = quizHistory.pop();
-        results[lastDomain].pop(); // Remove the last answer from the score
+        results[lastDomain].pop(); // Remove the actual selection from the score
         loadQuestion();
     }
 }
 
 function finalize() {
-    // FIXED: Now correctly handles 0 counts so 'A' can actually win
+    // FIXED: Using "|| 0" ensures that if a count is missing, it defaults to 0 instead of 'undefined'
     const getMode = (arr) => {
         const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
         const aCount = counts['A'] || 0;
@@ -787,6 +799,19 @@ function generateMasterDirective(code, mbti, ennea) {
     document.getElementById('deep-dive-container').style.display = "none";
     document.getElementById('deep-analysis-trigger').style.display = "block";
     document.getElementById('deep-analysis-trigger').scrollIntoView({ behavior: 'smooth' });
+}
+
+    function showView(viewId) {
+    // Hide all views
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    // Show requested view
+    document.getElementById(viewId).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// Add a button in your Results HTML that calls this:
+function openCareerTerminal() {
+    showView('career-terminal');
 }
 </script>
 
