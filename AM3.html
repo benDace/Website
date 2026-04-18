@@ -688,36 +688,6 @@ function generateMasterDirective(code, mbti, ennea) {
     // DEFAULT: HIGH ALIGNMENT
     return `You have achieved alignment between your Mechanics, your Cognition, and your Narrative. Your only task now is to increase the stakes. Do not over-think the logic; simply ignite the Tactical Step. Speed is your primary defensive measure now.`;
 }
- 
-function integrateDeepAnalysis() {
-    const mbti = document.getElementById('mbti-select').value;
-    const enneaVal = document.getElementById('enneagram-select').value;
-    
-   // Pull from your previously defined objects
-    const lens = mbtiLenses[mbti];
-    const ennea = enneaNarratives[enneaVal];
-
-    // Populating UI
-    document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
-    document.getElementById('mbti-advice').innerText = lens.advice;
-    document.getElementById('mbti-action').innerText = lens.action;
-
-    document.getElementById('ennea-title').innerText = `Internal Narrative (Type ${enneaVal} Friction)`;
-    document.getElementById('ennea-advice').innerText = ennea.advice;
-    document.getElementById('ennea-action').innerText = ennea.action;
-
-    // Generate the Mandate
-    const mandate = generateMasterDirective(currentAMCode, mbti, enneaVal);
-    document.getElementById('master-directive').innerText = mandate;
-
-    // UI Toggle
-    document.getElementById('deep-dive-container').style.display = "block";
-    document.getElementById('deep-analysis-trigger').style.display = "none";
-    document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
-    
-    // Smooth scroll to the new insights
-    document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
-    }
 
     function loadQuestion() {
     const q = questions[step];
