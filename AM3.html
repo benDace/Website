@@ -7,16 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #141416;           /* Soft Obsidian Base */
+            --bg: #141416;
             --card: rgba(28, 28, 30, 0.6); 
-            --neon: #d4af37;         /* Metallic Gold/Bronze */
-            --text: #f5f5f0;         /* Warm Paper White */
+            --neon: #d4af37;
+            --text: #f5f5f0;
             --dim: #a1a1aa;          
             --border: rgba(255, 255, 255, 0.08);
             --accent-b: #8da9c4;     
             --accent-a: #c89f9c;     
         }
-
+ 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
@@ -26,8 +26,7 @@
             min-height: 100vh;
             position: relative;
         }
-
-        /* LIGHTING & TEXTURE ENGINE */
+ 
         body::before {
             content: "";
             position: fixed;
@@ -35,7 +34,7 @@
             background: radial-gradient(circle at 50% 30%, #252529 0%, #141416 75%);
             z-index: -2;
         }
-
+ 
         body::after {
             content: "";
             position: fixed;
@@ -45,8 +44,7 @@
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
-
-        /* NAVIGATION */
+ 
         .header { 
             padding: 1.5rem 2rem; 
             border-bottom: 1px solid var(--border); 
@@ -56,22 +54,20 @@
             z-index: 100; 
             backdrop-filter: blur(15px); 
         }
-
-        .logo { font-weight: 900; letter-spacing: -1px; text-transform: uppercase; font-size: 1.1rem; }
+ 
+        .logo { font-weight: 900; letter-spacing: -1px; text-transform: uppercase; font-size: 1.1rem; cursor: pointer; }
         .logo span { color: var(--neon); }
         .progress-bar-bg { width: 150px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
         #progress-fill { width: 0%; height: 100%; background: var(--neon); box-shadow: 0 0 15px var(--neon); transition: 0.3s; }
-
-        /* VIEWS */
+ 
+        /* VIEWS — only .active ones show */
         .view { display: none; min-height: 80vh; padding: 3rem 1.5rem; max-width: 900px; margin: 0 auto; }
         .view.active { display: block; animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
-
-        /* HERO AREA */
+ 
         #intro { text-align: center; padding-top: 5vh; }
         h1.hero { font-size: 4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 1.5rem; letter-spacing: -2px; }
         .tagline { color: var(--dim); font-size: 1.2rem; margin-bottom: 4rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-        /* CARDS & DOMAINS */
+ 
         .matrix-manual { padding: 4rem 0; text-align: left; }
         .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
         .domain-box, .opt-btn, .res-section { 
@@ -84,44 +80,49 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             transition: all 0.4s ease;
         }
-
+ 
         .domain-box::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); border-radius: 16px 0 0 16px; }
         .domain-title { color: var(--neon); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; margin-bottom: 0.5rem; }
         .domain-concept { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.4; }
         .binary-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         .binary-option h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
         .binary-option p { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
-
+ 
         /* QUIZ */
-        .domain-tag { color: var(--neon); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 1rem; }
+        .domain-tag { color: var(--neon); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 800; }
         .question { font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 3.5rem; }
         .options-grid { display: grid; gap: 1.2rem; }
         .opt-btn { cursor: pointer; text-align: left; font-size: 1.15rem; }
         .opt-btn:hover { border-color: var(--neon); background: rgba(212, 175, 55, 0.05); transform: translateY(-3px); }
         .opt-btn span { color: var(--neon); font-weight: 900; margin-right: 1rem; }
-
-        /* RESULTS HIERARCHY */
+ 
+        /* RESULTS */
         .res-header { margin-bottom: 3.5rem; border-left: 6px solid var(--neon); padding-left: 2.5rem; }
         .res-code { font-size: 0.95rem; color: var(--neon); letter-spacing: 4px; font-weight: 800; margin-bottom: 0.75rem; }
         .res-name { font-size: 3.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -2px; }
         .res-mantra { font-size: 1.4rem; font-style: italic; color: var(--dim); margin-bottom: 1.5rem; }
-        .res-description { font-size: 1.15rem; line-height: 1.7; color: var(--text); max-width: 800px; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem;}
+        .res-description { font-size: 1.15rem; line-height: 1.7; color: var(--text); max-width: 800px; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
         
         .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
         .directive-box h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.75rem; }
         .directive-box p { font-weight: 500; font-size: 1.1rem; line-height: 1.6; }
         .trigger-text { color: var(--neon); font-weight: 800; }
-
+ 
         .icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1rem; }
         .icon-list h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--dim); margin-bottom: 0.75rem; }
         .icon-list p { font-weight: 700; font-size: 1rem; }
-
-        /* BUTTONS */
+ 
         .btn-main { background: var(--neon); color: #141416; border: none; padding: 1.4rem 3.5rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 8px; font-size: 1rem; transition: 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
         .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
         .btn-restart { background: transparent; border: 1px solid var(--border); color: var(--dim); padding: 1.2rem 2.2rem; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; border-radius: 8px; transition: 0.3s; }
         .btn-restart:hover { border-color: var(--neon); color: var(--neon); background: rgba(212, 175, 55, 0.05); }
-
+        .btn-nav { 
+            background: transparent; border: 1px solid var(--border); color: var(--dim); 
+            padding: 0.5rem 1rem; cursor: pointer; border-radius: 6px; 
+            text-transform: uppercase; font-weight: 700; font-size: 0.7rem; transition: 0.3s;
+        }
+        .btn-nav:hover { border-color: var(--neon); color: var(--neon); }
+ 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         @media (max-width: 768px) {
@@ -129,39 +130,21 @@
             h1.hero { font-size: 2.8rem; }
             .res-name { font-size: 2.5rem; }
         }
-
-        .btn-nav { 
-            background: transparent; border: 1px solid var(--border); color: var(--dim); 
-            padding: 0.5rem 1rem; cursor: pointer; border-radius: 6px; 
-            text-transform: uppercase; font-weight: 700; font-size: 0.7rem; transition: 0.3s;
-        }
-        .btn-nav:hover { border-color: var(--neon); color: var(--neon); }
-        .logo { cursor: pointer; } /* Makes logo feel clickable */
-
-        #quad-roles li {
-            background: linear-gradient(145deg, rgba(28, 28, 30, 0.8), rgba(20, 20, 22, 1));
-            color: var(--text);
-            border-left: 2px solid var(--neon);
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
-        }
-        
-        /* Warm Accents for high-activity quadrants */
-        .Wildcards-accent { color: #c89f9c; } /* Terracotta */
-        .Pillars-accent { color: #d4af37; }   /* Metallic Gold */
     </style>
 </head>
 <body>
-
+ 
 <div class="header">
     <div class="logo" onclick="location.reload()">Activation <span>Matrix</span></div>
     <div class="progress-bar-bg"><div id="progress-fill"></div></div>
 </div>
-
+ 
+<!-- VIEW: INTRO -->
 <div id="intro" class="view active">
     <h1 class="hero">Decode Your <span style="color:var(--neon)">Engine</span></h1>
     <p class="tagline">Phase 1: Activation Mechanics. Diagnose your performance archetype. Move from spectator to master of the system.</p>
     <button class="btn-main" onclick="initQuiz()">Initialize Intake</button>
-
+ 
     <div class="matrix-manual">
         <div class="domain-grid">
             <div class="domain-box">
@@ -169,7 +152,7 @@
                 <div class="domain-concept">System: Your Internal Gravity</div>
                 <div class="binary-split">
                     <div class="binary-option"><h4 style="color: var(--accent-b)">Order [B]</h4><p>Operates through quantified variables, clear hierarchies, and rules.</p></div>
-                    <div class="binary-option"><h4 style="color: var(--accent-a)">Chaos [A]</h4><p>Anti-fragile. Thrives in noise. Creates gravity organicially.</p></div>
+                    <div class="binary-option"><h4 style="color: var(--accent-a)">Chaos [A]</h4><p>Anti-fragile. Thrives in noise. Creates gravity organically.</p></div>
                 </div>
             </div>
             <div class="domain-box">
@@ -199,21 +182,22 @@
         </div>
     </div>
 </div>
-
+ 
+<!-- VIEW: QUIZ -->
 <div id="quiz" class="view">
-    <div id="domain" class="domain-tag">System</div>
+    <!-- FIX: Single #domain element, sharing a flex row with the Back button -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-    <div id="domain" class="domain-tag">System</div>
+        <div id="domain" class="domain-tag">System</div>
         <button id="back-btn" class="btn-nav" onclick="prevQuestion()" style="display:none;">← Back</button>
     </div>
-    
     <div id="question" class="question">Question Text?</div>
     <div class="options-grid">
         <button class="opt-btn" onclick="answer('A')"><span>A.</span> <span id="optA">Option A</span></button>
         <button class="opt-btn" onclick="answer('B')"><span>B.</span> <span id="optB">Option B</span></button>
     </div>
 </div>
-
+ 
+<!-- VIEW: RESULTS -->
 <div id="results" class="view">
     <div class="res-header">
         <div class="res-code" id="out-code">CODE</div>
@@ -221,92 +205,67 @@
         <p class="res-mantra" id="out-mantra">MANTRA</p>
         <p class="res-description" id="out-desc">DESCRIPTION</p>
     </div>
-    
-    <div id="career-terminal" class="view">
-    <div style="margin-bottom: 2rem;">
-        <button class="btn-nav" onclick="showView('results')">← Back to Results</button>
-    </div>
-    
-    <div class="res-section" style="border-left: 4px solid var(--neon);">
-        <h3 style="color: var(--neon); letter-spacing: 2px; margin-bottom: 1rem;">Professional Quadrant Terminal</h3>
-        <div id="quadrant-display">
-            <h2 id="quad-name" style="text-transform: uppercase; font-weight: 900; margin-bottom: 0.5rem; font-size: 2.5rem;">QUADRANT NAME</h2>
-            <p id="quad-vibe" style="color: var(--dim); margin-bottom: 2rem; font-style: italic; font-size: 1.1rem;"></p>
-            
-            <div class="directive-box">
-                <h4>2026 High-Impact Matches</h4>
-                <ul id="quad-roles" style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-                    </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-  <div class="res-section">
+ 
+    <div class="res-section">
         <h3>Activation Mechanics (Pure AM)</h3>
         <div class="strategic-grid">
             <div class="directive-box"><h4>Core Advice</h4><p id="am-advice"></p></div>
             <div class="directive-box"><h4>Tactical Step</h4><p id="am-action" class="trigger-text"></p></div>
         </div>
     </div>
-
+ 
     <div class="res-section">
-        <h3>Operational Stats</h3>
-        <div class="strategic-grid">
-            <div class="directive-box"><h4>Efficiency Zone</h4><p id="out-eff"></p></div>
-            <div class="directive-box"><h4>Ego Benchmarks</h4><p id="out-fic"></p><p id="out-real"></p></div>
+        <h3>Ego Benchmarks</h3>
+        <div class="directive-box">
+            <p id="out-fic"></p>
+            <p id="out-real" style="margin-top: 0.5rem;"></p>
         </div>
-        <button class="btn-main" onclick="openCareerTerminal()" style="width: 100%; margin-top: 1rem; background: transparent; border: 1px solid var(--neon); color: var(--neon);">
-    Open Career Alignment Terminal
-</button>
+        <button class="btn-main" onclick="openCareerTerminal()" style="width: 100%; margin-top: 1.5rem; background: transparent; border: 1px solid var(--neon); color: var(--neon);">
+            Open Career Alignment Terminal
+        </button>
     </div>
-
-    
-
+ 
     <div id="deep-analysis-trigger" class="res-section" style="border: 1px dashed var(--neon); text-align: center;">
         <h3 style="color: var(--neon); letter-spacing: 2px;">Integrate Unified Strategy?</h3>
-    <p style="margin-bottom: 1.5rem; color: var(--dim);">Layer your cognitive wiring and internal narrative for targeted insights.</p>
-    
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
-        <select id="mbti-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px; cursor: pointer;">
-            <option value="INTJ">INTJ (Architect)</option>
-            <option value="ENTJ">ENTJ (Commander)</option>
-            <option value="INTP">INTP (Logician)</option>
-            <option value="ENTP">ENTP (Debater)</option>
-            <option value="INFJ">INFJ (Advocate)</option>
-            <option value="ENFJ">ENFJ (Protagonist)</option>
-            <option value="INFP">INFP (Mediator)</option>
-            <option value="ENFP">ENFP (Campaigner)</option>
-            <option value="ISTJ">ISTJ (Logistician)</option>
-            <option value="ESTJ">ESTJ (Executive)</option>
-            <option value="ISFJ">ISFJ (Defender)</option>
-            <option value="ESFJ">ESFJ (Consul)</option>
-            <option value="ISTP">ISTP (Virtuoso)</option>
-            <option value="ESTP">ESTP (Entrepreneur)</option>
-            <option value="ISFP">ISFP (Adventurer)</option>
-            <option value="ESFP">ESFP (Entertainer)</option>
-        </select>
-
-        <select id="enneagram-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px; cursor: pointer;">
-            <option value="1">Type 1: The Reformer</option>
-            <option value="2">Type 2: The Helper</option>
-            <option value="3">Type 3: The Achiever</option>
-            <option value="4">Type 4: The Individualist</option>
-            <option value="5">Type 5: The Investigator</option>
-            <option value="6">Type 6: The Loyalist</option>
-            <option value="7">Type 7: The Enthusiast</option>
-            <option value="8">Type 8: The Challenger</option>
-            <option value="9">Type 9: The Peacemaker</option>
-        </select>
+        <p style="margin-bottom: 1.5rem; color: var(--dim);">Layer your cognitive wiring and internal narrative for targeted insights.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+            <select id="mbti-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px; cursor: pointer;">
+                <option value="INTJ">INTJ (Architect)</option>
+                <option value="ENTJ">ENTJ (Commander)</option>
+                <option value="INTP">INTP (Logician)</option>
+                <option value="ENTP">ENTP (Debater)</option>
+                <option value="INFJ">INFJ (Advocate)</option>
+                <option value="ENFJ">ENFJ (Protagonist)</option>
+                <option value="INFP">INFP (Mediator)</option>
+                <option value="ENFP">ENFP (Campaigner)</option>
+                <option value="ISTJ">ISTJ (Logistician)</option>
+                <option value="ESTJ">ESTJ (Executive)</option>
+                <option value="ISFJ">ISFJ (Defender)</option>
+                <option value="ESFJ">ESFJ (Consul)</option>
+                <option value="ISTP">ISTP (Virtuoso)</option>
+                <option value="ESTP">ESTP (Entrepreneur)</option>
+                <option value="ISFP">ISFP (Adventurer)</option>
+                <option value="ESFP">ESFP (Entertainer)</option>
+            </select>
+            <select id="enneagram-select" style="background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 0.8rem; border-radius: 8px; cursor: pointer;">
+                <option value="1">Type 1: The Reformer</option>
+                <option value="2">Type 2: The Helper</option>
+                <option value="3">Type 3: The Achiever</option>
+                <option value="4">Type 4: The Individualist</option>
+                <option value="5">Type 5: The Investigator</option>
+                <option value="6">Type 6: The Loyalist</option>
+                <option value="7">Type 7: The Enthusiast</option>
+                <option value="8">Type 8: The Challenger</option>
+                <option value="9">Type 9: The Peacemaker</option>
+            </select>
+        </div>
+        <button class="btn-main" onclick="integrateDeepAnalysis()" style="padding: 1rem 2rem; font-size: 0.8rem;">Generate Unified Field</button>
     </div>
-    
-    <button class="btn-main" onclick="integrateDeepAnalysis()" style="padding: 1rem 2rem; font-size: 0.8rem;">Generate Unified Field</button>
-</div>
-
+ 
     <div id="deep-dive-container" style="display: none;">
         <div style="text-align: right; margin-bottom: 1.5rem;">
-        <button class="btn-nav" onclick="adjustSelections()">← Adjust Integration</button>
-    </div>
+            <button class="btn-nav" onclick="adjustSelections()">← Adjust Integration</button>
+        </div>
         <div class="res-section">
             <h3 id="mbti-title">Cognitive Alignment</h3>
             <div class="strategic-grid">
@@ -314,7 +273,6 @@
                 <div class="directive-box"><h4>Integrated Step</h4><p id="mbti-action" class="trigger-text"></p></div>
             </div>
         </div>
-
         <div class="res-section">
             <h3 id="ennea-title">Internal Narrative</h3>
             <div class="strategic-grid">
@@ -322,80 +280,65 @@
                 <div class="directive-box"><h4>Unified Breakthrough</h4><p id="ennea-action" class="trigger-text"></p></div>
             </div>
         </div>
-
         <div class="res-section" style="border: 2px solid var(--neon); background: rgba(212, 175, 55, 0.05);">
             <h3 style="color: var(--neon); letter-spacing: 4px;">The Unified Field Mandate</h3>
             <p id="master-directive" style="font-style: italic; font-weight: 700;"></p>
         </div>
     </div>
-
+ 
     <div style="display: flex; gap: 1rem; margin-top: 2rem;">
         <button class="btn-restart" onclick="location.reload()">Reset System</button>
         <button class="btn-restart" style="border-color: var(--neon); color: var(--neon);" onclick="startCalibration()">Calibrate AM</button>
     </div>
 </div>
-
+ 
+<!-- FIX: career-terminal is now a SIBLING of results, not nested inside it -->
+<div id="career-terminal" class="view">
+    <div style="margin-bottom: 2rem;">
+        <button class="btn-nav" onclick="showView('results')">← Back to Results</button>
+    </div>
+ 
+    <!-- User's quadrant — highlighted -->
+    <div class="res-section" style="border: 2px solid var(--neon); box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);">
+        <div style="color: var(--neon); font-size: 0.7rem; letter-spacing: 4px; font-weight: 800; margin-bottom: 0.5rem;">YOUR QUADRANT</div>
+        <h2 id="quad-name" style="text-transform: uppercase; font-weight: 900; margin-bottom: 0.25rem; font-size: 2.5rem;">QUADRANT NAME</h2>
+        <div id="quad-logic" style="color: var(--dim); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem;"></div>
+        <p id="quad-vibe" style="color: var(--text); margin-bottom: 2rem; font-style: italic; font-size: 1.1rem;"></p>
+ 
+        <div class="directive-box" style="margin-bottom: 2rem;">
+            <h4>2026 High-Impact Matches</h4>
+            <ul id="quad-roles" style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;"></ul>
+        </div>
+ 
+        <div class="directive-box">
+            <h4>Fellow Archetypes in Your Quadrant</h4>
+            <div id="quad-archetypes" style="display: grid; gap: 0.85rem; margin-top: 1rem;"></div>
+        </div>
+    </div>
+ 
+    <!-- Other quadrants -->
+    <div style="margin-top: 3rem; margin-bottom: 1.5rem;">
+        <h3 style="letter-spacing: 2px; color: var(--dim); font-size: 0.85rem; text-transform: uppercase;">— The Other Quadrants —</h3>
+    </div>
+    <div id="other-quadrants" style="display: grid; gap: 1.25rem;"></div>
+</div>
+ 
 <script>
-    // 1. Ensure this variable is at the top of your script
-let quizHistory = []; 
-
-function answer(val) {
-    const qList = isCalibrating ? calibrationQuestions : questions;
-    const currentDomain = qList[step].d;
-    
-    // Save to results and track which domain was answered for the Back button
-    results[currentDomain].push(val);
-    quizHistory.push(currentDomain); 
-    
-    step++;
-    if (step < qList.length) {
-        isCalibrating ? loadCalibrationQuestion() : loadQuestion();
-    } else {
-        finalize();
-    }
-}
-
-function prevQuestion() {
-    if (step > 0) {
-        step--;
-        const lastDomain = quizHistory.pop();
-        results[lastDomain].pop(); // Remove the actual selection from the score
-        loadQuestion();
-    }
-}
-
-function finalize() {
-    // FIXED: Using "|| 0" ensures that if a count is missing, it defaults to 0 instead of 'undefined'
-    const getMode = (arr) => {
-        const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
-        const aCount = counts['A'] || 0;
-        const bCount = counts['B'] || 0;
-        return aCount > bCount ? 'A' : 'B';
-    };
-
-    const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
-    
-    if (!isCalibrating) {
-        originalCode = code;
-        displayResult(code);
-    } else {
-        if (code === originalCode) {
-            alert("CALIBRATION SUCCESSFUL: Engine Designation Verified.");
-            displayResult(code);
-        } else {
-            if (confirm("DIVERGENCE DETECTED. Reset and re-take?")) initQuiz();
-            else displayResult(code);
-        }
-    }
-}
-    
-    let currentAMCode = ""; // This "remembers" your engine code for the second step
+    // ─── STATE ───────────────────────────────────────────────────────────────
+    let step = 0;
+    let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+    let quizHistory = [];       // tracks which domain each answer belonged to (for Back)
+    let isCalibrating = false;
+    let originalCode = "";
+    let currentAMCode = "";
+ 
+    // ─── QUESTION BANKS ──────────────────────────────────────────────────────
     const questions = [
-        { d: "System", q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
-        { d: "System", q: "In a chaotic room, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
-        { d: "System", q: "Do you prefer a world with defined hierarchies or one with organic, shifting leadership?", a: "Organic Shifts", b: "Defined Hierarchy" },
-        { d: "System", q: "When a process breaks, do you repair the rules or bypass them to get the result?", a: "Bypass Rules", b: "Repair Rules" },
-        { d: "System", q: "Do you find 'objective facts' more useful than 'intuitive vibes'?", a: "Intuitive Vibes", b: "Objective Facts" },
+        { d: "System",      q: "Starting a new project: Do you immediately create a template/checklist or explore freely to find the vibe?", a: "Explore Freely", b: "Create Checklist" },
+        { d: "System",      q: "In a chaotic room, is your first instinct to organize the mess or find inspiration in the noise?", a: "Inspired by Noise", b: "Organize the Mess" },
+        { d: "System",      q: "Do you prefer a world with defined hierarchies or one with organic, shifting leadership?", a: "Organic Shifts", b: "Defined Hierarchy" },
+        { d: "System",      q: "When a process breaks, do you repair the rules or bypass them to get the result?", a: "Bypass Rules", b: "Repair Rules" },
+        { d: "System",      q: "Do you find 'objective facts' more useful than 'intuitive vibes'?", a: "Intuitive Vibes", b: "Objective Facts" },
         { d: "Environment", q: "Deadlines: Do you perform best with steady progress or in the high-pressure final 48 hours?", a: "Steady Progress", b: "High-Pressure Crunch" },
         { d: "Environment", q: "Infinite options: Does having 100 paths feel like a gift of power or a paralyzing burden?", a: "Gift of Power", b: "Paralyzing Burden" },
         { d: "Environment", q: "Do you work best when the world is quiet or when stakes are lethal and paths are narrow?", a: "Quiet & Free", b: "Narrow & Lethal" },
@@ -406,203 +349,132 @@ function finalize() {
         { d: "Acquisition", q: "Do you value elite certifications or raw, unearned innate talent?", a: "Raw Talent", b: "Certifications" },
         { d: "Acquisition", q: "After a failure, do you return to the books or try a different gut instinct?", a: "Gut Instinct", b: "Return to Books" },
         { d: "Acquisition", q: "Teaching: Would you give someone 10 steps or explain the 'soul' of the task?", a: "Explain 'Soul'", b: "Give 10 Steps" },
-        { d: "Motivation", q: "Success: Is a secret victory enough or do you need legitimacy and rank?", a: "Secret Victory", b: "Legitimacy & Rank" },
-        { d: "Motivation", q: "Sacrifice: Is personal peace your priority or is mission success worth the struggle?", a: "Personal Peace", b: "Mission Success" },
-        { d: "Motivation", q: "Guilt: Do you feel guilty for ignoring personal desires or for failing your duty?", a: "Ignoring Desires", b: "Failing Duty" },
-        { d: "Motivation", q: "Legacy: Do you want to be a 'One-of-a-kind individual' or a 'Pillar of the Institution'?", a: "One-of-a-Kind", b: "Institutional Pillar" },
-        { d: "Motivation", q: "The Driver: Are you fueled by personal curiosity or systemic responsibility?", a: "Personal Curiosity", b: "Responsibility" }
+        { d: "Motivation",  q: "Success: Is a secret victory enough or do you need legitimacy and rank?", a: "Secret Victory", b: "Legitimacy & Rank" },
+        { d: "Motivation",  q: "Sacrifice: Is personal peace your priority or is mission success worth the struggle?", a: "Personal Peace", b: "Mission Success" },
+        { d: "Motivation",  q: "Guilt: Do you feel guilty for ignoring personal desires or for failing your duty?", a: "Ignoring Desires", b: "Failing Duty" },
+        { d: "Motivation",  q: "Legacy: Do you want to be a 'One-of-a-kind individual' or a 'Pillar of the Institution'?", a: "One-of-a-Kind", b: "Institutional Pillar" },
+        { d: "Motivation",  q: "The Driver: Are you fueled by personal curiosity or systemic responsibility?", a: "Personal Curiosity", b: "Responsibility" }
     ];
-
+ 
     const calibrationQuestions = [
-        { d: "System", q: "No boss, no instructions. Surge of energy or deep irritation?", a: "Creative Energy", b: "Deep Irritation" },
-        { d: "System", q: "Teammate ignores the process to go faster. Admire efficiency or view as a liability?", a: "Admire Efficiency", b: "View as Liability" },
-        { d: "System", q: "Play a game with no rules or one with a strict physics engine?", a: "No Rules", b: "Strict Engine" },
+        { d: "System",      q: "No boss, no instructions. Surge of energy or deep irritation?", a: "Creative Energy", b: "Deep Irritation" },
+        { d: "System",      q: "Teammate ignores the process to go faster. Admire efficiency or view as a liability?", a: "Admire Efficiency", b: "View as Liability" },
+        { d: "System",      q: "Play a game with no rules or one with a strict physics engine?", a: "No Rules", b: "Strict Engine" },
         { d: "Environment", q: "Open Calendar. Zero meetings all week. Is this your most productive week or do you end up paralyzed?", a: "Most Productive", b: "Paralyzed" },
         { d: "Environment", q: "You have 20 minutes to solve a 2-hour problem. Do you feel 'switched on' or an urge to escape?", a: "Urge to Escape", b: "Switched On" },
         { d: "Environment", q: "Working alone on a deserted island. Do you work just as hard or find it impossible to start?", a: "Work Hard", b: "Impossible to Start" },
         { d: "Acquisition", q: "IKEA Manual. Throw it away or read it front-to-back first?", a: "Throw it Away", b: "Read First" },
         { d: "Acquisition", q: "Someone asks how you solved it. Is your answer 'I just saw it' or 'I applied X framework'?", a: "I just saw it", b: "Applied Framework" },
         { d: "Acquisition", q: "Learning a language. Do you prefer Immersion or Grammar Drills?", a: "Immersion", b: "Grammar Drills" },
-        { d: "Motivation", q: "You save the world but get no credit. Is internal satisfaction enough or does it feel like a fail?", a: "Satisfaction Enough", b: "Needs Credit" },
-        { d: "Motivation", q: "Would you rather be the highest-paid with no title or moderately paid as 'Senior Partner'?", a: "High Pay / No Title", b: "Senior Partner Title" },
-        { d: "Motivation", q: "When exhausted, is it because of no 'Me Time' or because you aren't being 'Useful'?", a: "No 'Me Time'", b: "Not being Useful" }
+        { d: "Motivation",  q: "You save the world but get no credit. Is internal satisfaction enough or does it feel like a fail?", a: "Satisfaction Enough", b: "Needs Credit" },
+        { d: "Motivation",  q: "Would you rather be the highest-paid with no title or moderately paid as 'Senior Partner'?", a: "High Pay / No Title", b: "Senior Partner Title" },
+        { d: "Motivation",  q: "When exhausted, is it because of no 'Me Time' or because you aren't being 'Useful'?", a: "No 'Me Time'", b: "Not being Useful" }
     ];
-
+ 
+    // ─── RESULT DATABASE ─────────────────────────────────────────────────────
     const database = {
-        "B.B.A.B": { name: "Tactical Oracle", mantra: "Master the system to ignite the vision.", advice: "You stall in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the corridor is narrow.", action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. Pressure is your spark.", desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate 'Vision' to solve them in a blackout flow state.", eff: "M&A Strategy, Crisis Management & Turnaround, and the final 2 minutes of a losing game.", fic: "Batman, Harvey Specter, Darrow au Andromedus", real: "Tom Brady, Winston Churchill, Kobe Bryant" },
-        "B.B.B.B": { name: "Iron Vanguard", mantra: "Victory is a byproduct of preparation.", advice: "You are the floor. Your power is the compound interest of your discipline. Ritual is not a cage; it is your ignition.", action: "Design a 30-minute pre-work ritual. The ritual is the floor that allows you to perform.", desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.", eff: "Leading Armies, Chief of Staff, High-stakes surgery, Nuclear reactor management.", fic: "Captain America, Robocop, Spock", real: "David Goggins, Tiger Woods, Colin Powell" },
-        "B.A.B.B": { name: "Strategic Architect", mantra: "Learn the world to build the path.", advice: "You see the future system while others see noise. You need freedom to learn; if micmanaged, your architect engine stalls.", action: "Block off 4 hours of 'Unrestricted Deep Work' this week. No meetings. No oversight. Just building.", desc: "The World-Builder. You use freedom to absorb frameworks and build a better version of reality for others.", eff: "Founding Non-profits, Urban Planning, Venture Partner, ESG Strategy, Narrative world-building.", fic: "Leia Organa, Lisa Simpson, Katara", real: "Warren Buffett, Angela Merkel, Bill Gates" },
-        "B.B.B.A": { name: "Logic Technician", mantra: "Personal excellence is the only metric.", advice: "Your ego is tied to competence. To grow, find mentors who are 'More Right' than you to expand your logical ceiling.", action: "Enroll in a high-difficulty track where you are currently the least informed person in the room.", desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study to own the room.", eff: "Competitive academic rankings, Law firms, Elite debate, Cybersecurity Engineer.", fic: "Hermione Granger, Amy Farrah Fowler, Annie Leonhart", real: "Ben Shapiro, Jordan Peterson, RBG" },
-        "B.B.A.A": { name: "Apex Specialist", mantra: "Control the variables to claim the win.", advice: "You love rules because they are variables you can manipulate. Use the system as a cage for your prey.", action: "Gamify your primary metric today. Set up a leaderboard. Only the win matters.", desc: "The Gifted Predator. You play to prove you are the best. Rules are your weapon.", eff: "High-frequency trading, Elite Esports, Quantitative Researcher, Professional poker.", fic: "Sherlock Holmes, Azula, Light Yagami", real: "Magnus Carlsen, James Simons, Bobby Fischer" },
-        "B.A.B.A": { name: "Framework Artist", mantra: "The manual is the canvas for mastery.", advice: "You are an explorer of logic. Never feel guilty for deep research; that is your acquisition engine at work.", action: "Start a personal Wiki to synthesize three unrelated frameworks into a new theory.", desc: "The Academic Nomad. You love deep history and logic but want freedom to wander through it.", eff: "Investigative research, Conceptual art, Professorships, Conceptual Researcher.", fic: "Albus Dumbledore, Indiana Jones, Doctor Strange", real: "Carl Jung, Christopher Nolan, Noam Chomsky" },
-        "B.A.A.B": { name: "Sovereign Visionary", mantra: "The plan is the playground.", advice: "You are a natural force of stability. Trust your first instinct. Over-analyzing will only stall your social genius.", action: "Identify an orderly task and delegate it immediately. Focus only on the high-level spirit of the goal.", desc: "The Natural Leader. You possess an innate genius for people. You intuitively feel the spirit of the game.", eff: "High-level diplomacy, Executive Leadership, Creative Directing, Diplomatic Envoy.", fic: "Gandalf, Uncle Iroh, Jean-Luc Picard", real: "Barack Obama, Nelson Mandela, Oprah Winfrey" },
-        "B.A.A.A": { name: "Fluid Director", mantra: "Order is the stage; I am the play.", advice: "You are a virtuoso. You need an audience. Working in a vacuum will kill your drive and stall your talent.", action: "Schedule a high-visibility meeting this week to showcase your latest work.", desc: "The Virtuoso. You treat rules like a stage. You possess raw talent used to dominate the field.", eff: "Creative Director, Performance arts, Pro athletics, Celebrity brand-building.", fic: "Tony Stark, Jack Sparrow, Saitama", real: "Cristiano Ronaldo, Robert Downey Jr., Tom Cruise" },
-        "A.B.A.B": { name: "Guerrilla Kinetic", mantra: "Find the heat to find the answer.", advice: "You are a feral genius. Stop trying to act 'Professional' in the rigid sense. Your value is in unconventionality.", action: "Go dark. Work in total isolation until a crisis hits, then drop the solution and disappear.", desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve problems through instinct.", eff: "Cyber-Infiltration Specialist, Unconventional warfare, Stealth Startup Founder, solving murder mysteries.", fic: "John Wick, L, Sevro au Barca", real: "Michael Jordan, Edward Snowden" },
-        "A.B.B.A": { name: "Pressure Tank", mantra: "Built for the storm, fueled by the goal.", advice: "Your growth is proportional to your struggle. If life is easy, you are stagnant. Embrace the grind.", action: "Pick one 'Impossible' habit and do it specifically because it's hard.", desc: "The Gladiator. You view life as chaotic struggle and use it as a gym to build strength.", eff: "Solo startup founding, Professional survivalist, Extreme Sports.", fic: "Wolverine, Rocky Balboa, Guts", real: "Arnold Schwarzenegger, Conor McGregor" },
-        "A.B.B.B": { name: "Resilient Anchor", mantra: "Absorb the blow to control the flow.", advice: "You are the saint of the matrix. Seek out messy projects. You are invisible in perfection but indispensable in disaster.", action: "Volunteer for the most dysfunctional turnaround case in your firm today.", desc: "The Survivor. You use pressure-tested learning to keep everyone else from drowning.", eff: "Disaster relief, ER nursing, Community management, Emergency Services Coordination,", fic: "Neville Longbottom, Samwise Gamgee, Ellen Ripley", real: "Chef José Andrés, Malala Yousafzai" },
-        "A.A.B.B": { name: "Emergent Leader", mantra: "Synthesize the mess to lead the way.", advice: "You are a pioneer. You learn by doing. Don't wait for a manual; the manual doesn't exist for where you're going.", action: "Launch a 'Beta' version of your project today. Learn from the noise of the launch.", desc: "The Beacon. You walk into the void and build, using empathy to lead without a map.", eff: "Social revolutions, early-stage VC, frontier exploration.", fic: "Naruto Uzumaki, Paul Atreides, Aang", real: "Elon Musk, Richard Branson" },
-        "A.A.B.A": { name: "Exploratory Nomad", mantra: "The lesson is the destination.", advice: "Stop trying to find a career; your career is the collection of experiences. You find truth in the journey.", action: "Change your environment today. Work from a new city, park, or library to reset your engine.", desc: "The Eternal Student. You live in chaos to see what happens, valuing the soul of the journey.", eff: "Travel journalism, Experimental philosophy, Documentary Filmmaker, Foreign Correspondent.", fic: "Gon Freecss, Frodo Baggins, The Dude", real: "Anthony Bourdain, Diogenes" },
-        "A.A.A.B": { name: "World-Changer", mantra: "Intuition leads; the world follows.", advice: "You are a revolutionary. You will be misunderstood by the 'Anchors.' Don't convince them; just show the result.", action: "Identify the one rule in your industry holding everyone back and find an intuitive way to break it.", desc: "The Revolutionary. You possess a vision for a world that doesn't exist yet, breaking Order to force evolution.", eff: "Creative disruption, Revolutionary founder, Leading rebellions, Inventing new genres.", fic: "Luffy, Daenerys Targaryen, Katniss Everdeen", real: "Steve Jobs, MLK Jr., Alexander the Great" },
-        "A.A.A.A": { name: "Chaos Catalyst", mantra: "Burn the map to rule the ash.", advice: "You are pure predator energy. You need absolute freedom. If you feel managed, you will destroy the manager.", action: "Move toward 100% equity or commission work. You need to 'Kill what you eat' to feel alive.", desc: "The Pure Predator. Pure instinct and pride. You dismantle everything just to prove you can.", eff: "Hostile takeovers, Black-market strategy, scorched-earth warfare.", fic: "The Joker, Sukuna, Homelander", real: "Napoleon Bonaparte, John McEnroe" },
-        "A.B.A.A": { name: "Impact Sniper", mantra: "Pressure turns the spark into a flame.", advice: "You live for the high. Avoid marathon tasks; you are a sprinter. You wait for peak chaos to strike.", action: "Take sole ownership of the 'Closing Deal'—the single moment where one decision settles the score.", desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.", eff: "High-stakes closer, Stunt work, Specialized demolition, Crisis Negotiator", fic: "Billy Butcher, Deadpool, Rick Sanchez", real: "Hunter S. Thompson, Evel Knievel" }
+        "B.B.A.B": { name: "Tactical Oracle",     mantra: "Master the system to ignite the vision.",        advice: "You stall in peace. Stop waiting for motivation and start engineering lethality. Your blackout genius only triggers when the corridor is narrow.",                               action: "Set a public deadline for your hardest task today that is 2 hours earlier than actual. Pressure is your spark.",                                                   desc: "The Mastermind. You use the system as a cage to trap problems, then use an innate 'Vision' to solve them in a blackout flow state.",       eff: "M&A Strategy, Crisis Management & Turnaround, and the final 2 minutes of a losing game.",              fic: "Batman, Harvey Specter, Darrow au Andromedus",              real: "Tom Brady, Winston Churchill, Kobe Bryant" },
+        "B.B.B.B": { name: "Iron Vanguard",       mantra: "Victory is a byproduct of preparation.",         advice: "You are the floor. Your power is the compound interest of your discipline. Ritual is not a cage; it is your ignition.",                                                    action: "Design a 30-minute pre-work ritual. The ritual is the floor that allows you to perform.",                                                                         desc: "The Disciplined Soldier. Absolute duty meets absolute preparation. You don't just follow rules; you ARE the rules.",                       eff: "Leading Armies, Chief of Staff, High-stakes surgery, Nuclear reactor management.",                     fic: "Captain America, Robocop, Spock",                           real: "David Goggins, Tiger Woods, Colin Powell" },
+        "B.A.B.B": { name: "Strategic Architect", mantra: "Learn the world to build the path.",             advice: "You see the future system while others see noise. You need freedom to learn; if micromanaged, your architect engine stalls.",                                              action: "Block off 4 hours of 'Unrestricted Deep Work' this week. No meetings. No oversight. Just building.",                                                              desc: "The World-Builder. You use freedom to absorb frameworks and build a better version of reality for others.",                                eff: "Founding Non-profits, Urban Planning, Venture Partner, ESG Strategy, Narrative world-building.",       fic: "Leia Organa, Lisa Simpson, Katara",                         real: "Warren Buffett, Angela Merkel, Bill Gates" },
+        "B.B.B.A": { name: "Logic Technician",    mantra: "Personal excellence is the only metric.",        advice: "Your ego is tied to competence. To grow, find mentors who are 'More Right' than you to expand your logical ceiling.",                                                     action: "Enroll in a high-difficulty track where you are currently the least informed person in the room.",                                                                desc: "The Competence-Obsessed. A high-pressure learner who views brilliance as identity. You study to own the room.",                           eff: "Competitive academic rankings, Law firms, Elite debate, Cybersecurity Engineer.",                      fic: "Hermione Granger, Amy Farrah Fowler, Annie Leonhart",       real: "Ben Shapiro, Jordan Peterson, RBG" },
+        "B.B.A.A": { name: "Apex Specialist",     mantra: "Control the variables to claim the win.",        advice: "You love rules because they are variables you can manipulate. Use the system as a cage for your prey.",                                                                    action: "Gamify your primary metric today. Set up a leaderboard. Only the win matters.",                                                                                   desc: "The Gifted Predator. You play to prove you are the best. Rules are your weapon.",                                                         eff: "High-frequency trading, Elite Esports, Quantitative Researcher, Professional poker.",                  fic: "Sherlock Holmes, Azula, Light Yagami",                      real: "Magnus Carlsen, James Simons, Bobby Fischer" },
+        "B.A.B.A": { name: "Framework Artist",    mantra: "The manual is the canvas for mastery.",          advice: "You are an explorer of logic. Never feel guilty for deep research; that is your acquisition engine at work.",                                                              action: "Start a personal Wiki to synthesize three unrelated frameworks into a new theory.",                                                                               desc: "The Academic Nomad. You love deep history and logic but want freedom to wander through it.",                                              eff: "Investigative research, Conceptual art, Professorships, Conceptual Researcher.",                       fic: "Albus Dumbledore, Indiana Jones, Doctor Strange",           real: "Carl Jung, Christopher Nolan, Noam Chomsky" },
+        "B.A.A.B": { name: "Sovereign Visionary", mantra: "The plan is the playground.",                   advice: "You are a natural force of stability. Trust your first instinct. Over-analyzing will only stall your social genius.",                                                      action: "Identify an orderly task and delegate it immediately. Focus only on the high-level spirit of the goal.",                                                          desc: "The Natural Leader. You possess an innate genius for people. You intuitively feel the spirit of the game.",                               eff: "High-level diplomacy, Executive Leadership, Creative Directing, Diplomatic Envoy.",                    fic: "Gandalf, Uncle Iroh, Jean-Luc Picard",                      real: "Barack Obama, Nelson Mandela, Oprah Winfrey" },
+        "B.A.A.A": { name: "Fluid Director",      mantra: "Order is the stage; I am the play.",             advice: "You are a virtuoso. You need an audience. Working in a vacuum will kill your drive and stall your talent.",                                                               action: "Schedule a high-visibility meeting this week to showcase your latest work.",                                                                                      desc: "The Virtuoso. You treat rules like a stage. You possess raw talent used to dominate the field.",                                          eff: "Creative Director, Performance arts, Pro athletics, Celebrity brand-building.",                         fic: "Tony Stark, Jack Sparrow, Saitama",                         real: "Cristiano Ronaldo, Robert Downey Jr., Tom Cruise" },
+        "A.B.A.B": { name: "Guerrilla Kinetic",   mantra: "Find the heat to find the answer.",              advice: "You are a feral genius. Stop trying to act 'Professional' in the rigid sense. Your value is in unconventionality.",                                                       action: "Go dark. Work in total isolation until a crisis hits, then drop the solution and disappear.",                                                                     desc: "The Ghost. A feral genius invisible in peace but a god in the mud. You solve problems through instinct.",                                 eff: "Cyber-Infiltration Specialist, Unconventional warfare, Stealth Startup Founder, solving murder mysteries.", fic: "John Wick, L, Sevro au Barca",                             real: "Michael Jordan, Edward Snowden" },
+        "A.B.B.A": { name: "Pressure Tank",       mantra: "Built for the storm, fueled by the goal.",       advice: "Your growth is proportional to your struggle. If life is easy, you are stagnant. Embrace the grind.",                                                                     action: "Pick one 'Impossible' habit and do it specifically because it's hard.",                                                                                           desc: "The Gladiator. You view life as chaotic struggle and use it as a gym to build strength.",                                                 eff: "Solo startup founding, Professional survivalist, Extreme Sports.",                                      fic: "Wolverine, Rocky Balboa, Guts",                             real: "Arnold Schwarzenegger, Conor McGregor" },
+        "A.B.B.B": { name: "Resilient Anchor",    mantra: "Absorb the blow to control the flow.",           advice: "You are the saint of the matrix. Seek out messy projects. You are invisible in perfection but indispensable in disaster.",                                               action: "Volunteer for the most dysfunctional turnaround case in your firm today.",                                                                                        desc: "The Survivor. You use pressure-tested learning to keep everyone else from drowning.",                                                     eff: "Disaster relief, ER nursing, Community management, Emergency Services Coordination.",                   fic: "Neville Longbottom, Samwise Gamgee, Ellen Ripley",          real: "Chef José Andrés, Malala Yousafzai" },
+        "A.A.B.B": { name: "Emergent Leader",     mantra: "Synthesize the mess to lead the way.",           advice: "You are a pioneer. You learn by doing. Don't wait for a manual; the manual doesn't exist for where you're going.",                                                       action: "Launch a 'Beta' version of your project today. Learn from the noise of the launch.",                                                                              desc: "The Beacon. You walk into the void and build, using empathy to lead without a map.",                                                      eff: "Social revolutions, early-stage VC, frontier exploration.",                                             fic: "Naruto Uzumaki, Paul Atreides, Aang",                       real: "Elon Musk, Richard Branson" },
+        "A.A.B.A": { name: "Exploratory Nomad",   mantra: "The lesson is the destination.",                 advice: "Stop trying to find a career; your career is the collection of experiences. You find truth in the journey.",                                                              action: "Change your environment today. Work from a new city, park, or library to reset your engine.",                                                                    desc: "The Eternal Student. You live in chaos to see what happens, valuing the soul of the journey.",                                           eff: "Travel journalism, Experimental philosophy, Documentary Filmmaker, Foreign Correspondent.",             fic: "Gon Freecss, Frodo Baggins, The Dude",                      real: "Anthony Bourdain, Diogenes" },
+        "A.A.A.B": { name: "World-Changer",       mantra: "Intuition leads; the world follows.",            advice: "You are a revolutionary. You will be misunderstood by the 'Anchors.' Don't convince them; just show the result.",                                                        action: "Identify the one rule in your industry holding everyone back and find an intuitive way to break it.",                                                             desc: "The Revolutionary. You possess a vision for a world that doesn't exist yet, breaking Order to force evolution.",                          eff: "Creative disruption, Revolutionary founder, Leading rebellions, Inventing new genres.",                 fic: "Luffy, Daenerys Targaryen, Katniss Everdeen",               real: "Steve Jobs, MLK Jr., Alexander the Great" },
+        "A.A.A.A": { name: "Chaos Catalyst",      mantra: "Burn the map to rule the ash.",                  advice: "You are pure predator energy. You need absolute freedom. If you feel managed, you will destroy the manager.",                                                              action: "Move toward 100% equity or commission work. You need to 'Kill what you eat' to feel alive.",                                                                     desc: "The Pure Predator. Pure instinct and pride. You dismantle everything just to prove you can.",                                             eff: "Hostile takeovers, Black-market strategy, scorched-earth warfare.",                                     fic: "The Joker, Sukuna, Homelander",                             real: "Napoleon Bonaparte, John McEnroe" },
+        "A.B.A.A": { name: "Impact Sniper",       mantra: "Pressure turns the spark into a flame.",         advice: "You live for the high. Avoid marathon tasks; you are a sprinter. You wait for peak chaos to strike.",                                                                     action: "Take sole ownership of the 'Closing Deal'—the single moment where one decision settles the score.",                                                              desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.",                                         eff: "High-stakes closer, Stunt work, Specialized demolition, Crisis Negotiator.",                           fic: "Billy Butcher, Deadpool, Rick Sanchez",                     real: "Hunter S. Thompson, Evel Knievel" }
     };
-
+ 
+    // ─── MBTI LENSES ─────────────────────────────────────────────────────────
     const mbtiLenses = {
-    "INTJ": { 
-        advice: "You are a master of the 'Long Game,' but you often stall because you're waiting for a perfect, 20-step plan. Your mind is so focused on the future that you forget to execute the present.", 
-        action: "Shrink your vision. Stop planning for next month and commit to one messy, imperfect action that moves the needle today." 
-    },
-    "ENTJ": { 
-        advice: "You are built for high-level command, but you can become paralyzed when you feel you lack total control over the variables. You stall by trying to force the world to be efficient before you start.", 
-        action: "Identify the biggest 'mess' you're avoiding. Tackle it now without trying to fix the process first. Move, then manage." 
-    },
-    "INTP": { 
-        advice: "You love the 'Rabbit Hole.' You stall by convincing yourself that 'more research' is the same thing as 'progress.' You are likely over-intellectualizing a simple task.", 
-        action: "Set a 15-minute timer. You are forbidden from reading or researching during this window. You must only produce." 
-    },
-    "ENTP": { 
-        advice: "You thrive on the 'Spark' of a new idea but lose power during the 'Grind.' You stall by jumping to a new, exciting problem when the current one gets boring.", 
-        action: "Finish one boring task before you allow yourself to brainstorm a new one. Treat 'Completion' as the ultimate high." 
-    },
-    "INFJ": { 
-        advice: "You feel the weight of everyone’s expectations. You stall because you’re trying to find a path that is perfectly meaningful and hurts no one.", 
-        action: "Be 'Selfish' for one hour. Ignore the 'Mission' and the 'Team.' Focus purely on the one technical task that makes *you* feel competent." 
-    },
-    "ENFJ": { 
-        advice: "You are a natural mentor, but you often stall because you're waiting for a consensus or a 'Thank You.' You downregulate your engine to match the speed of the group.", 
-        action: "Make one executive decision today without asking for feedback or permission. Lead by moving faster than the pack." 
-    },
-    "INFP": { 
-        advice: "You wait for the 'Right Vibe.' You stall because you feel that working without inspiration is a betrayal of your identity.", 
-        action: "Act like a robot for 10 minutes. Ignore your mood entirely and just move your hands. Motion will eventually create the emotion." 
-    },
-    "ENFP": { 
-        advice: "You see infinite possibilities, which can lead to 'Decision Paralysis.' You stall by trying to keep every door open at the same time.", 
-        action: "Pick one door and lock yourself inside. Commit to one project for the next hour and ignore every 'What If' that pops up." 
-    },
-    "ISTJ": { 
-        advice: "You are the ultimate reliable engine, but you stall when the rules are unclear. You fear moving if there isn't a proven template to follow.", 
-        action: "Trust your experience over the manual. If the 'standard way' is slow, try the 'fast way' just once today to see what happens." 
-    },
-    "ESTJ": { 
-        advice: "You thrive on order, but you stall when you get bogged down in 'Admin.' You spend so much time organizing the work that you don't actually do the work.", 
-        action: "Delegate the organizing. Pick up the heaviest task on your plate and focus solely on execution for the next hour." 
-    },
-    "ISFJ": { 
-        advice: "You are the protector of the group, but you stall because you’re afraid of disrupting the peace or failing your duty.", 
-        action: "Do something 'Uncharacteristic.' Take a risk on a new method that might be messy but could save you hours of work." 
-    },
-    "ESFJ": { 
-        advice: "You value social harmony, but you stall when you’re worried about how your actions will be perceived by the team.", 
-        action: "Stop seeking validation. Complete a major task and 'Drop the Mic.' Let the quality of the result speak for itself." 
-    },
-    "ISTP": { 
-        advice: "You are a natural at solving problems, but you stall when things feel too 'Theoretical.' You need a concrete reason to care.", 
-        action: "Find the most technical, broken part of your current project and fix it manually. Get your hands dirty to spark your engine." 
-    },
-    "ESTP": { 
-        advice: "You live for the 'Thrill,' but you stall during the 'Quiet.' If there isn't a crisis to solve, you might subconsciously create one just to feel active.", 
-        action: "Gamify the quiet work. Set a timer and race yourself to finish a 'boring' task. Turn the mundane into a competition." 
-    },
-    "ISFP": { 
-        advice: "You need freedom to create, but you stall when you feel the pressure of a rigid schedule. You fear losing your 'Soul' to the routine.", 
-        action: "Change your environment. Go to a coffee shop or a park and execute one task you've been avoiding. A new view unlocks your engine." 
-    },
-    "ESFP": { 
-        advice: "You are a performer who loves the spotlight, but you stall when you have to work in isolation. Without an audience, your drive fades.", 
-        action: "Check in with a 'Body Double.' Call a friend or join a co-working session just to have someone else present while you grind." 
-    }
-};
-
-    const enneaNarratives = {
-    "1": { 
-        advice: "You are currently trapped by Perfectionism. You’ve convinced yourself that if the result isn't flawless, it isn't worth starting. You stall by 'polishing' minor details to avoid the vulnerability of actually being finished.", 
-        action: "Ship a 'Messy Version' of your current task. Intentionally leave one small mistake in the draft to prove that the world doesn't end when you aren't perfect." 
-    },
-    "2": { 
-        advice: "You are stalling because you’ve made yourself the 'Emergency Contact' for everyone else. You feel guilty focusing on your own goals because you fear being seen as selfish or unhelpful if you aren't constantly available.", 
-        action: "Set your devices to 'Do Not Disturb' for 60 minutes. Execute your hardest task in total silence. Reclaim the satisfaction of working purely for yourself." 
-    },
-    "3": { 
-        advice: "You are stuck in 'Performative Busy-work.' You're doing things that make you *look* successful—like clearing emails or tweaking slides—to avoid the one difficult project where you might actually fail.", 
-        action: "Delete the easiest three things on your to-do list. Spend that reclaimed time on the one high-risk task you've been avoiding all week." 
-    },
-    "4": { 
-        advice: "You are waiting for the 'Right Vibe.' You stall when the work feels ordinary or uninspired, treating your mood like a permission slip to stop moving. You've confused 'being inspired' with 'being productive.'", 
-        action: "Set a 10-minute timer and work with zero regard for style or identity. Just move your hands. Motion is the only thing that will eventually change your mood." 
-    },
-    "5": { 
-        advice: "You are paralyzed by a need for Certainty. You feel that if you just read one more book or gather one more data point, you'll finally be 'ready' to start. You are hoarding information as a shield against the world.", 
-        action: "Close every browser tab and research document. You are forbidden from looking up more data. Execute right now based solely on what you currently know." 
-    },
-    "6": { 
-        advice: "You are playing 'Mental Chess' with potential disasters. You stall because you're waiting for a guarantee or a safety rail that doesn't exist. You've let your 'What-Ifs' become a wall.", 
-        action: "Pick the outcome you are most afraid of. Assume it's going to happen, and then start the task anyway. Movement is the only cure for this type of anxiety." 
-    },
-    "7": { 
-        advice: "You are suffering from 'Strategic Drifting.' The moment a task gets boring or the 'newness' wears off, your mind starts looking for a shiny distraction to chase. You're running away from the grind.", 
-        action: "Commit to one single task for the next hour. No switching, no new tabs, no 'quick checks' of other projects. Realize that finishing this is the only way to earn your next act of freedom." 
-    },
-    "8": { 
-        advice: "You are stalling because you're resisting the 'Rules.' You view structure or schedules as a threat to your autonomy, so you fight the very tools that would help you dominate your field.", 
-        action: "Stop viewing the plan as a 'Boss.' Treat it as 'Battle Logistics.' Build the structure today so you can use it to crush the obstacles in your path tomorrow." 
-    },
-    "9": { 
-        advice: "You are 'Productively Napping.' You're doing minor, comfortable tasks to avoid the 'Heat' of a difficult conflict or a high-stakes decision. You're prioritizing internal peace over external progress.", 
-        action: "Create a healthy conflict today. Set a hard boundary or say 'No' to a request. Use that spark of friction to ignite your drive and tackle your hardest task." 
-    }
-};
-
-    const careerQuadrants = {
-        "Pillars": {
-            name: "Institutional Pillars",
-            logic: "Order + World-Type",
-            roles: ["M&A Strategy (Accenture/KPMG)", "Chief of Staff", "Nuclear Compliance", "Value Realization Lead"],
-            vibe: "You thrive in high-stakes, established systems where the mission is the priority."
-        },
-        "Technicians": {
-            name: "Precision Technicians",
-            logic: "Order + Self-Type",
-            roles: ["Cybersecurity Engineer", "High-Frequency Trader", "AI Prompt Architect", "Actuary"],
-            vibe: "You use the system as a cage for your own mastery. You are the deep-tech specialist."
-        },
-        "Visionaries": {
-            name: "Disruptive Visionaries",
-            logic: "Chaos + World-Type",
-            roles: ["AI Product Manager", "Frontier VC", "Social Disruptor", "Frontier Explorer"],
-            vibe: "You walk into the void to create what doesn't exist yet for the benefit of the legacy."
-        },
-        "Wildcards": {
-            name: "The Wildcards",
-            logic: "Chaos + Self-Type",
-            roles: ["Hostile Takeover Specialist", "White Hat Hacker", "Solo Founder", "Crisis Negotiator"],
-            vibe: "You are the pure predator. You thrive in high-risk environments where autonomy is the only metric."
-        }
+        "INTJ": { advice: "You are a master of the 'Long Game,' but you often stall because you're waiting for a perfect, 20-step plan. Your mind is so focused on the future that you forget to execute the present.", action: "Shrink your vision. Stop planning for next month and commit to one messy, imperfect action that moves the needle today." },
+        "ENTJ": { advice: "You are built for high-level command, but you can become paralyzed when you feel you lack total control over the variables. You stall by trying to force the world to be efficient before you start.", action: "Identify the biggest 'mess' you're avoiding. Tackle it now without trying to fix the process first. Move, then manage." },
+        "INTP": { advice: "You love the 'Rabbit Hole.' You stall by convincing yourself that 'more research' is the same thing as 'progress.' You are likely over-intellectualizing a simple task.", action: "Set a 15-minute timer. You are forbidden from reading or researching during this window. You must only produce." },
+        "ENTP": { advice: "You thrive on the 'Spark' of a new idea but lose power during the 'Grind.' You stall by jumping to a new, exciting problem when the current one gets boring.", action: "Finish one boring task before you allow yourself to brainstorm a new one. Treat 'Completion' as the ultimate high." },
+        "INFJ": { advice: "You feel the weight of everyone's expectations. You stall because you're trying to find a path that is perfectly meaningful and hurts no one.", action: "Be 'Selfish' for one hour. Ignore the 'Mission' and the 'Team.' Focus purely on the one technical task that makes *you* feel competent." },
+        "ENFJ": { advice: "You are a natural mentor, but you often stall because you're waiting for a consensus or a 'Thank You.' You downregulate your engine to match the speed of the group.", action: "Make one executive decision today without asking for feedback or permission. Lead by moving faster than the pack." },
+        "INFP": { advice: "You wait for the 'Right Vibe.' You stall because you feel that working without inspiration is a betrayal of your identity.", action: "Act like a robot for 10 minutes. Ignore your mood entirely and just move your hands. Motion will eventually create the emotion." },
+        "ENFP": { advice: "You see infinite possibilities, which can lead to 'Decision Paralysis.' You stall by trying to keep every door open at the same time.", action: "Pick one door and lock yourself inside. Commit to one project for the next hour and ignore every 'What If' that pops up." },
+        "ISTJ": { advice: "You are the ultimate reliable engine, but you stall when the rules are unclear. You fear moving if there isn't a proven template to follow.", action: "Trust your experience over the manual. If the 'standard way' is slow, try the 'fast way' just once today to see what happens." },
+        "ESTJ": { advice: "You thrive on order, but you stall when you get bogged down in 'Admin.' You spend so much time organizing the work that you don't actually do the work.", action: "Delegate the organizing. Pick up the heaviest task on your plate and focus solely on execution for the next hour." },
+        "ISFJ": { advice: "You are the protector of the group, but you stall because you're afraid of disrupting the peace or failing your duty.", action: "Do something 'Uncharacteristic.' Take a risk on a new method that might be messy but could save you hours of work." },
+        "ESFJ": { advice: "You value social harmony, but you stall when you're worried about how your actions will be perceived by the team.", action: "Stop seeking validation. Complete a major task and 'Drop the Mic.' Let the quality of the result speak for itself." },
+        "ISTP": { advice: "You are a natural at solving problems, but you stall when things feel too 'Theoretical.' You need a concrete reason to care.", action: "Find the most technical, broken part of your current project and fix it manually. Get your hands dirty to spark your engine." },
+        "ESTP": { advice: "You live for the 'Thrill,' but you stall during the 'Quiet.' If there isn't a crisis to solve, you might subconsciously create one just to feel active.", action: "Gamify the quiet work. Set a timer and race yourself to finish a 'boring' task. Turn the mundane into a competition." },
+        "ISFP": { advice: "You need freedom to create, but you stall when you feel the pressure of a rigid schedule. You fear losing your 'Soul' to the routine.", action: "Change your environment. Go to a coffee shop or a park and execute one task you've been avoiding. A new view unlocks your engine." },
+        "ESFP": { advice: "You are a performer who loves the spotlight, but you stall when you have to work in isolation. Without an audience, your drive fades.", action: "Check in with a 'Body Double.' Call a friend or join a co-working session just to have someone else present while you grind." }
     };
-        
-    let step = 0;
-    let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
-    let isCalibrating = false;
-    let originalCode = "";
-
+ 
+    // ─── ENNEAGRAM NARRATIVES ─────────────────────────────────────────────────
+    const enneaNarratives = {
+        "1": { advice: "You are currently trapped by Perfectionism. You've convinced yourself that if the result isn't flawless, it isn't worth starting. You stall by 'polishing' minor details to avoid the vulnerability of actually being finished.", action: "Ship a 'Messy Version' of your current task. Intentionally leave one small mistake in the draft to prove that the world doesn't end when you aren't perfect." },
+        "2": { advice: "You are stalling because you've made yourself the 'Emergency Contact' for everyone else. You feel guilty focusing on your own goals because you fear being seen as selfish.", action: "Set your devices to 'Do Not Disturb' for 60 minutes. Execute your hardest task in total silence. Reclaim the satisfaction of working purely for yourself." },
+        "3": { advice: "You are stuck in 'Performative Busy-work.' You're doing things that make you *look* successful to avoid the one difficult project where you might actually fail.", action: "Delete the easiest three things on your to-do list. Spend that reclaimed time on the one high-risk task you've been avoiding all week." },
+        "4": { advice: "You are waiting for the 'Right Vibe.' You stall when the work feels ordinary or uninspired, treating your mood like a permission slip to stop moving.", action: "Set a 10-minute timer and work with zero regard for style or identity. Just move your hands. Motion is the only thing that will eventually change your mood." },
+        "5": { advice: "You are paralyzed by a need for Certainty. You feel that if you just read one more book or gather one more data point, you'll finally be 'ready' to start. You are hoarding information.", action: "Close every browser tab and research document. You are forbidden from looking up more data. Execute right now based solely on what you currently know." },
+        "6": { advice: "You are playing 'Mental Chess' with potential disasters. You stall because you're waiting for a guarantee or a safety rail that doesn't exist.", action: "Pick the outcome you are most afraid of. Assume it's going to happen, and then start the task anyway. Movement is the only cure for this type of anxiety." },
+        "7": { advice: "You are suffering from 'Strategic Drifting.' The moment a task gets boring or the 'newness' wears off, your mind starts looking for a shiny distraction to chase.", action: "Commit to one single task for the next hour. No switching, no new tabs, no 'quick checks.' Realize that finishing this is the only way to earn your next act of freedom." },
+        "8": { advice: "You are stalling because you're resisting the 'Rules.' You view structure or schedules as a threat to your autonomy, so you fight the very tools that would help you dominate.", action: "Stop viewing the plan as a 'Boss.' Treat it as 'Battle Logistics.' Build the structure today so you can use it to crush the obstacles in your path tomorrow." },
+        "9": { advice: "You are 'Productively Napping.' You're doing minor, comfortable tasks to avoid the 'Heat' of a difficult conflict or a high-stakes decision. You're prioritizing internal peace over external progress.", action: "Create a healthy conflict today. Set a hard boundary or say 'No' to a request. Use that spark of friction to ignite your drive and tackle your hardest task." }
+    };
+ 
+    // ─── CAREER QUADRANTS ────────────────────────────────────────────────────
+    const careerQuadrants = {
+        "Pillars":     { name: "Institutional Pillars",   logic: "Order + World-Type",   roles: ["M&A Strategy (Accenture/KPMG)", "Chief of Staff", "Nuclear Compliance", "Value Realization Lead"],              vibe: "You thrive in high-stakes, established systems where the mission is the priority." },
+        "Technicians": { name: "Precision Technicians",   logic: "Order + Self-Type",    roles: ["Cybersecurity Engineer", "High-Frequency Trader", "AI Prompt Architect", "Actuary"],                            vibe: "You use the system as a cage for your own mastery. You are the deep-tech specialist." },
+        "Visionaries": { name: "Disruptive Visionaries",  logic: "Chaos + World-Type",   roles: ["AI Product Manager", "Frontier VC", "Social Disruptor", "Frontier Explorer"],                                  vibe: "You walk into the void to create what doesn't exist yet for the benefit of the legacy." },
+        "Wildcards":   { name: "The Wildcards",           logic: "Chaos + Self-Type",    roles: ["Hostile Takeover Specialist", "White Hat Hacker", "Solo Founder", "Crisis Negotiator"],                        vibe: "You are the pure predator. You thrive in high-risk environments where autonomy is the only metric." }
+    };
+ 
+    // ─── QUIZ FLOW ────────────────────────────────────────────────────────────
     function initQuiz() {
-        document.getElementById('intro').classList.remove('active');
-        document.getElementById('quiz').classList.add('active');
-        isCalibrating = false;
         step = 0;
         results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
+        quizHistory = [];
+        isCalibrating = false;
+        showView('quiz');
         loadQuestion();
     }
-
+ 
     function startCalibration() {
-        isCalibrating = true;
         step = 0;
         results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
-        document.getElementById('results').classList.remove('active');
-        document.getElementById('quiz').classList.add('active');
+        quizHistory = [];
+        isCalibrating = true;
+        showView('quiz');
         loadCalibrationQuestion();
     }
-
+ 
+    // FIX: Single answer() function — includes quizHistory so Back button works
+    function answer(val) {
+        const qList = isCalibrating ? calibrationQuestions : questions;
+        const domain = qList[step].d;
+        results[domain].push(val);
+        quizHistory.push(domain);
+        step++;
+        if (step < qList.length) {
+            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+        } else {
+            finalize();
+        }
+    }
+ 
+    function prevQuestion() {
+        if (step > 0) {
+            step--;
+            const lastDomain = quizHistory.pop();
+            results[lastDomain].pop();
+            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
+        }
+    }
+ 
+    // FIX: Single loadQuestion() function — updates the one #domain element and toggles Back btn
     function loadQuestion() {
         const q = questions[step];
         document.getElementById('domain').innerText = `Domain: ${q.d}`;
@@ -610,8 +482,9 @@ function finalize() {
         document.getElementById('optA').innerText = q.a;
         document.getElementById('optB').innerText = q.b;
         document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
+        document.getElementById('back-btn').style.display = step > 0 ? 'block' : 'none';
     }
-
+ 
     function loadCalibrationQuestion() {
         const q = calibrationQuestions[step];
         document.getElementById('domain').innerText = `Calibration: ${q.d}`;
@@ -619,28 +492,18 @@ function finalize() {
         document.getElementById('optA').innerText = q.a;
         document.getElementById('optB').innerText = q.b;
         document.getElementById('progress-fill').style.width = `${(step / calibrationQuestions.length) * 100}%`;
+        document.getElementById('back-btn').style.display = step > 0 ? 'block' : 'none';
     }
-
-    function answer(val) {
-        const qList = isCalibrating ? calibrationQuestions : questions;
-        results[qList[step].d].push(val);
-        step++;
-        
-        if (step < qList.length) {
-            isCalibrating ? loadCalibrationQuestion() : loadQuestion();
-        } else {
-            finalize();
-        }
-    }
-
+ 
+    // FIX: Single finalize() function
     function finalize() {
         const getMode = (arr) => {
             const counts = arr.reduce((acc, v) => (acc[v] = (acc[v] || 0) + 1, acc), {});
-            return counts['A'] > counts['B'] ? 'A' : 'B';
+            const aCount = counts['A'] || 0;
+            const bCount = counts['B'] || 0;
+            return aCount > bCount ? 'A' : 'B';
         };
-
         const code = `${getMode(results.System)}.${getMode(results.Environment)}.${getMode(results.Acquisition)}.${getMode(results.Motivation)}`;
-        
         if (!isCalibrating) {
             originalCode = code;
             displayResult(code);
@@ -650,170 +513,171 @@ function finalize() {
                 displayResult(code);
             } else {
                 const consent = confirm(`DIVERGENCE DETECTED.\n\nInitial Scan: ${originalCode}\nCalibration Scan: ${code}\n\nPerform a FULL SYSTEM RESET and re-take the intake?`);
-                if (consent) {
-                    initQuiz();
-                } else {
-                    displayResult(code);
-                }
+                if (consent) initQuiz();
+                else displayResult(code);
             }
         }
     }
-
-    function displayResult(code) {
-       currentAMCode = code; 
-        const p = database[code];
+ 
+    // ─── QUADRANT HELPERS ─────────────────────────────────────────────────────
+    function getQuadrantKey(code) {
         const parts = code.split('.');
-        const system = parts[0];     // A (Chaos) or B (Order)
-        const motivation = parts[3]; // A (Self) or B (World)
-
-
-        // Quadrant Detection Logic
-        let quadKey = "";
-        if (system === 'B' && motivation === 'B') quadKey = "Pillars";
-        else if (system === 'B' && motivation === 'A') quadKey = "Technicians";
-        else if (system === 'A' && motivation === 'B') quadKey = "Visionaries";
-        else if (system === 'A' && motivation === 'A') quadKey = "Wildcards";
-    
+        const system     = parts[0]; // A=Chaos, B=Order
+        const motivation = parts[3]; // A=Self,  B=World
+        if (system === 'B' && motivation === 'B') return 'Pillars';
+        if (system === 'B' && motivation === 'A') return 'Technicians';
+        if (system === 'A' && motivation === 'B') return 'Visionaries';
+        return 'Wildcards';
+    }
+ 
+    // Build a { quadrantKey: [{code, name, mantra}, ...] } map from the database
+    function buildArchetypeIndex() {
+        const index = { Pillars: [], Technicians: [], Visionaries: [], Wildcards: [] };
+        for (const code in database) {
+            const q = getQuadrantKey(code);
+            index[q].push({ code, name: database[code].name, mantra: database[code].mantra });
+        }
+        return index;
+    }
+    const archetypeIndex = buildArchetypeIndex();
+ 
+    function renderArchetypeCard(a, isCurrent) {
+        const accent = isCurrent ? 'border: 1px solid var(--neon); background: rgba(212,175,55,0.08);' : 'border: 1px solid var(--border); background: rgba(255,255,255,0.02);';
+        const badge  = isCurrent ? `<span style="color: var(--neon); font-size: 0.65rem; letter-spacing: 2px; font-weight: 800; margin-left: 0.5rem;">◆ YOU</span>` : '';
+        return `
+            <div style="padding: 1rem 1.25rem; border-radius: 10px; ${accent}">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                    <div style="font-weight: 800; font-size: 1rem;">${a.name}${badge}</div>
+                    <div style="color: var(--dim); font-size: 0.7rem; letter-spacing: 2px; font-weight: 700;">${a.code}</div>
+                </div>
+                <div style="color: var(--dim); font-size: 0.85rem; font-style: italic;">"${a.mantra}"</div>
+            </div>
+        `;
+    }
+ 
+    function renderOtherQuadrantCard(key) {
+        const q = careerQuadrants[key];
+        const archetypes = archetypeIndex[key];
+        return `
+            <div class="res-section" style="padding: 2rem; opacity: 0.92;">
+                <div style="color: var(--dim); font-size: 0.65rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 0.5rem;">${q.logic}</div>
+                <h3 style="text-transform: uppercase; font-weight: 900; font-size: 1.4rem; margin-bottom: 0.5rem;">${q.name}</h3>
+                <p style="color: var(--dim); font-size: 0.95rem; margin-bottom: 1.25rem; font-style: italic;">${q.vibe}</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.6rem;">
+                    ${archetypes.map(a => `
+                        <div style="padding: 0.6rem 0.8rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border);">
+                            <div style="font-weight: 700; font-size: 0.85rem;">${a.name}</div>
+                            <div style="color: var(--dim); font-size: 0.7rem; letter-spacing: 1.5px; margin-top: 0.15rem;">${a.code}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+ 
+    // ─── DISPLAY RESULT ───────────────────────────────────────────────────────
+    function displayResult(code) {
+        currentAMCode = code;
+        const p = database[code];
+        if (!p) { alert(`No result found for code: ${code}`); return; }
+ 
+        // Main result content
+        document.getElementById('out-code').innerText   = `DESIGNATION: ${code}`;
+        document.getElementById('out-name').innerText   = p.name;
+        document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
+        document.getElementById('out-desc').innerText   = p.desc;
+        document.getElementById('am-advice').innerText  = p.advice;
+        document.getElementById('am-action').innerText  = p.action;
+        document.getElementById('out-fic').innerText    = `FICTIONAL: ${p.fic}`;
+        document.getElementById('out-real').innerText   = `REAL WORLD: ${p.real}`;
+ 
+        // Career Terminal — user's quadrant
+        const quadKey = getQuadrantKey(code);
         const quad = careerQuadrants[quadKey];
-    
-        // Populate Quadrant UI
-        document.getElementById('quad-name').innerText = quad.name;
-        document.getElementById('quad-vibe').innerText = quad.vibe;
-        
-        const rolesList = document.getElementById('quad-roles');
-        rolesList.innerHTML = quad.roles.map(role => 
+        document.getElementById('quad-name').innerText  = quad.name;
+        document.getElementById('quad-logic').innerText = quad.logic;
+        document.getElementById('quad-vibe').innerText  = quad.vibe;
+        document.getElementById('quad-roles').innerHTML = quad.roles.map(role =>
             `<li style="background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; font-weight: 700;">${role}</li>`
         ).join('');
-
-        // ... (Existing displayResult code for ID population)
-        document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
-        // (Ensure the rest of your IDs like out-name, am-advice, etc., are updated as usual)
-        
-        document.getElementById('quiz').classList.remove('active');
-        document.getElementById('results').classList.add('active');
-        window.scrollTo(0, 0);
-
-        // FILL ALL AM FIELDS
-        document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
-        document.getElementById('out-name').innerText = p.name;
-        document.getElementById('out-mantra').innerText = `"${p.mantra}"`;
-        document.getElementById('out-desc').innerText = p.desc; // Added this
-        document.getElementById('am-advice').innerText = p.advice;
-        document.getElementById('am-action').innerText = p.action;
-        
-        // FILL STATS
-        document.getElementById('out-eff').innerText = p.eff;
-        document.getElementById('out-fic').innerText = `FICTIONAL: ${p.fic}`;
-        document.getElementById('out-real').innerText = `REAL WORLD: ${p.real}`;
-
-        // Reset UI
-        document.getElementById('deep-dive-container').style.display = "none";
+ 
+        // Fellow archetypes in user's quadrant (user highlighted)
+        const fellows = archetypeIndex[quadKey];
+        document.getElementById('quad-archetypes').innerHTML = fellows
+            .map(a => renderArchetypeCard(a, a.code === code))
+            .join('');
+ 
+        // Other three quadrants
+        const otherKeys = ['Pillars', 'Technicians', 'Visionaries', 'Wildcards'].filter(k => k !== quadKey);
+        document.getElementById('other-quadrants').innerHTML = otherKeys.map(renderOtherQuadrantCard).join('');
+ 
+        // Reset deep-dive UI state
+        document.getElementById('deep-dive-container').style.display  = "none";
         document.getElementById('deep-analysis-trigger').style.display = "block";
-
-        document.getElementById('quiz').classList.remove('active');
-        document.getElementById('results').classList.add('active');
-        window.scrollTo(0, 0);
+ 
+        showView('results');
     }
-
+ 
+    // ─── DEEP ANALYSIS ────────────────────────────────────────────────────────
     function integrateDeepAnalysis() {
-        const mbti = document.getElementById('mbti-select').value;
+        const mbti     = document.getElementById('mbti-select').value;
         const enneaVal = document.getElementById('enneagram-select').value;
-        
-        const lens = mbtiLenses[mbti];
-        const ennea = enneaNarratives[enneaVal];
-
-        // Check if data exists before populating (Safety Check)
+        const lens     = mbtiLenses[mbti];
+        const ennea    = enneaNarratives[enneaVal];
+ 
         if (lens && ennea) {
-            document.getElementById('mbti-title').innerText = `Cognitive Alignment (${mbti} Lens)`;
-            document.getElementById('mbti-advice').innerText = lens.advice;
-            document.getElementById('mbti-action').innerText = lens.action;
-
-            document.getElementById('ennea-title').innerText = `Internal Narrative (Type ${enneaVal} Friction)`;
+            document.getElementById('mbti-title').innerText   = `Cognitive Alignment (${mbti} Lens)`;
+            document.getElementById('mbti-advice').innerText  = lens.advice;
+            document.getElementById('mbti-action').innerText  = lens.action;
+            document.getElementById('ennea-title').innerText  = `Internal Narrative (Type ${enneaVal} Friction)`;
             document.getElementById('ennea-advice').innerText = ennea.advice;
             document.getElementById('ennea-action').innerText = ennea.action;
-
-            const mandate = generateMasterDirective(currentAMCode, mbti, enneaVal);
-            document.getElementById('master-directive').innerText = mandate;
-
-            document.getElementById('deep-dive-container').style.display = "block";
+            document.getElementById('master-directive').innerText = generateMasterDirective(currentAMCode, mbti, enneaVal);
+            document.getElementById('deep-dive-container').style.display  = "block";
             document.getElementById('deep-analysis-trigger').style.display = "none";
-            
             document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
         }
     }
-
-function generateMasterDirective(code, mbti, ennea) {
-    const isOrder = code.startsWith('B');
-    const isChaos = code.startsWith('A');
-    const isExtravert = mbti.startsWith('E');
-    const isIntuitive = mbti[1] === 'N';
-    const isFeeler = mbti[2] === 'F';
-    
-    // Enneagram Triads
-    const gut = ['1', '8', '9'].includes(ennea);   // Control/Anger
-    const heart = ['2', '3', '4'].includes(ennea); // Identity/Shame
-    const head = ['5', '6', '7'].includes(ennea);  // Certainty/Fear
-
-    // GATE 1: THE REPRESSED GENIUS (Chaos Engine + Rigid Mind)
-    if (isChaos && (!isIntuitive || gut)) {
-        return `You are a Kinetic Engine trapped in a Control-centric narrative. You stall because you try to calculate your way out of an intuitive blackout situation. You are looking for the right answer when your engine only produces effective ones. Close the books. Trust the mud. Ignite the engine before you're ready.`;
-    }
-
-    // GATE 2: THE CAGED CAMPAIGNER (Order Engine + Free Spirit)
-    if (isOrder && (isExtravert || head)) {
-        return `You are an Order Engine fueled by a High-Activity mind. You stall because you treat Systems like a cage instead of a launchpad. You are currently looking for a New Path when you should be optimizing the one you're on. Execute the ritual to fund your next act of freedom. Build the floor.`;
-    }
-
-    // GATE 3: THE SOCIAL ANCHOR (Mission-Driven + People-Focused Mind)
-    if (code.endsWith('B') && isFeeler && heart) {
-        return `Your engine is built for Legacy, but your narrative is seeking Validation. You stall because you fear separation from the group if you move too fast. Reclaim your mission. Doesn't ask for permission; go forward and reveal the path. Your group needs your strength more than your consensus.`;
-    }
-
-    // GATE 4: THE OVER-ANALYZER (Self-Type + Head Triad)
-    if (code.endsWith('A') && !isExtravert && head) {
-        return `You are currently stalling through Strategic Drifting. You are hoarding information to protect your ego from failure. Realize that Order is the logistics of victory, not a threat to your autonomy. Build the system today so you can use it as a weapon tomorrow. The manual is the canvas.`;
-    }
-
-    // GATE 5: THE DISCONNECTED PIONEER (Chaos Engine + Intuitive Mind)
-    if (isChaos && isIntuitive && isExtravert) {
-        return `You have achieved Peak Fluidity. You are a pure Disruptor. You stall only when you lose sight of the So What. Do not look for a system; simply identify the biggest obstacle in your path and destroy it. Volume and speed are your only variables. Keep moving.`;
-    }
-
-    // DEFAULT: HIGH ALIGNMENT
-    return `You have achieved alignment between your Mechanics, your Cognition, and your Narrative. Your only task now is to increase the stakes. Do not over-think the logic; simply ignite the Tactical Step. Speed is your primary defensive measure now.`;
-}
-
-    function loadQuestion() {
-    const q = questions[step];
-    document.getElementById('domain').innerText = `Domain: ${q.d}`;
-    document.getElementById('question').innerText = q.q;
-    document.getElementById('optA').innerText = q.a;
-    document.getElementById('optB').innerText = q.b;
-    document.getElementById('progress-fill').style.width = `${(step / questions.length) * 100}%`;
-    
-    // Toggle Back Button visibility
-    document.getElementById('back-btn').style.display = step > 0 ? "block" : "none";
-}
-
+ 
     function adjustSelections() {
-    document.getElementById('deep-dive-container').style.display = "none";
-    document.getElementById('deep-analysis-trigger').style.display = "block";
-    document.getElementById('deep-analysis-trigger').scrollIntoView({ behavior: 'smooth' });
-}
-
+        document.getElementById('deep-dive-container').style.display  = "none";
+        document.getElementById('deep-analysis-trigger').style.display = "block";
+        document.getElementById('deep-analysis-trigger').scrollIntoView({ behavior: 'smooth' });
+    }
+ 
+    function generateMasterDirective(code, mbti, ennea) {
+        const isChaos     = code.startsWith('A');
+        const isOrder     = code.startsWith('B');
+        const isExtravert = mbti.startsWith('E');
+        const isIntuitive = mbti[1] === 'N';
+        const isFeeler    = mbti[2] === 'F';
+        const gut   = ['1', '8', '9'].includes(ennea);
+        const heart = ['2', '3', '4'].includes(ennea);
+        const head  = ['5', '6', '7'].includes(ennea);
+ 
+        if (isChaos && (!isIntuitive || gut))
+            return `You are a Kinetic Engine trapped in a Control-centric narrative. You stall because you try to calculate your way out of an intuitive blackout situation. You are looking for the right answer when your engine only produces effective ones. Close the books. Trust the mud. Ignite the engine before you're ready.`;
+        if (isOrder && (isExtravert || head))
+            return `You are an Order Engine fueled by a High-Activity mind. You stall because you treat Systems like a cage instead of a launchpad. You are currently looking for a New Path when you should be optimizing the one you're on. Execute the ritual to fund your next act of freedom. Build the floor.`;
+        if (code.endsWith('B') && isFeeler && heart)
+            return `Your engine is built for Legacy, but your narrative is seeking Validation. You stall because you fear separation from the group if you move too fast. Reclaim your mission. Don't ask for permission; go forward and reveal the path. Your group needs your strength more than your consensus.`;
+        if (code.endsWith('A') && !isExtravert && head)
+            return `You are currently stalling through Strategic Drifting. You are hoarding information to protect your ego from failure. Realize that Order is the logistics of victory, not a threat to your autonomy. Build the system today so you can use it as a weapon tomorrow. The manual is the canvas.`;
+        if (isChaos && isIntuitive && isExtravert)
+            return `You have achieved Peak Fluidity. You are a pure Disruptor. You stall only when you lose sight of the So What. Do not look for a system; simply identify the biggest obstacle in your path and destroy it. Volume and speed are your only variables. Keep moving.`;
+        return `You have achieved alignment between your Mechanics, your Cognition, and your Narrative. Your only task now is to increase the stakes. Do not over-think the logic; simply ignite the Tactical Step. Speed is your primary defensive measure now.`;
+    }
+ 
+    // ─── NAVIGATION ──────────────────────────────────────────────────────────
     function showView(viewId) {
-    // Hide all views
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    // Show requested view
-    document.getElementById(viewId).classList.add('active');
-    window.scrollTo(0, 0);
-}
-
-// Add a button in your Results HTML that calls this:
-function openCareerTerminal() {
-    showView('career-terminal');
-}
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+ 
+    function openCareerTerminal() {
+        showView('career-terminal');
+    }
 </script>
-
 </body>
 </html>
