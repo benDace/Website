@@ -137,6 +137,17 @@
         }
         .btn-nav:hover { border-color: var(--neon); color: var(--neon); }
         .logo { cursor: pointer; } /* Makes logo feel clickable */
+
+        #quad-roles li {
+            background: linear-gradient(145deg, rgba(28, 28, 30, 0.8), rgba(20, 20, 22, 1));
+            color: var(--text);
+            border-left: 2px solid var(--neon);
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        /* Warm Accents for high-activity quadrants */
+        .Wildcards-accent { color: #c89f9c; } /* Terracotta */
+        .Pillars-accent { color: #d4af37; }   /* Metallic Gold */
     </style>
 </head>
 <body>
@@ -219,6 +230,20 @@
         </div>
     </div>
 
+    <div class="res-section" style="border-left: 4px solid var(--neon);">
+    <h3 style="color: var(--neon); letter-spacing: 2px; margin-bottom: 1rem;">Professional Quadrant</h3>
+    <div id="quadrant-display">
+        <h2 id="quad-name" style="text-transform: uppercase; font-weight: 900; margin-bottom: 0.5rem;">QUADRANT NAME</h2>
+        <p id="quad-vibe" style="color: var(--dim); margin-bottom: 1.5rem; font-style: italic;"></p>
+        
+        <div class="directive-box">
+            <h4>2026 High-Impact Matches</h4>
+            <ul id="quad-roles" style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                </ul>
+        </div>
+    </div>
+</div>
+ 
     <div class="res-section">
         <h3>Operational Stats</h3>
         <div class="strategic-grid">
@@ -515,7 +540,34 @@ function finalize() {
         action: "Create a healthy conflict today. Set a hard boundary or say 'No' to a request. Use that spark of friction to ignite your drive and tackle your hardest task." 
     }
 };
-    
+
+    const careerQuadrants = {
+        "Pillars": {
+            name: "Institutional Pillars",
+            logic: "Order + World-Type",
+            roles: ["M&A Strategy (Accenture/KPMG)", "Chief of Staff", "Nuclear Compliance", "Value Realization Lead"],
+            vibe: "You thrive in high-stakes, established systems where the mission is the priority."
+        },
+        "Technicians": {
+            name: "Precision Technicians",
+            logic: "Order + Self-Type",
+            roles: ["Cybersecurity Engineer", "High-Frequency Trader", "AI Prompt Architect", "Actuary"],
+            vibe: "You use the system as a cage for your own mastery. You are the deep-tech specialist."
+        },
+        "Visionaries": {
+            name: "Disruptive Visionaries",
+            logic: "Chaos + World-Type",
+            roles: ["AI Product Manager", "Frontier VC", "Social Disruptor", "Frontier Explorer"],
+            vibe: "You walk into the void to create what doesn't exist yet for the benefit of the legacy."
+        },
+        "Wildcards": {
+            name: "The Wildcards",
+            logic: "Chaos + Self-Type",
+            roles: ["Hostile Takeover Specialist", "White Hat Hacker", "Solo Founder", "Crisis Negotiator"],
+            vibe: "You are the pure predator. You thrive in high-risk environments where autonomy is the only metric."
+        }
+    };
+        
     let step = 0;
     let results = { System: [], Environment: [], Acquisition: [], Motivation: [] };
     let isCalibrating = false;
@@ -596,8 +648,38 @@ function finalize() {
     }
 
     function displayResult(code) {
-        currentAMCode = code; 
+       currentAMCode = code; 
         const p = database[code];
+        const parts = code.split('.');
+        const system = parts[0];     // A (Chaos) or B (Order)
+        const motivation = parts[3]; // A (Self) or B (World)
+
+
+        // Quadrant Detection Logic
+        let quadKey = "";
+        if (system === 'B' && motivation === 'B') quadKey = "Pillars";
+        else if (system === 'B' && motivation === 'A') quadKey = "Technicians";
+        else if (system === 'A' && motivation === 'B') quadKey = "Visionaries";
+        else if (system === 'A' && motivation === 'A') quadKey = "Wildcards";
+    
+        const quad = careerQuadrants[quadKey];
+    
+        // Populate Quadrant UI
+        document.getElementById('quad-name').innerText = quad.name;
+        document.getElementById('quad-vibe').innerText = quad.vibe;
+        
+        const rolesList = document.getElementById('quad-roles');
+        rolesList.innerHTML = quad.roles.map(role => 
+            `<li style="background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; font-weight: 700;">${role}</li>`
+        ).join('');
+
+        // ... (Existing displayResult code for ID population)
+        document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
+        // (Ensure the rest of your IDs like out-name, am-advice, etc., are updated as usual)
+        
+        document.getElementById('quiz').classList.remove('active');
+        document.getElementById('results').classList.add('active');
+        window.scrollTo(0, 0);
 
         // FILL ALL AM FIELDS
         document.getElementById('out-code').innerText = `DESIGNATION: ${code}`;
