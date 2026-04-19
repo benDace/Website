@@ -411,138 +411,189 @@
         "A.B.A.A": { name: "Impact Sniper",       mantra: "Pressure turns the spark into a flame.",         advice: "You live for the high. Avoid marathon tasks; you are a sprinter. You wait for peak chaos to strike.",                                                                     action: "Take sole ownership of the 'Closing Deal'—the single moment where one decision settles the score.",                                                              desc: "The Thrill-Seeker. You wait for peak chaos to unleash an innate gift for personal satisfaction.",                                         eff: "High-stakes closer, Stunt work, Specialized demolition, Crisis Negotiator.",                           fic: "Billy Butcher, Deadpool, Rick Sanchez",                     real: "Hunter S. Thompson, Evel Knievel" }
     };
 
-    // ─── MBTI LENSES ─────────────────────────────────────────────────────────
-    const mbtiLenses = {
-        "INTJ": {
-            style: "The Architect. You lead through structural logic and long-range contingency planning.",
-            friction: "Paralysis by Analysis. You often stall because you're trying to solve Phase 5 problems while still in Phase 1.",
-            action: "Shrink the vision. Commit to one 'imperfect' deliverable today to break the planning loop."
-        },
-        "ENTJ": {
-            style: "The Commander. You project authority through efficiency and decisive resource allocation.",
-            friction: "Force over Flow. You often stall by trying to 'steamroll' a system that requires a more intuitive, surgical touch.",
-            action: "Stop managing the variables. Tackle the one 'messy' task you've been avoiding without a checklist."
-        },
-        "INFJ": {
-            style: "The Sage. You lead through moral authority and deep synthesis of complex human patterns.",
-            friction: "The Burden of Meaning. You stall when a task feels 'transactional' or lacks a deep, transformative purpose.",
-            action: "Gamify the mundane. Treat the transactional work as the 'Logistics of the Soul' to get it done."
-        },
-        "ENFJ": {
-            style: "The Protagonist. You project authority through collective inspiration and diplomatic momentum.",
-            friction: "Consensus Drag. You downregulate your engine speed to ensure everyone is 'on board,' killing your personal strike rate.",
-            action: "Execute in a vacuum. Make one major decision today without asking for a single piece of feedback."
-        },
-        "INTP": {
-            style: "The Alchemist. You lead through objective truth-seeking and radical system deconstruction.",
-            friction: "The Infinite Rabbit Hole. You stall by treating the 'Research' as the 'Result.' You value knowing over doing.",
-            action: "Set a 15-minute 'Hard-Stop' on data gathering. Whatever you know at 15:01 is what you ship."
-        },
-        "ENTP": {
-            style: "The Visionary. You lead through intellectual disruption and rapid-fire ideation.",
-            friction: "The Shiny Object Trap. You stall the moment the 'Novelty' wears off and the 'Grind' begins.",
-            action: "Close the tabs. You are forbidden from starting a new project until the current one is 100% dead or delivered."
-        },
-        "INFP": {
-            style: "The Healer. You lead through radical authenticity and alignment with internal values.",
-            friction: "The Vibe Barrier. You stall when your mood doesn't match the mechanic requirements of the task.",
-            action: "Motion creates Emotion. Move your body for 5 minutes, then execute the task as a purely mechanical exercise."
-        },
-        "ENFP": {
-            style: "The Campaigner. You lead through infectious energy and seeing the 'Multitude' of options.",
-            friction: "Decision Fatigue. You stall because choosing one path feels like 'killing' the other 99 possibilities.",
-            action: "Pick a path at random. The 'correctness' of the choice matters less than the velocity of the movement."
-        },
-        "ISTJ": {
-            style: "The Anchor. You lead through reliability, institutional knowledge, and proven frameworks.",
-            friction: "The Manual Trap. You stall when the rules are outdated but you feel a duty to follow them anyway.",
-            action: "Trust your experience over the SOP. If the system is slow, bypass it for the win just once today."
-        },
-        "ESTJ": {
-            style: "The Executive. You lead through clear hierarchies, accountability, and direct implementation.",
-            friction: "Admin Bloat. You spend so much time 'Organizing' the effort that you lose the window for 'Executing' it.",
-            action: "Delegate the status report. Pick up the heaviest tactical hammer and strike the goal immediately."
-        },
-        "ISFJ": {
-            style: "The Defender. You lead through quiet service and protecting the stability of the system.",
-            friction: "The Martyrdom Stall. You put your own engine in neutral to help someone else fix theirs.",
-            action: "Put on your own oxygen mask. Block off the first 2 hours of your day for YOUR engine only."
-        },
-        "ESFJ": {
-            style: "The Consul. You lead through social cohesion and managing the needs of the group.",
-            friction: "Validation Lag. You stall when you feel unappreciated or when the team vibe is 'off.'",
-            action: "Perform in secret. Do a massive task today and tell no one. Reclaim your internal validation."
-        },
-        "ISTP": {
-            style: "The Virtuoso. You lead through technical mastery and surgical problem-solving.",
-            friction: "Theoretical Disconnect. You stall when a task feels too 'corporate' or detached from a concrete result.",
-            action: "Find the most broken, technical piece of your project and fix it manually to spark your drive."
-        },
-        "ESTP": {
-            style: "The Entrepreneur. You lead through bold action and capitalizing on situational opportunities.",
-            friction: "The Adrenaline Crash. You stall during the 'Quiet' phases of a project when there is no crisis to solve.",
-            action: "Manufacture a deadline. Create an artificial time-crunch to force your engine into 'High-Stakes' mode."
-        },
-        "ISFP": {
-            style: "The Adventurer. You lead through quiet artistry and sensitivity to the current moment.",
-            friction: "Schedule Suffocation. You stall when your calendar looks like a cage of back-to-back meetings.",
-            action: "Go Dark. Delete one non-essential meeting and use that hour to work from a completely new location."
-        },
-        "ESFP": {
-            style: "The Entertainer. You lead through presence, charisma, and making the work feel alive.",
-            friction: "The Isolation Stall. You lose 50% of your power when forced to work in a vacuum for long periods.",
-            action: "Body Doubling. Hop on a focus-call or go to a busy café. You need the noise to ignite your quiet work."
-        }
-    };
+    // ─── MBTI AUDIT (code-aware) ──────────────────────────────────────────────
+    function generateMbtiAudit(mbti, code) {
+        const isChaos = code.startsWith('A');
 
-    // ─── ENNEAGRAM NARRATIVES ─────────────────────────────────────────────────
-    const enneaNarratives = {
-        "1": {
-            driver: "The Reformer. Fueled by a need for integrity, precision, and being 'Right' within the system.",
-            sabotage: "Polishing the Launchpad. You stall by obsessing over minor defects to avoid the vulnerability of a finished product.",
-            action: "80% is Lethal. Intentionally ship a 'messy' draft today to prove that velocity beats perfection."
-        },
-        "2": {
-            driver: "The Helper. Fueled by being indispensable and maintaining social connectivity.",
-            sabotage: "The Martyrdom Stall. You solve everyone else's fires to avoid the high-stakes work that would actually advance your own engine.",
-            action: "Selective Coldness. Block off 2 hours. Help no one. Solve zero external problems. Reclaim your engine's autonomy."
-        },
-        "3": {
-            driver: "The Achiever. Fueled by external validation, rank, and the optics of success.",
-            sabotage: "Performative Busy-work. You do things that make you *look* effective—clearing emails, tweaking slides—to avoid the one task where failure is possible.",
-            action: "Delete the Easy Wins. Ignore your 'To-Do' list. Spend the next hour only on the highest-risk task on your plate."
-        },
-        "4": {
-            driver: "The Individualist. Fueled by identity, depth, and a need to feel 'Inspired' before acting.",
-            sabotage: "The Vibe Barrier. You treat your mood like a permission slip. If you don't 'feel' the work, you treat execution as a betrayal of your soul.",
-            action: "Mechanical Supremacy. Ignore your mood. Act like an unfeeling machine for 20 minutes. Motion will eventually force the emotion."
-        },
-        "5": {
-            driver: "The Investigator. Fueled by a need for certainty, data, and mental preparedness.",
-            sabotage: "Information Hoarding. You stall by convincing yourself you need 'one more data point' before the engine can ignite. You use research as a shield.",
-            action: "50% Certainty is Enough. Close the tabs. You are forbidden from looking up more data. Execute based on your current knowledge now."
-        },
-        "6": {
-            driver: "The Loyalist. Fueled by security, risk-mitigation, and looking for safety rails.",
-            sabotage: "Hyper-Vigilance. You play 'Mental Chess' with potential disasters until you're too paralyzed to make the first move.",
-            action: "Trust the Mud. Pick the outcome you fear most. Assume it will happen. Move anyway. Movement is the only cure for anxiety."
-        },
-        "7": {
-            driver: "The Enthusiast. Fueled by novelty, freedom, and escaping the 'Boredom' of the grind.",
-            sabotage: "Strategic Drifting. The moment a task gets difficult or repetitive, your mind starts looking for a shiny new distraction to chase.",
-            action: "One Target, One Kill. Put your phone in another room. Stay in the room with your hardest task until it is dead. No new tabs."
-        },
-        "8": {
-            driver: "The Challenger. Fueled by autonomy, power, and resisting external control.",
-            sabotage: "Reactionary Resistance. You view 'Systems' or 'Schedules' as a threat to your power, so you fight the very tools that would help you dominate.",
-            action: "Systems are Weapons. Stop viewing the plan as a 'Boss.' Treat it as Battle Logistics. Build the floor so you can crush the competition."
-        },
-        "9": {
-            driver: "The Peacemaker. Fueled by internal harmony and avoiding the 'Heat' of conflict.",
-            sabotage: "Productive Napping. You drift into minor, comfortable tasks to avoid the friction of a difficult decision or a hard conversation.",
-            action: "Create the Conflict. Say 'No' to a request or set a hard boundary today. Use that spark of friction to ignite your engine's drive."
+        const mbtiMap = {
+            "INTJ": {
+                style: "The Architect. High-level structural logic and contingency mapping.",
+                chaos: { f: "Structural Whiplash. Trying to build a blueprint while the map is burning.", a: "Lower the resolution. Stop planning for Phase 5; survive Phase 1." },
+                order: { f: "Over-Engineering. Adding safety rails to a system that is already stable.", a: "Pull the lever. You don't need more data; you need more velocity." }
+            },
+            "ENTJ": {
+                style: "The Commander. Decisive resource allocation and systemic authority.",
+                chaos: { f: "The Steamroller. Using blunt force to try and 'fix' a fluid environment.", a: "Stop forcing the flow. Identify the path of least resistance and slide." },
+                order: { f: "Bureaucratic Bloat. Managing the process instead of leading the strike.", a: "Strip the layers. Execute a high-stakes task solo today to reset your drive." }
+            },
+            "INTP": {
+                style: "The Alchemist. Objective truth-seeking and radical deconstruction.",
+                chaos: { f: "The Aimless Theorist. Exploring 1000 ideas while the engine burns fuel.", a: "Targeted Logic. Pick the one theory that yields immediate ROI and execute." },
+                order: { f: "The Static Professor. Intellectualizing a process that just needs movement.", a: "Close the tabs. You are forbidden from more research. Motion is the mandate." }
+            },
+            "ENTP": {
+                style: "The Visionary. Intellectual disruption and rapid-fire ideation.",
+                chaos: { f: "The Exploding Spark. Manufacturing new directions to keep up with the noise.", a: "Finish the kill. Stay on one target until the value is fully realized." },
+                order: { f: "The Saboteur. Trying to disrupt the very system that makes you effective.", a: "Respect the machine. Use the existing rules to fund your next disruption." }
+            },
+            "INFJ": {
+                style: "The Sage. Deep synthesis of human patterns and moral authority.",
+                chaos: { f: "Overwhelmed Mystic. Patterns moving too fast for your intuition to settle.", a: "Surgical Focus. Focus on one person or one outcome. Ignore the cosmic noise." },
+                order: { f: "The Rigid Martyr. Meaning-seeking is creating a drag on your efficiency.", a: "Transactional Supremacy. Treat today's tasks as purely mechanical logistics." }
+            },
+            "ENFJ": {
+                style: "The Protagonist. Diplomatic momentum and collective inspiration.",
+                chaos: { f: "The Frantic Leader. Trying to keep the pack together while the road is ending.", a: "Go Vanguard. Move so fast that the group has no choice but to follow." },
+                order: { f: "Consensus Drag. Waiting for permission from a group that needs a leader.", a: "Unilateral Action. Make one executive decision without feedback today." }
+            },
+            "INFP": {
+                style: "The Healer. Radical authenticity and internal value alignment.",
+                chaos: { f: "The Fragmented Soul. Disruption is clashing with your need for internal peace.", a: "Values in Action. Find the one part of the chaos that helps people and own it." },
+                order: { f: "The Routine Ghost. Haunting a system you no longer find meaningful.", a: "Motion over Meaning. Execute for 15 minutes to wake up your engine." }
+            },
+            "ENFP": {
+                style: "The Campaigner. Infectious energy and infinite possibility-seeking.",
+                chaos: { f: "Strategic Drifting. Vibrating with energy but not gaining any ground.", a: "Force a Collision. Pick a path at random and stay on it for 2 hours. No exits." },
+                order: { f: "The Restless Strategist. Resenting the rules that actually make you win.", a: "Build the Floor. Use the structure as a launchpad, not a cage. Hit the quota." }
+            },
+            "ISTJ": {
+                style: "The Anchor. Reliability, institutional knowledge, and proven frameworks.",
+                chaos: { f: "The Feral Clerk. Trying to use an outdated manual to navigate a mud-pit.", a: "Discard the Manual. Your feet know the way. Trust your mechanics, not the text." },
+                order: { f: "The Fossil. Over-optimizing a legacy ritual that no longer yields value.", a: "Break the Rule. Intentionally bypass one step today to increase your speed." }
+            },
+            "ESTJ": {
+                style: "The Executive. Clear hierarchies and direct implementation.",
+                chaos: { f: "The Aggressive Auditor. Micromanaging a storm. You're killing the spark.", a: "Embrace the Mess. Stop auditing the chaos and start capitalizing on the noise." },
+                order: { f: "Admin Bloat. Spending your power on the report instead of the result.", a: "Tactical Hammer. Delegate the status update. Strike the goal immediately." }
+            },
+            "ISFJ": {
+                style: "The Defender. Quiet service and maintaining systemic stability.",
+                chaos: { f: "The Reluctant Warrior. Terrified of the mess your own engine is creating.", a: "Permission to Destroy. Chaos is the fertilizer for your next act of service." },
+                order: { f: "The Duty Wall. Protecting everyone else's engine while yours is in neutral.", a: "Selfish Strike. Block off 2 hours for your primary metric. Help no one." }
+            },
+            "ESFJ": {
+                style: "The Consul. Social cohesion and managing team needs.",
+                chaos: { f: "Performative Disruptor. Breaking rules for attention rather than strategy.", a: "Seek Impact, not Eyes. Execute a mission-critical task in total silence." },
+                order: { f: "Validation Lag. Waiting for a 'Thank You' before pulling the next lever.", a: "Internal Fuel. Complete your quota and 'Drop the Mic.' The win is the reward." }
+            },
+            "ISTP": {
+                style: "The Virtuoso. Technical mastery and surgical problem-solving.",
+                chaos: { f: "The Drifting Mechanic. Fixing small leaks while the ship is sinking.", a: "Find the Heat. Target the most broken, high-stakes part of the mess and strike." },
+                order: { f: "The Bored Technician. Resenting a stable engine because it's too easy.", a: "Gamify the Grind. Set a timer and race your own records for boring tasks." }
+            },
+            "ESTP": {
+                style: "The Entrepreneur. Bold action and situational opportunism.",
+                chaos: { f: "The Adrenaline Junkie. Manufacturing crises to feel the engine ignite.", a: "Sustainable Fire. Direct that energy toward the goal, not a new conflict." },
+                order: { f: "The Suffocated Sprinter. Viewing battle logistics as a personal boss.", a: "Use the Rails. Treat the plan like a racetrack. Speed is the only goal." }
+            },
+            "ISFP": {
+                style: "The Adventurer. Quiet artistry and sensitivity to the moment.",
+                chaos: { f: "The Aesthetic Nomad. Lost in the vibe and forgetting to secure the win.", a: "Secure the Perimeter. Take the beauty and turn it into a deliverable." },
+                order: { f: "The Caged Artist. Sabotaging your own efficiency to feel authentic.", a: "Change the Setting. Execute your orderly tasks from a new, high-vibe location." }
+            },
+            "ESFP": {
+                style: "The Entertainer. Charisma and making the work feel alive.",
+                chaos: { f: "The Spotlight Chaser. Focusing on the audience while the engine stalls.", a: "Execute in the Dark. Prove your power exists when no one is watching." },
+                order: { f: "The Isolated Performer. Losing drive because the grind feels lonely.", a: "Body Doubling. Work in a busy space. Use the noise of others to fuel your task." }
+            }
+        };
+
+        const profile = mbtiMap[mbti] || mbtiMap["INTJ"]; // Default fallback
+        const audit = isChaos ? profile.chaos : profile.order;
+
+        return {
+            style: profile.style,
+            friction: audit.f,
+            action: audit.a
+        };
+    }
+
+    // ─── ENNEAGRAM AUDIT (environment + motivation gated) ────────────────────
+    function generateEnneaAudit(ennea, code) {
+        const parts = code.split('.');
+        const env = parts[1]; // A (Freedom) or B (Restriction)
+        const mot = parts[3]; // A (Self) or B (World)
+
+        // Logic Key: [Type][Environment-A/B][Motivation-A/B]
+        const gateKey = `${ennea}${env}${mot}`;
+
+        const vault = {
+            // TYPE 1: THE REFORMER
+            "1AA": { f: "The Perfectionist Void.",       a: "Total freedom is your enemy. You are using the space to fix minor defects that don't matter. Create 3 artificial constraints today to force an output." },
+            "1AB": { f: "The Ethical Drifter.",          a: "You have freedom but are paralyzed by the 'World's' needs. You're trying to find a perfect mission before acting. Define a 'Good Enough' mission and launch." },
+            "1BA": { f: "The Tactical Surgeon.",         a: "High pressure meets personal precision. You thrive here, but you risk burnout by taking every error personally. Shift from 'Perfect' to 'Functional'." },
+            "1BB": { f: "The Systemic Auditor.",         a: "You are obsessed with 'Zero Errors' in a high-stakes mission. You are stalling the engine by over-polishing the gears. 80% is lethal; ship it now." },
+
+            // TYPE 2: THE HELPER
+            "2AA": { f: "The Sovereign Mentor.",         a: "You have freedom and self-mastery. You often stall by helping others build their engines instead of driving your own. Set a hard boundary on your availability." },
+            "2AB": { f: "The Invisible Servant.",        a: "You are using your freedom to 'save' the group. You stall because you fear being seen as selfish. Reclaim your engine's power; the group needs your result." },
+            "2BA": { f: "The Crisis Shield.",            a: "In high pressure, you act as a shield for others. You are absorbing stress that isn't yours. Put on your own oxygen mask first or the engine will fail." },
+            "2BB": { f: "The Resentful Martyr.",         a: "You're doing the duty but resenting the team. You've traded your efficiency for social debt. Selective Coldness: Stop helping and start leading." },
+
+            // TYPE 3: THE ACHIEVER
+            "3AA": { f: "The Brand Nomad.",              a: "High freedom and self-motivation. You are building a personal empire but lack 'lethality.' Stop tweaking the optics; ship the result today." },
+            "3AB": { f: "The Strategic Pioneer.",        a: "You see the world's rank and seek to claim it. You stall when the mission feels 'Small.' Re-frame your current task as a prerequisite for Tier-1 status." },
+            "3BA": { f: "The Solitary Achiever.",        a: "You seek personal mastery but need pressure to activate. Without a leaderboard or a deadline, you stall. Manufacture a public competition." },
+            "3BB": { f: "The Institutional Vanguard.",   a: "Peak alignment for corporate strategy. You thrive on rank and deadlines. Ensure the result is as deep as the presentation looks." },
+
+            // TYPE 4: THE INDIVIDUALIST
+            "4AA": { f: "The Aesthetic Ghost.",          a: "You have freedom but are lost in the 'Vibe.' You stall because you're waiting for inspiration. Motion creates emotion: Work for 15 minutes as a machine." },
+            "4AB": { f: "The Tragic Revolutionary.",     a: "You want to change the world but feel misunderstood. You're stalling to maintain your identity. Your impact is your identity; execute to be seen." },
+            "4BA": { f: "The Pressure Poet.",            a: "High pressure creates deep internal friction. You feel the work is 'Soulless.' Treat the pressure as a kiln to forge your unique talent into a weapon." },
+            "4BB": { f: "The Authentic Survivor.",       a: "You are mission-driven but need the work to feel 'Real.' If the mission is transactional, you stall. Find the 'Soul' in the data to ignite." },
+
+            // TYPE 5: THE INVESTIGATOR
+            "5AA": { f: "The Intellectual Hermit.",      a: "You have freedom and mastery. You are hoarding data to avoid the world. You don't need more info; you need a collision. Close the books." },
+            "5AB": { f: "The Information Hoarder.",      a: "You are gathering data to save the mission. You feel 'knowing' is 'doing.' It isn't. Execute based on the 50% you know right now." },
+            "5BA": { f: "The Cold Analyst.",             a: "High pressure forces you further into your head. You're losing situational awareness. Look up from the data; trust your instinctive blackout flow." },
+            "5BB": { f: "The Strategic Reserve.",        a: "You are the institution's brain in a crisis. You stall by waiting for total certainty. Absolute certainty is a myth; move on the best hypothesis." },
+
+            // TYPE 6: THE LOYALIST
+            "6AA": { f: "The Skeptical Nomad.",          a: "Freedom makes you anxious. You're looking for a safety rail that doesn't exist. Your feet know the way. Trust your mechanics, not the manual." },
+            "6AB": { f: "The Vigilant Scout.",           a: "You see every risk in the mission. You're stalling because you're playing mental chess with disaster. Movement is the only cure for anxiety." },
+            "6BA": { f: "The Deflected Power.",          a: "You have the rank but seek permission. You're using the pressure as an excuse to stay small. Claim your authority; the system is yours to drive." },
+            "6BB": { f: "The Hyper-Vigilant Pillar.",    a: "The ultimate reliable operative. You stall by preparing for threats that aren't there. Stop scanning the horizon and strike the target in front of you." },
+
+            // TYPE 7: THE ENTHUSIAST
+            "7AA": { f: "The Strategic Drifter.",        a: "Infinite energy, zero gain. You're jumping to new tabs to avoid the 'Boredom' of the kill. One Target, One Kill. Stay on the task until it's dead." },
+            "7AB": { f: "The Optimistic Disruptor.",     a: "You want to innovate the world but hate the grind. You stall when the mission requires depth. The depth is where the disruption lives. Stay down." },
+            "7BA": { f: "The Adrenaline Junkie.",        a: "You manufacture crises to feel alive in high-pressure settings. You're burning out the team. Build boring infrastructure to fund your next high." },
+            "7BB": { f: "The Kinetic Closer.",           a: "You thrive when the building is on fire. You stall in the 'Quiet.' Use the quiet to sharpen your blade for the next high-stakes deal." },
+
+            // TYPE 8: THE CHALLENGER
+            "8AA": { f: "The Pure Predator.",            a: "Total freedom and self-mastery. You are lethal but undirected. Without a mission, you will dismantle your own system. Select a target and strike." },
+            "8AB": { f: "The Rogue Leader.",             a: "You have freedom but want to lead the world. You stall when people won't follow. Stop convincing them; just show the result. Power is its own argument." },
+            "8BA": { f: "The Reactionary Warlord.",      a: "You are fighting the 'Restriction' of the environment instead of the goal. Stop fighting the boss; use the structure to crush the task." },
+            "8BB": { f: "The Siege Commander.",          a: "Peak intensity. You are built for the storm. Your only risk is scorched earth. Ensure there is a world left to lead once the victory is won." },
+
+            // TYPE 9: THE PEACEMAKER
+            "9AA": { f: "The Idling Ferrari.",           a: "High autonomy and mastery. You are drifting in comfort. You have the power to disrupt, but you're avoiding the 'Heat.' Manufacture a challenge today." },
+            "9AB": { f: "The Passive Visionary.",        a: "You're mission-driven but stalling through 'Productive Sloth.' You're waiting for a consensus that isn't coming. Act unilaterally to save the mission." },
+            "9BA": { f: "The Stoic Specialist.",         a: "High pressure meets personal mastery. You absorb the stress but stay quiet. Reclaim your drive by setting a hard boundary and saying 'No' to a request." },
+            "9BB": { f: "The Harmonizing Anchor.",       a: "High-pressure legacy mission. You are acting as the group's shock absorber. Move toward the heat; the conflict is where the value is realized." }
+        };
+
+        const output = vault[gateKey] || { f: "Narrative Lag Detected.", a: "Execute the Unified Field Mandate to re-engage the engine." };
+
+        // Split `a` so both the diagnosis and the imperative render in their own UI slots.
+        // Last sentence of `a` → Internal Breakthrough; earlier sentences → Sabotage Loop.
+        const sentences = output.a.match(/[^.!?]+[.!?]+['"]?\s*/g);
+        let sabotageText, actionText;
+        if (sentences && sentences.length >= 2) {
+            actionText   = sentences[sentences.length - 1].trim();
+            sabotageText = sentences.slice(0, -1).join('').trim();
+        } else {
+            // Fallback for single-sentence entries
+            actionText   = output.a;
+            sabotageText = output.f;
         }
-    };
+
+        return {
+            driver:   output.f,       // Archetype name (e.g., "The Perfectionist Void.")
+            friction: sabotageText,   // Diagnostic sentences from `a`
+            action:   actionText      // Final imperative from `a`
+        };
+    }
 
     // ─── CAREER QUADRANTS ────────────────────────────────────────────────────
     const careerQuadrants = {
@@ -743,25 +794,28 @@
         const m = document.getElementById('mbti-select').value;
         const e = document.getElementById('enneagram-select').value;
 
-        const lens  = mbtiLenses[m];
-        const ennea = enneaNarratives[e];
-        if (lens && ennea) {
-            // MBTI Population
-            document.getElementById('mbti-title').innerText    = `Cognitive Alignment (${m})`;
-            document.getElementById('mbti-style').innerText    = lens.style;
-            document.getElementById('mbti-friction').innerText = lens.friction;
-            document.getElementById('mbti-action').innerText   = lens.action;
-            // NEW: Enneagram Population
-            document.getElementById('ennea-title').innerText    = `Internal Narrative (Type ${e})`;
-            document.getElementById('ennea-driver').innerText   = ennea.driver;
-            document.getElementById('ennea-sabotage').innerText = ennea.sabotage;
-            document.getElementById('ennea-action').innerText   = ennea.action;
-            // Generate Mandate
-            document.getElementById('master-directive').innerText = generateMasterDirective(currentAMCode, m, e);
-            document.getElementById('deep-dive-container').style.display  = "block";
-            document.getElementById('deep-analysis-trigger').style.display = "none";
-            document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
-        }
+        // Code-aware audits
+        const mbtiAudit  = generateMbtiAudit(m, currentAMCode);
+        const enneaAudit = generateEnneaAudit(e, currentAMCode);
+
+        // MBTI population
+        document.getElementById('mbti-title').innerText    = `Cognitive Alignment (${m})`;
+        document.getElementById('mbti-style').innerText    = mbtiAudit.style;
+        document.getElementById('mbti-friction').innerText = mbtiAudit.friction;
+        document.getElementById('mbti-action').innerText   = mbtiAudit.action;
+
+        // Enneagram population (note: audit.friction maps to #ennea-sabotage)
+        document.getElementById('ennea-title').innerText    = `Internal Narrative (Type ${e})`;
+        document.getElementById('ennea-driver').innerText   = enneaAudit.driver;
+        document.getElementById('ennea-sabotage').innerText = enneaAudit.friction;
+        document.getElementById('ennea-action').innerText   = enneaAudit.action;
+
+        // Unified Field Mandate
+        document.getElementById('master-directive').innerText = generateMasterDirective(currentAMCode, m, e);
+
+        document.getElementById('deep-dive-container').style.display   = "block";
+        document.getElementById('deep-analysis-trigger').style.display = "none";
+        document.getElementById('deep-dive-container').scrollIntoView({ behavior: 'smooth' });
     }
 
     function adjustSelections() {
@@ -771,74 +825,150 @@
     }
 
     function generateMasterDirective(code, mbti, ennea) {
+        // 1. DATA EXTRACTION
         const parts = code.split('.');
-        const engineChaos       = parts[0] === 'A';
-        const engineOrder       = parts[0] === 'B';
-        const engineFreedom     = parts[1] === 'A';
-        const engineRestriction = parts[1] === 'B';
-        const engineGenius      = parts[2] === 'A';
-        const engineLearner     = parts[2] === 'B';
-        const engineSelf        = parts[3] === 'A';
-        const engineWorld       = parts[3] === 'B';
+        const isChaos       = parts[0] === 'A';
+        const isOrder       = parts[0] === 'B';
+        const isFreedom     = parts[1] === 'A';
+        const isRestriction = parts[1] === 'B';
+        const isGenius      = parts[2] === 'A';
+        const isLearner     = parts[2] === 'B';
+        const isSelf        = parts[3] === 'A';
+        const isWorld       = parts[3] === 'B';
 
-        const isExtravert  = mbti.startsWith('E');
-        const isIntuitive  = mbti[1] === 'N';
-        const isSensing    = mbti[1] === 'S';
-        const isThinking   = mbti[2] === 'T';
-        const isFeeling    = mbti[2] === 'F';
-        const isJudging    = mbti[3] === 'J';
-        const isPerceiving = mbti[3] === 'P';
+        const E = mbti[0] === 'E';
+        const N = mbti[1] === 'N';
+        const S = !N;
+        const T = mbti[2] === 'T';
+        const F = !T;
+        const J = mbti[3] === 'J';
+        const P = !J;
 
-        const gut   = ['1', '8', '9'].includes(ennea);
-        const heart = ['2', '3', '4'].includes(ennea);
-        const head  = ['5', '6', '7'].includes(ennea);
+        // 2. THE 30 SOVEREIGN GATES (The Verdict Engine)
 
-        // --- THE SURGICAL 30 ---
+        // GATE 01: The Caged Strategist (B.*.*.B + ENFP + 9)
+        if (isOrder && isWorld && N && P && ennea === '9') {
+            return "You have the engine of a Master Strategist but the mind of a Restless Nomad. You are stalling because you view the 'System' as a cage rather than a launchpad. You are prioritizing team harmony (9) over the Value Realization (B) you were hired for. STOP BEING THE BUFFER. Use the institutional floor to reach your creative ceiling. Velocity is your only defense.";
+        }
+        // GATE 02: The Institutional Warden (B.B.*.* + ESTJ-ish + 1)
+        if (isOrder && isRestriction && S && J && ennea === '1') {
+            return "The Ritual has become a Trap. You have optimized for 'Zero Errors' at the expense of 'Impact.' You are polishing a legacy system that no longer yields value. Break the ritual. Ship at 80%. Your value is in the strike, not the audit.";
+        }
+        // GATE 03: The Static Monk (B.A.*.* + INTP-ish + 5)
+        if (isOrder && isFreedom && !E && N && ennea === '5') {
+            return "You are building a cathedral in a void. You have the map but no collision. You stall because you value 'Knowing' over 'Doing.' Move from Scientist to Founder. Force one external collision today to wake up your engine.";
+        }
+        // GATE 04: The Resentful Martyr (B.*.*.B + ISFJ-ish + 2)
+        if (isOrder && isWorld && !N && J && ennea === '2') {
+            return "You are protecting everyone else's engine while your own is in neutral. You've traded your efficiency for social debt. Selective Coldness: Reclaim your 9:00 AM to 11:00 AM for your own output. The group needs your result, not your help.";
+        }
+        // GATE 05: The Bored Visionary (B.*.B.* + ENTP-ish + 7)
+        if (isOrder && isLearner && N && P && ennea === '7') {
+            return "You see the horizon but hate the road. You view the 'Learner' requirements as an insult. Use the ritual as a data-mining operation to find a lethal edge. Do not look for a new path; optimize the current one to fund your next act of freedom.";
+        }
+        // GATE 06: The Repressed Genius (A.*.A.* + *J + 1)
+        if (isChaos && isGenius && J && ennea === '1') {
+            return "Structural Whiplash. Your J-mind is trying to build a blueprint while your engine is burning the map. Trust the mud. Your genius only triggers once you stop trying to be 'Right' and start being 'Effective.' Close the books. Strike.";
+        }
+        // GATE 07: The Ghost Oracle (A.*.A.* + I* + 4)
+        if (isChaos && isGenius && !E && ennea === '4') {
+            return "Your talent is innate, but you are invisible to the team. You stall when the win feels 'Transactional.' Realize that impact is your identity. Mechanicalize the soul: Treat the 'vibe' as a tactical variable. Secure the kill.";
+        }
+        // GATE 08: The Pure Predator (A.A.*.* + ESTP-ish + 8)
+        if (isChaos && isFreedom && S && P && ennea === '8') {
+            return "Total Fluidity. Peak Intensity. You stall only when you lose sight of the 'So What.' Do not look for a system; identify the biggest obstacle in your path and destroy it. Volume is your only defensive measure. Keep moving.";
+        }
+        // GATE 09: The Information Hoarder (A.*.B.* + IN* + 5)
+        if (isChaos && isLearner && !E && N && ennea === '5') {
+            return "You are gathering data as a shield against the world. You're trying to turn the 'Mud' into a 'Manual.' The manual doesn't exist for where you're going. Close the tabs. Execute based on the 50% you know right now.";
+        }
+        // GATE 10: The Kinetic Drifter (A.A.*.* + ENFP-ish + 7)
+        if (isChaos && isFreedom && E && P && ennea === '7') {
+            return "High speed, zero gain. You are vibrating with energy but gaining no ground. You jump to new tabs to avoid the boredom of the kill. One Target, One Kill. Stay on the task until it's dead.";
+        }
+        // GATE 11: The Calculated Blackout (A.B.*.* + IS* + 5)
+        if (isChaos && isRestriction && !E && S && ennea === '5') {
+            return "You're trying to calculate an intuitive flow state. You don't need more data to justify your instinct. Trust the blackout flow. Ship the result now and explain the logic later.";
+        }
+        // GATE 12: The Passive Visionary (A.*.*.B + E* + 9)
+        if (isChaos && isWorld && E && ennea === '9') {
+            return "You're waiting for a consensus that isn't coming. Act unilaterally to save the mission. Your team needs your strength more than your agreement. Move toward the heat.";
+        }
+        // GATE 13: The Hyper-Vigilant Pillar (B.B.*.* + ISTJ-ish + 6)
+        if (isOrder && isRestriction && S && J && ennea === '6') {
+            return "You're preparing for threats that don't exist. Stop scanning the horizon and strike the target in front of you. Trust your mechanics over the manual. The system won't break; it will evolve.";
+        }
+        // GATE 14: The Solitary Achiever (B.*.*.A + ENTJ-ish + 3)
+        if (isOrder && isSelf && E && J && ennea === '3') {
+            return "Optics over Output. You're tweaking the dashboard instead of driving the car. Cancel the high-visibility meeting and spend that hour on the high-risk project you're most afraid of.";
+        }
+        // GATE 15: The Pressure Poet (A.B.*.* + * + 4)
+        if (isChaos && isRestriction && ennea === '4') {
+            return "High pressure is crushing your soul. Treat the pressure as a kiln to forge your unique talent into a weapon. Stop waiting for the vibe. Motion creates emotion. Act like a machine for 20 minutes.";
+        }
+        // GATE 16: The Elite Strategist (B.A.A.* + * + 8)
+        if (isOrder && isFreedom && isGenius && ennea === '8') {
+            return "The Warlord Architect. You have total tactical freedom and a high-order engine. Your only risk is scorched earth. Ensure there is a mission left to lead once the victory is won. Scale your power through systems, not just force.";
+        }
+        // GATE 17: The Underground Power (A.*.*.A + I* + 8)
+        if (isChaos && isSelf && !E && ennea === '8') {
+            return "You are a powerhouse operating in a basement. You view 'Visibility' as a threat to your autonomy. Realize that 'Scale' is the ultimate form of power. Come into the light, claim your rank, and let the engine roar.";
+        }
+        // GATE 18: The Harmonizing Anchor (B.*.*.B + E* + 9)
+        if (isOrder && isWorld && E && ennea === '9') {
+            return "You are prioritizing 'Peace' over 'Progress.' You are using minor tasks to avoid the 'Heat' of a high-stakes decision. Create a healthy conflict today. Set a hard boundary. Use that friction to ignite your engine.";
+        }
+        // GATE 19: The Performative Specialist (*.*.*.A + E* + 3)
+        if (isSelf && E && ennea === '3') {
+            return "You are doing things that make you look successful to avoid the one project where you might fail. Cancel one high-visibility 'Meeting' and spend that hour on the high-risk task you're most afraid of failing at.";
+        }
+        // GATE 20: The Radical Experimenter (A.*.*.* + *NP + 5)
+        if (isChaos && N && P && ennea === '5') {
+            return "You are stuck in an 'Experimentation Loop.' You'd rather explore the theory than ship the result. Move from 'Scientist' to 'Founder.' Force a conclusion today. The world needs the output, not the hypothesis.";
+        }
+        // GATE 21: The Vacuum Architect (*.A.*.* + *J + 1)
+        if (isFreedom && J && ennea === '1') {
+            return "You have too much space and it's making you anxious. You're trying to build a 'Cathedral' in a void. Create 3 artificial milestones today to give your engine something to hit. Structure is your fuel.";
+        }
+        // GATE 22: The Suffocated Sprinter (*.B.*.* + *P + 7)
+        if (isRestriction && P && ennea === '7') {
+            return "You feel suffocated by the schedule. You're resisting the very tools that would help you win. Treat the plan as 'Battle Logistics,' not a boss. Use the rails to increase your velocity.";
+        }
+        // GATE 23: The Productive Napper (B.*.*.* + *P + 9)
+        if (isOrder && P && ennea === '9') {
+            return "You are drifting through a system without engaging the gears. You're doing comfortable, 'safe' work to hide from the mission. Pick one high-stakes task and commit to a 2-hour blackout. Wake up the engine.";
+        }
+        // GATE 24: Scheduling the Chaos (A.*.*.* + *J + 3)
+        if (isChaos && J && ennea === '3') {
+            return "You are trying to 'Schedule the Chaos.' You stall because you're afraid of the mess. Embrace the noise; your talent only triggers when the plan breaks. Stop tweaking the calendar and start the fire.";
+        }
+        // GATE 25: The Data Martyr (*.*.B.* + *P + 5)
+        if (isLearner && P && ennea === '5') {
+            return "You are hoarding data to avoid the 'Finish Line.' You're afraid that being 'Done' means being 'Judged.' You've turned research into a shield. Close the tabs and ship the draft. The market is the only real auditor.";
+        }
+        // GATE 26: The Over-Optimizing Prophet (*.*.*.B + *J + 1)
+        if (isWorld && J && ennea === '1') {
+            return "You won't ship until the world matches your vision. The world is messy; your version is better. Ship the 'Ugly' draft today. Your mission requires impact, not perfection. The prophet must also be a builder.";
+        }
+        // GATE 27: The Melancholic Architect (A.*.*.* + *T* + 4)
+        if (isChaos && T && ennea === '4') {
+            return "You're trying to find logic in your sadness to avoid moving. Stop analyzing the 'Why' and start executing the 'What.' Your engine doesn't care about your mood; it only cares about the torque. Ignite.";
+        }
+        // GATE 28: The Anxious Nomad (*.A.*.* + *P + 6)
+        if (isFreedom && P && ennea === '6') {
+            return "You have absolute freedom but you're using it to look for a safety rail. The rail isn't coming. Trust your feet. Movement is the only cure for this anxiety. Pick a direction at random and hit the throttle.";
+        }
+        // GATE 29: The Resentful Technician (*.B.*.* + *T* + 2)
+        if (isRestriction && T && ennea === '2') {
+            return "You're doing the duty but hating the team. You've traded your mastery for social obligation. Stop helping; start leading. Reclaim your technical autonomy. The group needs your skill, not your sacrifice.";
+        }
+        // GATE 30: The Protective Warlord (*.*.*.B + *F* + 8)
+        if (isWorld && F && ennea === '8') {
+            return "You're so focused on defending the team that you've stopped attacking the goal. Transition back to the 'Vanguard' today. Your protection is only valuable if it leads to victory. Strike the target.";
+        }
 
-        // 01-05: THE FOUNDATION GATES (General Engine/Mind Collisions)
-        if (engineChaos && isSensing && isJudging) return `You are a High-Speed engine trying to drive through a thick fog of data. You stall because you won't move until you've 'mapped the mud.' Stop measuring; start sinking. Your engine only stabilizes once it's in motion.`;
-        if (engineOrder && isIntuitive && isPerceiving) return `You have the engine of a master strategist but the mind of a restless explorer. You stall because you treat your 'Rituals' as cages rather than launchpads. Build the floor so you can reach the ceiling.`;
-        if (engineWorld && heart && isFeeling) return `You are built for a mission, but paralyzed by a need for social approval. Reclaim your authority. The world needs your results more than it needs your consensus.`;
-        if (engineSelf && head && isThinking) return `You are currently stalling through 'Strategic Drifting.' You're hoarding info to protect your ego from failure. Execution is the only real data.`;
-        if (engineChaos && engineGenius && ennea === '7') return `Peak Talent, Zero Friction. You stall because you jump targets the moment the high wears off. Pick the hardest problem and stay until it is dead.`;
-
-        // 06-10: THE INTROVERSION/EXTRAVERSION AXIS
-        if (engineChaos && !isExtravert && ennea === '8') return `You are a powerhouse operating in a basement. You view visibility as a threat to your autonomy. Realize that 'Scale' is the ultimate form of power. Come into the light.`;
-        if (engineOrder && isExtravert && isThinking) return `You are over-managing the group to avoid your own tactical steps. You've turned leadership into an admin task. Delegate the 'Order' and return to the strike.`;
-        if (engineWorld && isExtravert && ennea === '3') return `You are performing the 'Role' of a leader instead of leading. Cancel the high-visibility busywork and tackle the high-risk project you're avoiding.`;
-        if (engineFreedom && !isExtravert && isIntuitive) return `You are lost in the 'Inner Kingdom.' You have the map, but you're still in the driveway. Force one external collision today to wake up your engine.`;
-        if (engineRestriction && isExtravert && ennea === '7') return `You only ignite when the building is on fire. Stop manufacturing crises to feel active. Use the quiet to build the infrastructure for your next win.`;
-
-        // 11-15: THE SENSING [S] VS INTUITION [N] AXIS
-        if (engineChaos && isSensing && ennea === '6') return `You are trapped in 'Hyper-Vigilance.' You see every pebble in the road and it's stopping your momentum. Look at the horizon, not the mud. Trust your mechanics to handle the bumps.`;
-        if (engineOrder && isSensing && isJudging) return `You are over-optimizing a broken process. You're so focused on 'How' that you've forgotten 'Why.' Break one minor rule today to prove the system won't collapse.`;
-        if (engineGenius && isSensing && ennea === '1') return `You are a 'Feral Technician.' You're trying to explain your intuitive blackout flow with rigid logic. You don't need a manual for your talent; you just need a target.`;
-        if (engineFreedom && isIntuitive && ennea === '5') return `You are stuck in 'Experimentation Loops.' You'd rather explore the theory than ship the result. Move from 'Scientist' to 'Founder.' Force a conclusion today.`;
-        if (engineChaos && isIntuitive && isPerceiving) return `You have Peak Fluidity, but you're a 'Strategic Drifter.' You stall because you lose sight of the 'So What.' Identify the biggest obstacle and destroy it.`;
-
-        // 16-20: THE THINKING [T] VS FEELING [F] AXIS
-        if (engineSelf && isFeeling && ennea === '2') return `You feel guilty for your own mastery. You're downregulating your engine to make others feel comfortable. Reclaim your engine. Execute your hardest task in total secrecy.`;
-        if (engineWorld && isThinking && ennea === '5') return `You have a massive mission but you're treating people like variables. You stall because you lack the 'Social Logistics' to move your project. Humanize the mission to unlock the engine.`;
-        if (engineOrder && isFeeling && ennea === '9') return `You are prioritizing 'Peace' over 'Progress.' You're doing comfortable tasks to avoid the heat of a high-stakes decision. Create a healthy conflict today.`;
-        if (engineChaos && isThinking && ennea === '8') return `You are a 'Cold Catalyst.' You're burning through resources and people too fast. Slow the processing, increase the volume. Lead through vision, not just force.`;
-        if (engineRestriction && isFeeling && ennea === '4') return `You stall when the pressure feels 'Inauthentic.' You're waiting for a wave of unique inspiration. Stop waiting for the vibe; motion creates emotion.`;
-
-        // 21-25: THE JUDGING [J] VS PERCEIVING [P] AXIS
-        if (engineFreedom && isJudging && ennea === '1') return `You have too much space and it's making you anxious. You're trying to build a 'Cathedral' in a void. Create 3 artificial milestones today to give your engine something to hit.`;
-        if (engineRestriction && isPerceiving && ennea === '7') return `You feel suffocated by the schedule. You're resisting the very tools that would help you win. Treat the plan as 'Battle Logistics,' not a boss.`;
-        if (engineOrder && isPerceiving && ennea === '9') return `You are 'Productively Napping.' You're drifting through a system without engaging the gears. Pick one high-stakes task and commit to a 2-hour blackout.`;
-        if (engineChaos && isJudging && ennea === '3') return `You are trying to 'Schedule the Chaos.' You stall because you're afraid of the mess. Embrace the noise; your talent only triggers when the plan breaks.`;
-        if (engineLearner && isPerceiving && ennea === '5') return `You are hoarding data to avoid the 'Finish Line.' You're afraid that being 'Done' means being 'Judged.' Close the tabs and ship.`;
-
-        // 26-30: THE SHADOW ARCHETYPES (Specific Enneagram/MBTI niche friction)
-        if (ennea === '1' && isIntuitive && engineGenius) return `The Over-Optimizing Prophet. You won't ship until the world matches your vision. The world is messy; your version is better. Ship the 'Ugly' draft today.`;
-        if (ennea === '4' && isThinking && engineChaos) return `The Melancholic Architect. You're trying to find logic in your sadness to avoid moving. Stop analyzing the 'Why' and start executing the 'What.'`;
-        if (ennea === '6' && isPerceiving && engineFreedom) return `The Anxious Nomad. You have absolute freedom but you're using it to look for a safety rail. The rail isn't coming. Trust your feet.`;
-        if (ennea === '2' && isThinking && engineRestriction) return `The Resentful Martyr. You're doing the duty but hating the team. Stop helping; start leading. Reclaim your 9:00 AM to 11:00 AM for yourself.`;
-        if (ennea === '8' && isFeeling && engineWorld) return `The Protective Warlord. You're so focused on defending the team that you've stopped attacking the goal. Transition back to the 'Vanguard' today.`;
-
-        // DEFAULT: THE ALIGNMENT MANDATE
-        return `Your engine, mind, and story are finally in sync. You don't need a new plan; you just need more volume. Speed is your primary defensive measure now. Hit the throttle.`;
+        // DEFAULT: PEAK ALIGNMENT
+        return "SYSTEM ALIGNMENT DETECTED. Your engine, mind, and story are finally in sync. You don't need a new plan; you just need more volume. Speed is your primary defensive measure now. Hit the throttle.";
     }
 
     // ─── NAVIGATION ──────────────────────────────────────────────────────────
